@@ -1,5 +1,7 @@
-package com.example.springboot;
+package com.example.classes;
 
+import com.example.springboot.Card;
+import com.example.springboot.Deck;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
