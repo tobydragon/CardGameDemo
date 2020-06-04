@@ -26,6 +26,7 @@ public class PlayerTest {
 
         Hand h1 = new Hand(c1);
         p1 = new Player(ID.getAndIncrement(), h1);
+        assertEquals(1, p1.getID());
         assertEquals(1, p1.getHands().size());
         assertEquals(5, p1.getHands().get(0).getCards().size());
         assertArrayEquals(c1.toArray(), p1.getHands().get(0).getCards().toArray());
@@ -57,6 +58,7 @@ public class PlayerTest {
         hands.add(h3);
         hands.add(h4);
         p1 = new Player(ID.getAndIncrement(), hands);
+        assertEquals(2, p1.getID());
         assertEquals(4, p1.getHands().size());
         assertEquals(5, p1.getHands().get(0).getCards().size());
         assertArrayEquals(c1.toArray(), p1.getHands().get(0).getCards().toArray());
