@@ -70,4 +70,15 @@ public class PlayerTest {
         assertArrayEquals(c4.toArray(), p1.getHands().get(3).getCards().toArray());
     }
 
+    @Test
+    public void CompareToTest(){
+        Player p1 = new Player(0);
+        Player p2 = new Player(1);
+        Player p3 = new Player(2);
+        Player p4 = new Player(1);
+        assertEquals(1, p2.compareTo(p3));
+        assertEquals(-1, p2.compareTo(p1));
+        assertEquals(0, p2.compareTo(p4));
+    }
+
 }
