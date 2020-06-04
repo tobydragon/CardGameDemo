@@ -8,13 +8,17 @@ public class Player {
     private ArrayList<Hand> hands;
 
     public Player(int IDin){
-        ID = 0;
+        hands = new ArrayList<>();
+        ID = IDin;
     }
     public Player(int IDin, Hand startingHand){
-        ID = 0;
+        ID = IDin;
+        hands = new ArrayList<>();
+        hands.add(startingHand);
     }
     public Player(int IDin, ArrayList<Hand> startingHands){
-        ID = 0;
+        ID = IDin;
+        hands = (ArrayList<Hand>)startingHands.clone();
     }
 
     public ArrayList<Hand> getHands() {
