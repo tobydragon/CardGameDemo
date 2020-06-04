@@ -11,9 +11,9 @@ public class DeckTest {
         Card[] c1 = d1.getDeck();
         assertEquals(52, c1.length);
         for(int x = 0; x < 4; x ++){
-            for(int y = 0; y < 14; y++){
-                assertEquals(Card.Suit.values()[x], c1[x * 13 + y].getSuit());
-                assertEquals(y, c1[x * 13 + y].getValue());
+            for(int y = 1; y < 14; y++){
+                assertEquals(Card.Suit.values()[x], c1[x * 13 + y - 1].getSuit());
+                assertEquals(y, c1[x * 13 + y - 1].getValue());
             }
         }
         assertEquals(0, d1.getNotInDeck().length);
