@@ -53,15 +53,4 @@ public class Application {
 	}
 
 
-	@GetMapping("/deck")
-	public Deck deck(@RequestParam(value = "shuffle", defaultValue = "false") String shuffle){
-		boolean suf = true;
-		try {
-			suf = Boolean.parseBoolean(shuffle);
-		}
-		catch(Exception e){}
-		return new Deck(suf);
-	}
-
-
 }
