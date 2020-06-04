@@ -62,19 +62,19 @@ public class BlackJackTest {
 
         Player p2 = new Player(1, hands);
         BlackJack b2 = new BlackJack(0, p2 );
-        assertEquals(0, b1.getID());
-        assertEquals(4, b1.getHands().size());
-        assertEquals(1, b1.getPlayers().size());
-        assertNotEquals(null, b1.getDeck());
+        assertEquals(0, b2.getID());
+        assertEquals(4, b2.getHands().size());
+        assertEquals(1, b2.getPlayers().size());
+        assertNotEquals(null, b2.getDeck());
 
         ArrayList<Player> players = new ArrayList<>();
         players.add(p1);
         players.add(p2);
         BlackJack b3 = new BlackJack(0, players);
-        assertEquals(0, b1.getID());
-        assertEquals(4, b1.getHands().size());
-        assertEquals(2, b1.getPlayers().size());
-        assertNotEquals(null, b1.getDeck());
+        assertEquals(0, b3.getID());
+        assertEquals(5, b3.getHands().size());
+        assertEquals(2, b3.getPlayers().size());
+        assertNotEquals(null, b3.getDeck());
 
         Player p3 = new Player(1);
         players.add(p3);
