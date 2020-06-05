@@ -109,4 +109,75 @@ public class PlayerTest {
         assertEquals(5, p3.numCards(1));
     }
 
+    @Test
+    void addCardTest(){
+        Hand h1 = new Hand();
+        Player p1 = new Player(0, h1);
+        assertEquals(0, p1.numCards(0));
+
+
+        ArrayList<Card> c1 = new ArrayList<>();
+        c1.add(new Card(Card.Suit.CLUB, 1));
+        c1.add(new Card(Card.Suit.DIAMOND, 1));
+        c1.add(new Card(Card.Suit.HEART, 1));
+        c1.add(new Card(Card.Suit.CLUB, 13));
+        c1.add(new Card(Card.Suit.SPADE, 2));
+
+        p1.addCardToHand(0, c1.get(0));
+        assertEquals(1, p1.numCards(0));
+        assertEquals(c1.get(0).getSuit(), p1.getHands().get(0).getCards().get(0).getSuit());
+        assertEquals(c1.get(0).getValue(), p1.getHands().get(0).getCards().get(0).getValue());
+
+        p1.addCardToHand(0, c1.get(1));
+        assertEquals(2, p1.numCards(0));
+        assertEquals(c1.get(1).getSuit(), p1.getHands().get(0).getCards().get(1).getSuit());
+        assertEquals(c1.get(1).getValue(), p1.getHands().get(0).getCards().get(1).getValue());
+
+        p1.addCardToHand(0, c1.get(2));
+        assertEquals(3, p1.numCards(0));
+        assertEquals(c1.get(2).getSuit(), p1.getHands().get(0).getCards().get(2).getSuit());
+        assertEquals(c1.get(2).getValue(), p1.getHands().get(0).getCards().get(2).getValue());
+
+        p1.addCardToHand(0, c1.get(3));
+        assertEquals(4, p1.numCards(0));
+        assertEquals(c1.get(3).getSuit(), p1.getHands().get(0).getCards().get(3).getSuit());
+        assertEquals(c1.get(3).getValue(), p1.getHands().get(0).getCards().get(3).getValue());
+
+        p1.addCardToHand(0, c1.get(4));
+        assertEquals(5, p1.numCards(0));
+        assertEquals(c1.get(4).getSuit(), p1.getHands().get(0).getCards().get(4).getSuit());
+        assertEquals(c1.get(4).getValue(), p1.getHands().get(0).getCards().get(4).getValue());
+
+        ArrayList<Card> finalC = c1;
+        Exception e = assertThrows(IllegalArgumentException.class, ()-> p1.addCardToHand(0, finalC.get(4)));
+        assertEquals("Cannot add duplicate card to hand", e.getMessage());
+
+        e = assertThrows(IllegalArgumentException.class, ()-> p1.addCardToHand(0, null));
+        assertEquals("Cannot add null card to hand", e.getMessage());
+
+        h1 = new Hand();
+        assertEquals(0, p1.numCards(0));
+
+
+        c1 = new ArrayList<>();
+        c1.add(new Card(Card.Suit.CLUB, 1));
+        c1.add(new Card(Card.Suit.DIAMOND, 1));
+        c1.add(new Card(Card.Suit.HEART, 1));
+        c1.add(new Card(Card.Suit.CLUB, 13));
+        c1.add(new Card(Card.Suit.SPADE, 2));
+        Hand h2 = new Hand();
+        ArrayList<Hand> hs1 = new ArrayList<>();
+        hs1.add(h1);
+        hs1.add(h2);
+        Player p3 = new Player(0, hs1);
+        p3.addCardToHand(0, c1.get(0));
+        p3.addCardToHand(0, c1.get(1));
+        assertEquals(2, p3.numCards(0));
+        assertEquals(0, p3.numCards(1));
+        p3.addCardToHand(1, c1.get(3));
+        assertEquals(1, p3.numCards(1));
+
+
+    }
+
 }
