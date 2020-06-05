@@ -5,6 +5,7 @@ import edu.ithaca.dragon.blackjack.Deck;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -59,6 +60,49 @@ public class DeckTest {
     @Test
     public void shuffleTest(){
         Deck d1 = new Deck();
+
+        d1.shuffle();
+        ArrayList<Card> c1 = new ArrayList<>();
+        for(int y = 0; y < 4; y++){
+            Card.Suit suit = Card.Suit.values()[y];
+            for(int x = 1; x < 14; x++){
+                c1.add(new Card(suit, x));
+            }
+        }
+        ArrayList<Card> deck = d1.getDeck();
+        assertEquals(52, deck.size());
+        for(int x = 0; x < 52; x++){
+            boolean found = false;
+            for(int y = 0; y < 52; y++){
+                if(c1.get(x).compareTo(deck.get(y)) == 0)
+                    found = true;
+            }
+            assertTrue(found);
+        }
+        int count = 0;
+        for(int x = 0; x < 52; x ++){
+            if(c1.get(x).compareTo(deck.get(x)) == 0)
+                count ++;
+        }
+        assertTrue(count < 4);
+        d1.shuffle();
+        ArrayList<Card> deck2 = d1.getDeck();
+        int count1 = 0;
+        int count2 = 0;
+        for(int x = 0; x < 52; x++){
+            if(c1.get(x).compareTo(deck2.get(x)) == 0)
+                count1 ++;
+            if(deck2.get(x).compareTo(deck.get(x)) == 0)
+                count2 ++;
+        }
+        assertTrue(count1 < 4);
+        assertTrue(count2 < 4);
+        for(int x = 0; x < 20; x ++){
+            d1.getNextCard();
+        }
+        assertEquals(32, d1.numCardsInDeck());
+        d1.shuffle();
+        assertEquals(52, d1.numCardsInDeck());
 
     }
 
