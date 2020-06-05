@@ -26,6 +26,10 @@ public class Deck {
     }
 
     public Card getNextCard() throws NoMoreCardsException{
-        return null;
+        if(deck.size() <= 0)throw new NoMoreCardsException("No More Cards");
+        Card rtn = deck.get(0);
+        notInDeck.add(rtn);
+        deck.remove(0);
+        return rtn;
     }
 }
