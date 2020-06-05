@@ -8,8 +8,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class ReactController  implements WebMvcConfigurer {
 
     @GetMapping("/")
-    public String index() {
-        System.out.println("HERE");
+    public String getIndex() {
         return "index";
     }
 }
