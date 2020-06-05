@@ -56,6 +56,7 @@ public class Deck {
     }
 
     public Card lookTopCard() throws NoMoreCardsException{
-        return null;
+        if(deck.size() == 0)throw new NoMoreCardsException("No more cards in deck");
+        return deck.get(0);
     }
 }
