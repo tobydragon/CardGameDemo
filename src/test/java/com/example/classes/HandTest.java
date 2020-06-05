@@ -2,6 +2,7 @@ package com.example.classes;
 
 
 import com.example.springboot.*;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicReference;
@@ -27,13 +28,10 @@ public class HandTest {
         assertArrayEquals(c1.toArray(), h1.getCards().toArray());
 
         c1.add(new Card(Card.Suit.CLUB, 1));
-        try{
+        Exception e = Assertions.assertThrows(IllegalArgumentException.class, () -> {
             Hand h2 = new Hand(c1);
-            fail();
-        }
-        catch(IllegalArgumentException e){
-            assertEquals("Cannot have duplicate cards in hand", e.getMessage());
-        }
+        });
+        assertEquals("Cannot have duplicate cards in hand", e.getMessage());
     }
 
 

@@ -1,6 +1,7 @@
 package com.example.classes;
 
 import com.example.springboot.*;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -78,14 +79,10 @@ public class BlackJackTest {
 
         Player p3 = new Player(1);
         players.add(p3);
-        try{
-            BlackJack b4 = new BlackJack(0, players);
-            fail();
-        }
-        catch(IllegalArgumentException e){
-            assertEquals("Cannot have 2 players with the same ID", e.getMessage());
-        }
-
+        Exception e = Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            new BlackJack(0, players);
+        });
+        assertEquals("Cannot have 2 players with the same ID", e.getMessage());
     }
 
 }
