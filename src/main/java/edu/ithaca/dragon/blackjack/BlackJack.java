@@ -4,19 +4,19 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class BlackJack {
-    private final int ID;
+    private final long ID;
     private ArrayList<Player> players;
     private ArrayList<Hand> hands;
     private Deck deck;
 
-    public BlackJack(int IDin, Player playerIn){
+    public BlackJack(long IDin, Player playerIn){
         ID = IDin;
         players = new ArrayList<>();
         players.add(playerIn);
         hands = (ArrayList<Hand>)playerIn.getHands().clone();
         deck = new Deck();
     }
-    public BlackJack(int IDin, ArrayList<Player> playerIn)throws IllegalArgumentException{
+    public BlackJack(long IDin, ArrayList<Player> playerIn)throws IllegalArgumentException{
         ID = IDin;
         Collections.sort(playerIn);
         for(int x = 0; x < playerIn.size()-1; x++){
@@ -33,7 +33,7 @@ public class BlackJack {
         deck = new Deck();
     }
 
-    public int getID() {
+    public long getID() {
         return ID;
     }
 
