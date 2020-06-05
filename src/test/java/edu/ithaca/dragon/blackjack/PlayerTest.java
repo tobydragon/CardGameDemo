@@ -148,20 +148,13 @@ public class PlayerTest {
         assertEquals(c1.get(4).getSuit(), p1.getHands().get(0).getCards().get(4).getSuit());
         assertEquals(c1.get(4).getValue(), p1.getHands().get(0).getCards().get(4).getValue());
 
-        ArrayList<Card> finalC = c1;
-        Exception e = assertThrows(IllegalArgumentException.class, ()-> p1.addCardToHand(0, finalC.get(4)));
+        Exception e = assertThrows(IllegalArgumentException.class, ()-> p1.addCardToHand(0, c1.get(4)));
         assertEquals("Cannot add duplicate card to hand", e.getMessage());
 
         e = assertThrows(IllegalArgumentException.class, ()-> p1.addCardToHand(0, null));
         assertEquals("Cannot add null card to hand", e.getMessage());
 
         h1 = new Hand();
-        c1 = new ArrayList<>();
-        c1.add(new Card(Card.Suit.CLUB, 1));
-        c1.add(new Card(Card.Suit.DIAMOND, 1));
-        c1.add(new Card(Card.Suit.HEART, 1));
-        c1.add(new Card(Card.Suit.CLUB, 13));
-        c1.add(new Card(Card.Suit.SPADE, 2));
         Hand h2 = new Hand();
         ArrayList<Hand> hs1 = new ArrayList<>();
         hs1.add(h1);
@@ -173,8 +166,6 @@ public class PlayerTest {
         assertEquals(0, p3.numCards(1));
         p3.addCardToHand(1, c1.get(3));
         assertEquals(1, p3.numCards(1));
-
-
     }
 
 }
