@@ -105,6 +105,24 @@ public class DeckTest {
         d1.shuffle();
         assertEquals(52, d1.numCardsInDeck());
 
+        ArrayList<Card> previous = new ArrayList<>(d1.getDeck());
+        ArrayList<Card> current;
+        for(int j = 0; j < 10000; j ++){
+            for(int x = 0; x < 20; x++)
+                d1.getNextCard();
+            d1.shuffle();
+            assertEquals(52, d1.numCardsInDeck());
+            current = new ArrayList<>(d1.getDeck());
+            count = 0;
+            for(int x = 0; x < 52; x ++){
+                if(current.get(x).compareTo(previous.get(x)) == 0)
+                    count++;
+            }
+            previous = new ArrayList<>(current);
+            assertTrue(count < 26);
+        }
+
+
     }
     @Test
     public void shuffleRemainingTest(){
@@ -152,6 +170,35 @@ public class DeckTest {
         }
         assertTrue(count1 < 4);
         assertTrue(count2 < 4);
+    }
+
+
+    @Test
+    public void shuffleRemainingShuffleIntegrationTest(){
+        Deck d1 = new Deck();
+
+        for(int x = 0; x < 20; x ++){
+            d1.getNextCard();
+        }
+        d1.shuffleRemaining();
+        d1.shuffle();
+        assertEquals(52, d1.numCardsInDeck());
+        ArrayList<Card> deck = new ArrayList<>(d1.getDeck());
+        ArrayList<Card> inTact = new ArrayList<>( new Deck().getDeck());
+        for(int i = 0; i < 52; i ++){
+            boolean found = false;
+            for(int x = 0; x < 52; x++){
+                if(inTact.get(i).compareTo(deck.get(x)) == 0)
+                    found = true;
+            }
+            assertTrue(found);
+        }
+        int count = 0;
+        for(int x = 0; x < 52; x ++){
+            if(inTact.get(x).compareTo(deck.get(x)) == 0)
+                count ++;
+        }
+        assertTrue(count < 6);
     }
 
 
