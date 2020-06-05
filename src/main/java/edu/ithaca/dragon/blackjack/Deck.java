@@ -24,4 +24,8 @@ public class Deck {
     public ArrayList<Card> getNotInDeck() {
         return notInDeck;
     }
+
+    public Card getNextCard() throws NoMoreCardsException{
+        return null;
+    }
 }

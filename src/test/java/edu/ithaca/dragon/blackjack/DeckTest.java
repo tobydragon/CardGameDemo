@@ -23,4 +23,23 @@ public class DeckTest {
         }
         assertEquals(0, d1.getNotInDeck().size());
     }
+
+    @Test
+    public void getNextCardTest(){
+        Deck d1 = new Deck();
+        Card c1 = d1.getNextCard();
+        assertEquals(0, c1.compareTo(new Card(Card.Suit.SPADE, 1)));
+        assertEquals(51, d1.getDeck().size());
+        assertEquals(1, d1.getNotInDeck().size());
+        c1 = d1.getNextCard();
+        assertEquals(0, c1.compareTo(new Card(Card.Suit.SPADE, 2)));
+        assertEquals(50, d1.getDeck().size());
+        assertEquals(2, d1.getNotInDeck().size());
+        for(int x = 0; x < 50; x++){
+            d1.getNextCard();
+        }
+        assertThrows(NoMoreCardsException.class, ()-> d1.getNextCard());
+    }
+
+
 }
