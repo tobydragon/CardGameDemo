@@ -119,7 +119,7 @@ public class DeckTest {
                     count++;
             }
             previous = new ArrayList<>(current);
-            assertTrue(count < 26);
+            assertTrue(count < 10);
         }
 
 
@@ -156,7 +156,7 @@ public class DeckTest {
             d1.getNextCard();
         }
         assertEquals(42, d1.numCardsInDeck());
-        d1.shuffle();
+        d1.shuffleRemaining();
         assertEquals(42, d1.numCardsInDeck());
 
         ArrayList<Card> deck2 = new ArrayList<>(d1.getDeck());

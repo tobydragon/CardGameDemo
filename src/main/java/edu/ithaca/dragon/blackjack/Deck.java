@@ -42,11 +42,14 @@ public class Deck {
             }
             notInDeck.clear();
         }
-        Collections.shuffle(deck);
-        return;
-
+        for(int x = 0; x < 7; x ++){
+            Collections.shuffle(deck);
+        }
     }
-    public void shuffleRemaining(){}
+    public void shuffleRemaining(){
+        for(int x = 0; x < 7; x ++)
+            Collections.shuffle(deck);
+    }
 
     public int numCardsInDeck(){
         return deck.size();
