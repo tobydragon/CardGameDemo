@@ -26,5 +26,12 @@ public class Hand {
 
     public int numCards(){return cards.size();}
 
-    public void addCard(Card cardIn) throws IllegalArgumentException{}
+    public void addCard(Card cardIn) throws IllegalArgumentException{
+        if(cardIn == null) throw new IllegalArgumentException("Cannot add null card to hand");
+        for(Card c: cards){
+            if(c.compareTo(cardIn) == 0)
+                throw new IllegalArgumentException("Cannot add duplicate card to hand");
+        }
+        cards.add(cardIn);
+    }
 }
