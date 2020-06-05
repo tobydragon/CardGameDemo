@@ -25,10 +25,10 @@ public class Player implements Comparable {
     }
 
     public int numCards(int index){
-        return -1233;
+        return hands.get(index).numCards();
     }
 
-    public void addCardToHand(int index, Card card){}
+    public void addCardToHand(int index, Card card) throws IllegalArgumentException{}
 
     public long getID() {
         return ID;
