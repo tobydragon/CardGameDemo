@@ -201,5 +201,26 @@ public class DeckTest {
         assertTrue(count < 8);
     }
 
+    @Test
+    public void lookTopCardTest(){
+        Deck d1 = new Deck();
+        Card c1= d1.lookTopCard();
+        assertEquals(0, c1.compareTo(new Card(Card.Suit.SPADE, 1)));
+        c1 = d1.lookTopCard();
+        assertEquals(0, c1.compareTo(new Card(Card.Suit.SPADE, 1)));
+        assertEquals(52, d1.numCardsInDeck());
+        d1.getNextCard();
+        c1 = d1.lookTopCard();
+        assertEquals(0, c1.compareTo(new Card(Card.Suit.SPADE, 2)));
+        c1 = d1.lookTopCard();
+        assertEquals(0, c1.compareTo(new Card(Card.Suit.SPADE, 2)));
+        assertEquals(51, d1.numCardsInDeck());
+        for(int x = 0; x < 51; x ++){
+            d1.getNextCard();
+        }
+        assertEquals(0, d1.numCardsInDeck());
+        assertThrows(NoMoreCardsException.class, ()-> d1.lookTopCard());
+    }
+
 
 }

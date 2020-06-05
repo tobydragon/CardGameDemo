@@ -54,4 +54,8 @@ public class Deck {
     public int numCardsInDeck(){
         return deck.size();
     }
+
+    public Card lookTopCard() throws NoMoreCardsException{
+        return null;
+    }
 }
