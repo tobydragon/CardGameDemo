@@ -3,19 +3,19 @@ package edu.ithaca.dragon.blackjack;
 import java.util.ArrayList;
 
 public class Player implements Comparable {
-    private final int ID;
+    private final long ID;
     private ArrayList<Hand> hands;
 
-    public Player(int IDin){
+    public Player(long IDin){
         hands = new ArrayList<>();
         ID = IDin;
     }
-    public Player(int IDin, Hand startingHand){
+    public Player(long IDin, Hand startingHand){
         ID = IDin;
         hands = new ArrayList<>();
         hands.add(startingHand);
     }
-    public Player(int IDin, ArrayList<Hand> startingHands){
+    public Player(long IDin, ArrayList<Hand> startingHands){
         ID = IDin;
         hands = (ArrayList<Hand>)startingHands.clone();
     }
@@ -24,7 +24,15 @@ public class Player implements Comparable {
         return hands;
     }
 
-    public int getID() {
+    public int numCards(int index){
+        return hands.get(index).numCards();
+    }
+
+    public void addCardToHand(int index, Card card) throws IllegalArgumentException{
+        hands.get(index).addCard(card);
+    }
+
+    public long getID() {
         return ID;
     }
 
