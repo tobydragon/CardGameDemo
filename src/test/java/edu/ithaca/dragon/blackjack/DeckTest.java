@@ -84,7 +84,7 @@ public class DeckTest {
             if(c1.get(x).compareTo(deck.get(x)) == 0)
                 count ++;
         }
-        assertTrue(count < 4);
+        assertTrue(count < 8);
         d1.shuffle();
         ArrayList<Card> deck2 = d1.getDeck();
         int count1 = 0;
@@ -96,8 +96,8 @@ public class DeckTest {
                 count2 ++;
         }
         //assertEquals(4, count2);
-        assertTrue(count1 < 4);
-        assertTrue(count2 < 4);
+        assertTrue(count1 < 8);
+        assertTrue(count2 < 8);
         for(int x = 0; x < 20; x ++){
             d1.getNextCard();
         }
@@ -150,7 +150,7 @@ public class DeckTest {
             if(deck.get(x).compareTo(c1.get(x)) == 0)
                 count++;
         }
-        assertTrue(count < 4);
+        assertTrue(count < 8);
 
         for(int x = 0; x < 10; x ++){
             d1.getNextCard();
@@ -168,8 +168,8 @@ public class DeckTest {
             if(deck2.get(x).compareTo(c1.get(x)) == 0)
                 count2 ++;
         }
-        assertTrue(count1 < 4);
-        assertTrue(count2 < 4);
+        assertTrue(count1 < 8);
+        assertTrue(count2 < 8);
     }
 
 
@@ -198,7 +198,7 @@ public class DeckTest {
             if(inTact.get(x).compareTo(deck.get(x)) == 0)
                 count ++;
         }
-        assertTrue(count < 6);
+        assertTrue(count < 8);
     }
 
 
