@@ -18,9 +18,10 @@ public class BlackJack {
     }
     public BlackJack(long IDin, ArrayList<Player> playerIn)throws IllegalArgumentException{
         ID = IDin;
-        Collections.sort(playerIn);
-        for(int x = 0; x < playerIn.size()-1; x++){
-            if(playerIn.get(x).compareTo(playerIn.get(x+1)) == 0)
+        ArrayList<Player> toSort = (ArrayList<Player>)playerIn.clone();
+        Collections.sort(toSort);
+        for(int x = 0; x < toSort.size()-1; x++){
+            if(toSort.get(x).compareTo(toSort.get(x+1)) == 0)
                 throw new IllegalArgumentException("Cannot have 2 players with the same ID");
         }
         players = (ArrayList<Player>)playerIn.clone();

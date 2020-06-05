@@ -8,9 +8,10 @@ public class Hand {
 
     public Hand(ArrayList<Card> startingCards) throws IllegalArgumentException{
         cards = new ArrayList<>();
-        Collections.sort(startingCards);
-        for(int x = 0; x < startingCards.size() -1; x ++){
-            if(startingCards.get(x).compareTo(startingCards.get(x + 1)) == 0)
+        ArrayList<Card> toSort = (ArrayList<Card>)startingCards.clone();
+        Collections.sort(toSort);
+        for(int x = 0; x < toSort.size() -1; x ++){
+            if(toSort.get(x).compareTo(toSort.get(x + 1)) == 0)
                 throw new IllegalArgumentException("Cannot have duplicate cards in hand");
         }
         cards = (ArrayList<Card>)startingCards.clone();
@@ -23,7 +24,7 @@ public class Hand {
         return cards;
     }
 
-    public int numCards(){return -123;}
+    public int numCards(){return cards.size();}
 
     public void addCard(Card cardIn){}
 }
