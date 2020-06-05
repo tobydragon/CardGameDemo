@@ -32,4 +32,11 @@ public class Deck {
         deck.remove(0);
         return rtn;
     }
+
+    public void shuffle(){}
+    public void shuffleRemaining(){}
+
+    public int numCardsInDeck(){
+        return deck.size();
+    }
 }

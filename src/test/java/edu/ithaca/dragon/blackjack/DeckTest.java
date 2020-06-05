@@ -41,5 +41,26 @@ public class DeckTest {
         assertThrows(NoMoreCardsException.class, ()-> d1.getNextCard());
     }
 
+    @Test
+    public void numCardsInDeckTest(){
+        Deck d1 = new Deck();
+        assertEquals(52, d1.numCardsInDeck());
+        for(int x = 0; x < 20; x++){
+            d1.getNextCard();
+        }
+        assertEquals(32, d1.numCardsInDeck());
+
+        for(int x = 0; x < 32; x ++){
+            d1.getNextCard();
+        }
+        assertEquals(0, d1.numCardsInDeck());
+    }
+
+    @Test
+    public void shuffleTest(){
+        Deck d1 = new Deck();
+
+    }
+
 
 }
