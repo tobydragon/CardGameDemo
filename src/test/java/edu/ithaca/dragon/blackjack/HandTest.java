@@ -48,13 +48,13 @@ public class HandTest {
         c1.add(new Card(Card.Suit.SPADE, 2));
 
         Hand h2 = new Hand(c1);
-        assertEquals(5, h1.numCards());
+        assertEquals(5, h2.numCards());
     }
 
     @Test
     public void AddCardTest(){
         Hand h1 = new Hand();
-        assertEquals(0, h1.getCards().size());
+        assertEquals(0, h1.numCards());
 
 
         ArrayList<Card> c1 = new ArrayList<>();
@@ -65,7 +65,29 @@ public class HandTest {
         c1.add(new Card(Card.Suit.SPADE, 2));
 
         h1.addCard(c1.get(0));
-        assertEquals(1, h1.getCards().size());
+        assertEquals(1, h1.numCards());
+        assertEquals(c1.get(0).getSuit(), h1.getCards().get(0).getSuit());
+        assertEquals(c1.get(0).getValue(), h1.getCards().get(0).getValue());
+
+        h1.addCard(c1.get(1));
+        assertEquals(2, h1.numCards());
+        assertEquals(c1.get(1).getSuit(), h1.getCards().get(1).getSuit());
+        assertEquals(c1.get(1).getValue(), h1.getCards().get(1).getValue());
+
+        h1.addCard(c1.get(2));
+        assertEquals(3, h1.numCards());
+        assertEquals(c1.get(2).getSuit(), h1.getCards().get(2).getSuit());
+        assertEquals(c1.get(2).getValue(), h1.getCards().get(2).getValue());
+
+        h1.addCard(c1.get(3));
+        assertEquals(4, h1.numCards());
+        assertEquals(c1.get(3).getSuit(), h1.getCards().get(3).getSuit());
+        assertEquals(c1.get(3).getValue(), h1.getCards().get(3).getValue());
+
+        h1.addCard(c1.get(4));
+        assertEquals(5, h1.numCards());
+        assertEquals(c1.get(4).getSuit(), h1.getCards().get(4).getSuit());
+        assertEquals(c1.get(4).getValue(), h1.getCards().get(4).getValue());
 
     }
 
