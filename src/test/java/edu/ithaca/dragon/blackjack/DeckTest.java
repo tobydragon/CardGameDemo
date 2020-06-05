@@ -106,6 +106,53 @@ public class DeckTest {
         assertEquals(52, d1.numCardsInDeck());
 
     }
+    @Test
+    public void shuffleRemainingTest(){
+        Deck d1 = new Deck();
+        d1.shuffleRemaining();
+        ArrayList<Card> c1 = new ArrayList<>();
+        for(int y = 0; y < 4; y++){
+            Card.Suit suit = Card.Suit.values()[y];
+            for(int x = 1; x < 14; x++){
+                c1.add(new Card(suit, x));
+            }
+        }
+        ArrayList<Card> deck = new ArrayList<>(d1.getDeck());
+        assertEquals(52, deck.size());
+        for(int x = 0; x < 52; x++){
+            boolean found = false;
+            for(int y = 0; y < 52; y++){
+                if(c1.get(x).compareTo(deck.get(y)) == 0)
+                    found = true;
+            }
+            assertTrue(found);
+        }
+        int count = 0;
+        for(int x = 0; x < 52; x++){
+            if(deck.get(x).compareTo(c1.get(x)) == 0)
+                count++;
+        }
+        assertTrue(count < 4);
+
+        for(int x = 0; x < 10; x ++){
+            d1.getNextCard();
+        }
+        assertEquals(42, d1.numCardsInDeck());
+        d1.shuffle();
+        assertEquals(42, d1.numCardsInDeck());
+
+        ArrayList<Card> deck2 = new ArrayList<>(d1.getDeck());
+        int count1 = 0;
+        int count2 = 0;
+        for(int x = 0; x < 42; x ++){
+            if(deck2.get(x).compareTo(deck.get(x)) == 0)
+                count1++;
+            if(deck2.get(x).compareTo(c1.get(x)) == 0)
+                count2 ++;
+        }
+        assertTrue(count1 < 4);
+        assertTrue(count2 < 4);
+    }
 
 
 }
