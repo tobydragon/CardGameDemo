@@ -24,6 +24,12 @@ public class Player implements Comparable {
         return hands;
     }
 
+    public int numCards(){
+        return -123;
+    }
+
+    public void addCardToHand(int index, Card card){}
+
     public long getID() {
         return ID;
     }

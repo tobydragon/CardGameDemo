@@ -83,4 +83,23 @@ public class PlayerTest {
         assertEquals(0, p2.compareTo(p4));
     }
 
+    @Test
+    public void numCardsTest(){
+        Hand h1 = new Hand();
+        Player p1 = new Player(0, h1);
+        assertEquals(0, p1.numCards());
+
+
+        ArrayList<Card> c1 = new ArrayList<>();
+        c1.add(new Card(Card.Suit.CLUB, 1));
+        c1.add(new Card(Card.Suit.DIAMOND, 1));
+        c1.add(new Card(Card.Suit.HEART, 1));
+        c1.add(new Card(Card.Suit.CLUB, 13));
+        c1.add(new Card(Card.Suit.SPADE, 2));
+
+        Hand h2 = new Hand(c1);
+        Player p2 = new Player(0, h2);
+        assertEquals(5, p2.numCards());
+    }
+
 }
