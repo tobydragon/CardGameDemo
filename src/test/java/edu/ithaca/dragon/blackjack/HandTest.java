@@ -34,6 +34,41 @@ public class HandTest {
         assertEquals("Cannot have duplicate cards in hand", e.getMessage());
     }
 
+    @Test
+    public void numCardsTest(){
+        Hand h1 = new Hand();
+        assertEquals(0, h1.numCards());
+
+
+        ArrayList<Card> c1 = new ArrayList<>();
+        c1.add(new Card(Card.Suit.CLUB, 1));
+        c1.add(new Card(Card.Suit.DIAMOND, 1));
+        c1.add(new Card(Card.Suit.HEART, 1));
+        c1.add(new Card(Card.Suit.CLUB, 13));
+        c1.add(new Card(Card.Suit.SPADE, 2));
+
+        Hand h2 = new Hand(c1);
+        assertEquals(5, h1.numCards());
+    }
+
+    @Test
+    public void AddCardTest(){
+        Hand h1 = new Hand();
+        assertEquals(0, h1.getCards().size());
+
+
+        ArrayList<Card> c1 = new ArrayList<>();
+        c1.add(new Card(Card.Suit.CLUB, 1));
+        c1.add(new Card(Card.Suit.DIAMOND, 1));
+        c1.add(new Card(Card.Suit.HEART, 1));
+        c1.add(new Card(Card.Suit.CLUB, 13));
+        c1.add(new Card(Card.Suit.SPADE, 2));
+
+        h1.addCard(c1.get(0));
+        assertEquals(1, h1.getCards().size());
+
+    }
+
 
 
 }

@@ -23,5 +23,7 @@ public class Hand {
         return cards;
     }
 
+    public int numCards(){return -123;}
+
     public void addCard(Card cardIn){}
 }
