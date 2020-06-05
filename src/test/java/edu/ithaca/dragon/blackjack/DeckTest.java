@@ -69,7 +69,7 @@ public class DeckTest {
                 c1.add(new Card(suit, x));
             }
         }
-        ArrayList<Card> deck = d1.getDeck();
+        ArrayList<Card> deck = new ArrayList<>(d1.getDeck());
         assertEquals(52, deck.size());
         for(int x = 0; x < 52; x++){
             boolean found = false;
@@ -95,6 +95,7 @@ public class DeckTest {
             if(deck2.get(x).compareTo(deck.get(x)) == 0)
                 count2 ++;
         }
+        //assertEquals(4, count2);
         assertTrue(count1 < 4);
         assertTrue(count2 < 4);
         for(int x = 0; x < 20; x ++){

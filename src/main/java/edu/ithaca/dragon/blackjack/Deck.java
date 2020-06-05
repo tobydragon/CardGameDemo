@@ -1,6 +1,8 @@
 package edu.ithaca.dragon.blackjack;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Random;
 
 public class Deck {
     private ArrayList<Card> deck;
@@ -33,7 +35,17 @@ public class Deck {
         return rtn;
     }
 
-    public void shuffle(){}
+    public void shuffle(){
+        if(notInDeck.size() > 0) {
+            for (int x = 0; x < notInDeck.size(); x++) {
+                deck.add(notInDeck.get(x));
+            }
+            notInDeck.clear();
+        }
+        Collections.shuffle(deck);
+        return;
+
+    }
     public void shuffleRemaining(){}
 
     public int numCardsInDeck(){
