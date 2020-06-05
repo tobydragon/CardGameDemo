@@ -8,10 +8,12 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 
 import java.util.ArrayList;
 import static org.hamcrest.Matchers.equalTo;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -35,6 +37,7 @@ public class BlackJackControllerTest {
         ObjectMapper mapper = new ObjectMapper();
         String test = mapper.writeValueAsString(h1);
         String test2 = mapper.writeValueAsString(h2);
+        MvcResult r1 = this.mockMvc.perform(get("/api/blackjack/0")).andReturn();
         this.mockMvc.perform(get("/api/blackjack/0")).andDo(print()).andExpect(status().isOk())
                 .andExpect(content().string(equalTo(test)));
         this.mockMvc.perform(get("/api/blackjack/1")).andDo(print()).andExpect(status().isOk())

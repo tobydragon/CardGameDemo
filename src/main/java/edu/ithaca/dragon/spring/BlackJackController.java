@@ -30,10 +30,8 @@ public class BlackJackController {
 
     @GetMapping("/api/blackjack/{id}")
     public Hand getHand(@PathVariable Long id){
-        ArrayList<Card> c1 = new ArrayList<>();
-        c1.add(new Card(Card.Suit.SPADE, 2));
-        return null;
-        //return new Hand(c1);
+        if(!games.containsKey(id)) return null;
+        return games.get(id).getHands().get(0);
     }
 
 
