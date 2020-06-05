@@ -156,9 +156,6 @@ public class PlayerTest {
         assertEquals("Cannot add null card to hand", e.getMessage());
 
         h1 = new Hand();
-        assertEquals(0, p1.numCards(0));
-
-
         c1 = new ArrayList<>();
         c1.add(new Card(Card.Suit.CLUB, 1));
         c1.add(new Card(Card.Suit.DIAMOND, 1));
