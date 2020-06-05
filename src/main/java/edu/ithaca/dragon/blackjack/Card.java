@@ -1,4 +1,4 @@
-package com.example.springboot;
+package edu.ithaca.dragon.blackjack;
 
 public class Card implements Comparable{
     @Override

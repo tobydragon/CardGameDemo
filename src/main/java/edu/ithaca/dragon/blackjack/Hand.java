@@ -1,4 +1,4 @@
-package com.example.springboot;
+package edu.ithaca.dragon.blackjack;
 
 import java.util.ArrayList;
 import java.util.Collections;

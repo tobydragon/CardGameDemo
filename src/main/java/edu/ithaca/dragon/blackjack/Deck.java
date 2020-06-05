@@ -1,8 +1,6 @@
-package com.example.springboot;
+package edu.ithaca.dragon.blackjack;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Random;
 
 public class Deck {
     private ArrayList<Card> deck;

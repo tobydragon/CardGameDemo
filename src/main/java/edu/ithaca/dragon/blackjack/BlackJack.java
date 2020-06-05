@@ -1,8 +1,7 @@
-package com.example.springboot;
+package edu.ithaca.dragon.blackjack;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Map;
 
 public class BlackJack {
     private final int ID;

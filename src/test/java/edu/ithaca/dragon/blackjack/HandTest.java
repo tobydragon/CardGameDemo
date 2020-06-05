@@ -1,11 +1,11 @@
-package com.example.classes;
+package edu.ithaca.dragon.blackjack;
 
 
-import com.example.springboot.*;
+import edu.ithaca.dragon.blackjack.Card;
+import edu.ithaca.dragon.blackjack.Hand;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
-import java.util.concurrent.atomic.AtomicReference;
 
 import static org.junit.jupiter.api.Assertions.*;
 

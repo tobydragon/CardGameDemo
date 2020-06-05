@@ -1,9 +1,8 @@
-package com.example.classes;
+package edu.ithaca.dragon.blackjack;
 
-import com.example.springboot.*;
+import edu.ithaca.dragon.blackjack.Card;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-import java.util.ArrayList;
 
 public class CardTest {
 

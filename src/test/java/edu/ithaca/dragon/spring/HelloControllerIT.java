@@ -1,4 +1,4 @@
-package com.example.springboot;
+package edu.ithaca.dragon.spring;
 
 import static org.assertj.core.api.Assertions.*;
 
