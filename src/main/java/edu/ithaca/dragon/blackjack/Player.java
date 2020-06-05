@@ -24,8 +24,8 @@ public class Player implements Comparable {
         return hands;
     }
 
-    public int numCards(){
-        return -123;
+    public int numCards(int index){
+        return -1233;
     }
 
     public void addCardToHand(int index, Card card){}

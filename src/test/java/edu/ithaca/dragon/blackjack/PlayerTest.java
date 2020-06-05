@@ -87,7 +87,7 @@ public class PlayerTest {
     public void numCardsTest(){
         Hand h1 = new Hand();
         Player p1 = new Player(0, h1);
-        assertEquals(0, p1.numCards());
+        assertEquals(0, p1.numCards(0));
 
 
         ArrayList<Card> c1 = new ArrayList<>();
@@ -99,7 +99,14 @@ public class PlayerTest {
 
         Hand h2 = new Hand(c1);
         Player p2 = new Player(0, h2);
-        assertEquals(5, p2.numCards());
+        assertEquals(5, p2.numCards(0));
+
+        ArrayList<Hand> hs1 = new ArrayList<>();
+        hs1.add(h1);
+        hs1.add(h2);
+        Player p3 = new Player(0, hs1);
+        assertEquals(0, p3.numCards(0));
+        assertEquals(5, p3.numCards(1));
     }
 
 }
