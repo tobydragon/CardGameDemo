@@ -26,5 +26,5 @@ public class Hand {
 
     public int numCards(){return cards.size();}
 
-    public void addCard(Card cardIn){}
+    public void addCard(Card cardIn) throws IllegalArgumentException{}
 }
