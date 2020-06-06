@@ -26,13 +26,13 @@ public class HelloControllerIT {
 
     @BeforeEach
     public void setUp() throws Exception {
-        this.base = new URL("http://localhost:" + port + "/");
+        this.base = new URL("http://localhost:" + port + "/api");
     }
 
     @Test
     public void getIndexTest() throws Exception {
         ResponseEntity<String> response = template.getForEntity(base.toString(),
                 String.class);
-        assertThat(response.getBody()).isEqualTo("AO");
+        assertThat(response.getBody()).isEqualTo("Greetings from Spring Boot!");
     }
 }
