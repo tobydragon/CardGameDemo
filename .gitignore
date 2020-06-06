@@ -60,3 +60,7 @@ Temporary Items
 #General
 node_modules/
 dist
+
+# javascript build process
+built
+package-lock.json
