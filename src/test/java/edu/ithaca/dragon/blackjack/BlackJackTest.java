@@ -253,7 +253,7 @@ public class BlackJackTest {
         h.addCard(new Card(Card.Suit.SPADE, 2));
         h.addCard(new Card(Card.Suit.SPADE, 10));
         h.addCard(new Card(Card.Suit.CLUB, 11));
-        assertEquals(21, BlackJack.assessHand(h));
+        assertEquals(22, BlackJack.assessHand(h));
 
         h.clearCards();
         h.addCard(new Card(Card.Suit.SPADE, 1));

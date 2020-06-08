@@ -95,10 +95,24 @@ public class BlackJack {
         catch(NoMoreCardsException e){
             throw new NoMoreCardsException(e.getMessage());
         }
-        return BlackJackState.BUST;
+        return BlackJackState.toState(assessHand(hands.get(0)));
     }
 
     public static int assessHand(Hand h){
-        return -10;
+        List<Card> cards = h.getCards();
+        int ace = 0;
+        int total = 0;
+        for(Card c: cards){
+            if(c.getValue() == 1){
+                total += 11;
+                ace++;
+            }
+            else total += Math.min(c.getValue(), 10);
+        }
+        while(ace > 0 && total > 21){
+            total -= 10;
+            ace --;
+        }
+        return total;
     }
 }
