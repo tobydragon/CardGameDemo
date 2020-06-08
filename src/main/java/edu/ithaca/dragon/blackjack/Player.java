@@ -3,19 +3,19 @@ package edu.ithaca.dragon.blackjack;
 import java.util.ArrayList;
 
 public class Player implements Comparable {
-    private final long ID;
+    private final String ID;
     private ArrayList<Hand> hands;
 
-    public Player(long IDin){
+    public Player(String IDin){
         hands = new ArrayList<>();
         ID = IDin;
     }
-    public Player(long IDin, Hand startingHand){
+    public Player(String IDin, Hand startingHand){
         ID = IDin;
         hands = new ArrayList<>();
         hands.add(startingHand);
     }
-    public Player(long IDin, ArrayList<Hand> startingHands){
+    public Player(String IDin, ArrayList<Hand> startingHands){
         ID = IDin;
         hands = (ArrayList<Hand>)startingHands.clone();
     }
@@ -32,15 +32,13 @@ public class Player implements Comparable {
         hands.get(index).addCard(card);
     }
 
-    public long getID() {
+    public String getID() {
         return ID;
     }
 
     @Override
     public int compareTo(Object o) {
         Player rhs = (Player)o;
-        if(rhs.ID == this.ID)
-            return 0;
-        return this.ID > rhs.ID ? -1 : 1;
+        return this.ID.compareTo(rhs.ID);
     }
 }

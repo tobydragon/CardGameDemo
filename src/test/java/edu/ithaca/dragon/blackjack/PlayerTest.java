@@ -13,9 +13,8 @@ import static org.junit.jupiter.api.Assertions.*;
 public class PlayerTest {
     @Test
     public void constructorTest(){
-        AtomicInteger ID = new AtomicInteger(0);
-        Player p1 = new Player(ID.getAndIncrement());
-        assertEquals(0, p1.getID());
+        Player p1 = new Player("0");
+        assertEquals("0", p1.getID());
         assertEquals(0, p1.getHands().size());
 
 
@@ -27,8 +26,8 @@ public class PlayerTest {
         c1.add(new Card(Card.Suit.SPADE, 2));
 
         Hand h1 = new Hand(c1);
-        p1 = new Player(ID.getAndIncrement(), h1);
-        assertEquals(1, p1.getID());
+        p1 = new Player("1", h1);
+        assertEquals("1", p1.getID());
         assertEquals(1, p1.getHands().size());
         assertEquals(5, p1.getHands().get(0).getCards().size());
         assertArrayEquals(c1.toArray(), p1.getHands().get(0).getCards().toArray());
@@ -59,8 +58,8 @@ public class PlayerTest {
         hands.add(h2);
         hands.add(h3);
         hands.add(h4);
-        p1 = new Player(ID.getAndIncrement(), hands);
-        assertEquals(2, p1.getID());
+        p1 = new Player("2", hands);
+        assertEquals("2", p1.getID());
         assertEquals(4, p1.getHands().size());
         assertEquals(5, p1.getHands().get(0).getCards().size());
         assertArrayEquals(c1.toArray(), p1.getHands().get(0).getCards().toArray());
@@ -74,19 +73,19 @@ public class PlayerTest {
 
     @Test
     public void CompareToTest(){
-        Player p1 = new Player(0);
-        Player p2 = new Player(1);
-        Player p3 = new Player(2);
-        Player p4 = new Player(1);
-        assertEquals(1, p2.compareTo(p3));
-        assertEquals(-1, p2.compareTo(p1));
+        Player p1 = new Player("0");
+        Player p2 = new Player("1");
+        Player p3 = new Player("2");
+        Player p4 = new Player("1");
+        assertEquals(-1, p2.compareTo(p3));
+        assertEquals(1, p2.compareTo(p1));
         assertEquals(0, p2.compareTo(p4));
     }
 
     @Test
     public void numCardsTest(){
         Hand h1 = new Hand();
-        Player p1 = new Player(0, h1);
+        Player p1 = new Player("0", h1);
         assertEquals(0, p1.numCards(0));
 
 
@@ -98,13 +97,13 @@ public class PlayerTest {
         c1.add(new Card(Card.Suit.SPADE, 2));
 
         Hand h2 = new Hand(c1);
-        Player p2 = new Player(0, h2);
+        Player p2 = new Player("0", h2);
         assertEquals(5, p2.numCards(0));
 
         ArrayList<Hand> hs1 = new ArrayList<>();
         hs1.add(h1);
         hs1.add(h2);
-        Player p3 = new Player(0, hs1);
+        Player p3 = new Player("0", hs1);
         assertEquals(0, p3.numCards(0));
         assertEquals(5, p3.numCards(1));
     }
@@ -112,7 +111,7 @@ public class PlayerTest {
     @Test
     void addCardTest(){
         Hand h1 = new Hand();
-        Player p1 = new Player(0, h1);
+        Player p1 = new Player("0", h1);
         assertEquals(0, p1.numCards(0));
 
 
@@ -159,7 +158,7 @@ public class PlayerTest {
         ArrayList<Hand> hs1 = new ArrayList<>();
         hs1.add(h1);
         hs1.add(h2);
-        Player p3 = new Player(0, hs1);
+        Player p3 = new Player("0", hs1);
         p3.addCardToHand(0, c1.get(0));
         p3.addCardToHand(0, c1.get(1));
         assertEquals(2, p3.numCards(0));

@@ -1,30 +1,37 @@
 package edu.ithaca.dragon.blackjack;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Collections;
 
 public class BlackJack {
-    private final long ID;
-    private ArrayList<Player> players;
-    private ArrayList<Hand> hands;
+    private final String ID;
+    private List<Player> players;
+    private List<Hand> hands;
     private Deck deck;
 
-    public BlackJack(long IDin, Player playerIn){
+    public BlackJack(String IDin, Player playerIn){
         ID = IDin;
         players = new ArrayList<>();
         players.add(playerIn);
-        hands = (ArrayList<Hand>)playerIn.getHands().clone();
+        hands = new ArrayList<>(playerIn.getHands());
         deck = new Deck();
     }
-    public BlackJack(long IDin, ArrayList<Player> playerIn)throws IllegalArgumentException{
+    public BlackJack(String IDin, ArrayList<Player> playerIn)throws IllegalArgumentException{
         ID = IDin;
-        ArrayList<Player> toSort = (ArrayList<Player>)playerIn.clone();
+
+        //This section duplicates playerIn and sorts it so that if there are duplicates they would be next to each other.
+        //The duplication is to preserve the original order of the incoming players.
+        //It then checks all side by side paris and if any of them are the same it throws an error
+        List<Player> toSort = new ArrayList<>(playerIn);
         Collections.sort(toSort);
         for(int x = 0; x < toSort.size()-1; x++){
             if(toSort.get(x).compareTo(toSort.get(x+1)) == 0)
                 throw new IllegalArgumentException("Cannot have 2 players with the same ID");
         }
-        players = (ArrayList<Player>)playerIn.clone();
+
+
+        players = new ArrayList<>(playerIn);
         hands = new ArrayList<>();
         for(Player p : players){
             for(Hand h: p.getHands()){
@@ -34,15 +41,15 @@ public class BlackJack {
         deck = new Deck();
     }
 
-    public long getID() {
+    public String getID() {
         return ID;
     }
 
-    public ArrayList<Hand> getHands() {
+    public List<Hand> getHands() {
         return hands;
     }
 
-    public ArrayList<Player> getPlayers() {
+    public List<Player> getPlayers() {
         return players;
     }
 

@@ -37,9 +37,7 @@ public class Deck {
 
     public void shuffle(){
         if(notInDeck.size() > 0) {
-            for (int x = 0; x < notInDeck.size(); x++) {
-                deck.add(notInDeck.get(x));
-            }
+            deck.addAll(notInDeck);
             notInDeck.clear();
         }
         for(int x = 0; x < 7; x ++){
