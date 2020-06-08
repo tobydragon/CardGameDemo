@@ -1,10 +1,11 @@
 package edu.ithaca.dragon.blackjack;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Player implements Comparable {
     private final String ID;
-    private ArrayList<Hand> hands;
+    private List<Hand> hands;
 
     public Player(String IDin){
         hands = new ArrayList<>();
@@ -15,12 +16,12 @@ public class Player implements Comparable {
         hands = new ArrayList<>();
         hands.add(startingHand);
     }
-    public Player(String IDin, ArrayList<Hand> startingHands){
+    public Player(String IDin, List<Hand> startingHands){
         ID = IDin;
-        hands = (ArrayList<Hand>)startingHands.clone();
+        hands = new ArrayList<>(startingHands);
     }
 
-    public ArrayList<Hand> getHands() {
+    public List<Hand> getHands() {
         return hands;
     }
 
@@ -35,6 +36,10 @@ public class Player implements Comparable {
     public String getID() {
         return ID;
     }
+
+    public void addHand(Hand hand){}
+
+    public void clearHands(){}
 
     @Override
     public int compareTo(Object o) {

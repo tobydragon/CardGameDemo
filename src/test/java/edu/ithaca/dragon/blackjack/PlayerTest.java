@@ -6,6 +6,7 @@ import edu.ithaca.dragon.blackjack.Player;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -165,6 +166,21 @@ public class PlayerTest {
         assertEquals(0, p3.numCards(1));
         p3.addCardToHand(1, c1.get(3));
         assertEquals(1, p3.numCards(1));
+    }
+
+    @Test
+    public void clearHandsTest(){
+
+        List<Hand> hands = new ArrayList<>();
+        for(int x = 0; x < 7; x ++) {
+            hands.add(new Hand());
+        }
+        Player p1 = new Player("0", hands);
+        assertEquals(7, p1.getHands().size());
+        p1.clearHands();
+        assertEquals(0, p1.getHands().size());
+        p1.clearHands();
+        assertEquals(0, p1.getHands().size());
     }
 
 }

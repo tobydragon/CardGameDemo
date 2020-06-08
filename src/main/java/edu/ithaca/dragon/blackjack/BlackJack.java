@@ -56,4 +56,6 @@ public class BlackJack {
     public Deck getDeck() {
         return deck;
     }
+
+    public void deal(){}
 }
