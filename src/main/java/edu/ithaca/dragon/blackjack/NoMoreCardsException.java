@@ -8,6 +8,6 @@ public class NoMoreCardsException extends RuntimeException{
         super(erMsg);
     }
     public NoMoreCardsException(){
-        super("");
+        super();
     }
 }

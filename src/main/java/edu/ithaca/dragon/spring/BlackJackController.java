@@ -44,5 +44,11 @@ public class BlackJackController {
         return id;
     }
 
+    @PostMapping(path = "/api/blackjack/{id}/deal")
+    public Hand deal(@PathVariable String id){
+        if(!games.containsKey(id)) throw new GameDoesNotExist("Game does not exist");
+        return null;
+    }
+
 
 }
