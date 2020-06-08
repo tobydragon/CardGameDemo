@@ -37,12 +37,19 @@ public class BlackJackControllerTest {
         ObjectMapper mapper = new ObjectMapper();
         String test = mapper.writeValueAsString(h1);
         String test2 = mapper.writeValueAsString(h2);
-        MvcResult r1 = this.mockMvc.perform(get("/api/blackjack/0")).andReturn();
         this.mockMvc.perform(get("/api/blackjack/0")).andDo(print()).andExpect(status().isOk())
                 .andExpect(content().string(equalTo(test)));
         this.mockMvc.perform(get("/api/blackjack/1")).andDo(print()).andExpect(status().isOk())
                 .andExpect(content().string(equalTo("")));
         this.mockMvc.perform(get("/api/blackjack/2")).andDo(print()).andExpect(status().isOk())
                 .andExpect(content().string(equalTo(test2)));
+    }
+
+    @Test
+    public void newGameTest() throws Exception{
+        for(int x = 3; x < 10; x++){
+            this.mockMvc.perform(post("/api/blackjack/newgame").content("Stephen"))
+                    .andExpect(status().isOk()).andExpect(content().string(equalTo(String.format("%07d", x))));
+        }
     }
 }
