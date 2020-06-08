@@ -78,12 +78,27 @@ public class BlackJack {
         }
 
     }
-    public void hit() throws NoMoreCardsException{
+
+    public enum BlackJackState{
+        UNDER,BLACKJACK,BUST;
+        public static BlackJackState toState(int val){
+            if(val > 21) return BUST;
+            if(val < 21) return UNDER;
+            return BLACKJACK;
+        }
+    }
+
+    public BlackJackState hit() throws NoMoreCardsException{
         try{
             hands.get(0).addCard(deck.getNextCard());
         }
         catch(NoMoreCardsException e){
             throw new NoMoreCardsException(e.getMessage());
         }
+        return BlackJackState.BUST;
+    }
+
+    public static int assessHand(Hand h){
+        return -10;
     }
 }

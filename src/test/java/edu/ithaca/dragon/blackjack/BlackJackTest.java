@@ -164,6 +164,104 @@ public class BlackJackTest {
             b1.hit();
         }
         assertThrows(NoMoreCardsException.class, ()-> b1.hit());
+
+        BlackJack b2 = new BlackJack("0", new Player("0"));
+
+        assertEquals(BlackJack.BlackJackState.UNDER, b2.hit());
+        assertEquals(BlackJack.BlackJackState.UNDER, b2.hit());
+        assertEquals(BlackJack.BlackJackState.UNDER, b2.hit());
+        assertEquals(BlackJack.BlackJackState.UNDER, b2.hit());
+        assertEquals(BlackJack.BlackJackState.UNDER, b2.hit());
+        assertEquals(BlackJack.BlackJackState.BLACKJACK, b2.hit());
+        assertEquals(BlackJack.BlackJackState.BUST, b2.hit());
+
+
+    }
+
+    @Test
+    public void assessHandTest(){
+        Hand h = new Hand();
+        h.addCard(new Card(Card.Suit.SPADE, 2));
+        h.addCard(new Card(Card.Suit.SPADE, 9));
+        h.addCard(new Card(Card.Suit.SPADE, 10));
+        assertEquals(21, BlackJack.assessHand(h));
+        h.clearCards();
+        h.addCard(new Card(Card.Suit.DIAMOND, 2));
+        h.addCard(new Card(Card.Suit.SPADE, 9));
+        h.addCard(new Card(Card.Suit.SPADE, 10));
+        assertEquals(21, BlackJack.assessHand(h));
+        h.clearCards();
+        h.addCard(new Card(Card.Suit.HEART, 2));
+        h.addCard(new Card(Card.Suit.SPADE, 9));
+        h.addCard(new Card(Card.Suit.SPADE, 10));
+        assertEquals(21, BlackJack.assessHand(h));
+        h.clearCards();
+        h.addCard(new Card(Card.Suit.CLUB, 2));
+        h.addCard(new Card(Card.Suit.SPADE, 9));
+        h.addCard(new Card(Card.Suit.SPADE, 10));
+        assertEquals(21, BlackJack.assessHand(h));
+        h.clearCards();
+        h.addCard(new Card(Card.Suit.SPADE, 2));
+        h.addCard(new Card(Card.Suit.DIAMOND, 9));
+        h.addCard(new Card(Card.Suit.SPADE, 10));
+        assertEquals(21, BlackJack.assessHand(h));
+
+
+        h.clearCards();
+        h.addCard(new Card(Card.Suit.SPADE, 1));
+        h.addCard(new Card(Card.Suit.SPADE, 10));
+        assertEquals(21, BlackJack.assessHand(h));
+        h.clearCards();
+        h.addCard(new Card(Card.Suit.SPADE, 1));
+        h.addCard(new Card(Card.Suit.SPADE, 11));
+        assertEquals(21, BlackJack.assessHand(h));
+        h.clearCards();
+        h.addCard(new Card(Card.Suit.SPADE, 1));
+        h.addCard(new Card(Card.Suit.SPADE, 12));
+        assertEquals(21, BlackJack.assessHand(h));
+        h.clearCards();
+        h.addCard(new Card(Card.Suit.SPADE, 1));
+        h.addCard(new Card(Card.Suit.SPADE, 13));
+        assertEquals(21, BlackJack.assessHand(h));
+
+        h.clearCards();
+        h.addCard(new Card(Card.Suit.SPADE, 2));
+        h.addCard(new Card(Card.Suit.SPADE, 10));
+        h.addCard(new Card(Card.Suit.CLUB, 10));
+        assertEquals(22, BlackJack.assessHand(h));
+        h.clearCards();
+        h.addCard(new Card(Card.Suit.SPADE, 6));
+        h.addCard(new Card(Card.Suit.SPADE, 11));
+        h.addCard(new Card(Card.Suit.CLUB, 8));
+        assertEquals(24, BlackJack.assessHand(h));
+        h.clearCards();
+        h.addCard(new Card(Card.Suit.SPADE, 2));
+        h.addCard(new Card(Card.Suit.SPADE, 10));
+        h.addCard(new Card(Card.Suit.CLUB, 7));
+        assertEquals(19, BlackJack.assessHand(h));
+        h.clearCards();
+        h.addCard(new Card(Card.Suit.SPADE, 2));
+        h.addCard(new Card(Card.Suit.CLUB, 3));
+        assertEquals(5, BlackJack.assessHand(h));
+
+        h.clearCards();
+        h.addCard(new Card(Card.Suit.SPADE, 1));
+        h.addCard(new Card(Card.Suit.SPADE, 10));
+        h.addCard(new Card(Card.Suit.CLUB, 9));
+        assertEquals(20, BlackJack.assessHand(h));
+        h.clearCards();
+        h.addCard(new Card(Card.Suit.SPADE, 2));
+        h.addCard(new Card(Card.Suit.SPADE, 10));
+        h.addCard(new Card(Card.Suit.CLUB, 11));
+        assertEquals(21, BlackJack.assessHand(h));
+
+        h.clearCards();
+        h.addCard(new Card(Card.Suit.SPADE, 1));
+        h.addCard(new Card(Card.Suit.SPADE, 5));
+        assertEquals(16, BlackJack.assessHand(h));
+        h.addCard(new Card(Card.Suit.SPADE, 13));
+        assertEquals(16, BlackJack.assessHand(h));
+
     }
 
 }
