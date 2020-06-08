@@ -4,14 +4,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.ithaca.dragon.blackjack.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
+
 
 import java.util.ArrayList;
-import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.typeCompatibleWith;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -47,9 +46,25 @@ public class BlackJackControllerTest {
 
     @Test
     public void newGameTest() throws Exception{
+        ObjectMapper mapper = new ObjectMapper();
+        Hand dud = new Hand();
         for(int x = 3; x < 10; x++){
             this.mockMvc.perform(post("/api/blackjack/newgame").content("Stephen"))
                     .andExpect(status().isOk()).andExpect(content().string(equalTo(String.format("%07d", x))));
+            this.mockMvc.perform(get(String.format("/api/blackjack/%07d", x))).andDo(print()).andExpect(status().isOk())
+                    .andExpect(content().string(equalTo(mapper.writeValueAsString(dud))));
         }
+    }
+
+    @Test
+    public void dealTest() throws Exception{
+        ObjectMapper mapper = new ObjectMapper();
+        Hand dud = new Hand();
+        dud.addCard(new Card(Card.Suit.SPADE, 2));
+        dud.addCard(new Card(Card.Suit.SPADE, 8));
+        this.mockMvc.perform(post("api/blackjack/test/deal")).andExpect(status().isOk());
+        //this.mockMvc.perform(post("api/blackjack/test/deal")).andExpect(status().isOk())
+                //.andExpect(content().string(matchesPattern(mapper.writeValueAsString(dud))));
+                //mapper.readValue(content().toString(), Hand.class).getCards()
     }
 }

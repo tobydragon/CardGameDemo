@@ -25,7 +25,9 @@ public class BlackJackController {
         p2.addCardToHand(0, new Card(Card.Suit.DIAMOND, 10));
         p2.addCardToHand(0, new Card(Card.Suit.DIAMOND, 12));
         BlackJack b2 = new BlackJack("2", p2);
+        BlackJack b3 = new BlackJack("test", new Player("0"));
         games.put(b2.getID(), b2);
+        games.put(b3.getID(), b3);
         ID = new AtomicLong(3);
     }
 
@@ -47,7 +49,8 @@ public class BlackJackController {
     @PostMapping(path = "/api/blackjack/{id}/deal")
     public Hand deal(@PathVariable String id){
         if(!games.containsKey(id)) throw new GameDoesNotExist("Game does not exist");
-        return null;
+        games.get(id).deal();
+        return games.get(id).getHands().get(0);
     }
 
 
