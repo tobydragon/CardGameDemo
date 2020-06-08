@@ -34,9 +34,7 @@ public class BlackJack {
         players = new ArrayList<>(playerIn);
         hands = new ArrayList<>();
         for(Player p : players){
-            for(Hand h: p.getHands()){
-                hands.add(h);
-            }
+            hands.addAll(p.getHands());
         }
         deck = new Deck();
     }
