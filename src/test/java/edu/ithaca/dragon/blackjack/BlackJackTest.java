@@ -18,7 +18,7 @@ public class BlackJackTest {
     public void ConstructorTest(){
         BlackJack b1 = new BlackJack("0", new Player("0"));
         assertEquals("0", b1.getID());
-        assertEquals(0, b1.getHands().size());
+        assertEquals(1, b1.getHands().size());
         assertEquals(1, b1.getPlayers().size());
         assertNotEquals(null, b1.getDeck());
 

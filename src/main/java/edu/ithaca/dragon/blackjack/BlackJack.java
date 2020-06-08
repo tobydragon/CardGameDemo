@@ -14,6 +14,8 @@ public class BlackJack {
         ID = IDin;
         players = new ArrayList<>();
         players.add(playerIn);
+        if(playerIn.getHands().size() <= 0)
+            playerIn.addHand(new Hand());
         hands = new ArrayList<>(playerIn.getHands());
         deck = new Deck();
     }
@@ -34,6 +36,8 @@ public class BlackJack {
         players = new ArrayList<>(playerIn);
         hands = new ArrayList<>();
         for(Player p : players){
+            if(p.getHands().size() <= 0)
+                p.addHand(new Hand());
             hands.addAll(p.getHands());
         }
         deck = new Deck();
