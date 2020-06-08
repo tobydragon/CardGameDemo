@@ -60,12 +60,10 @@ public class BlackJackControllerTest {
     public void dealTest() throws Exception{
         ObjectMapper mapper = new ObjectMapper();
         Hand dud = new Hand();
-        dud.addCard(new Card(Card.Suit.SPADE, 2));
-        dud.addCard(new Card(Card.Suit.SPADE, 8));
         String test = mapper.writeValueAsString(dud);
         this.mockMvc.perform(post("/api/blackjack/test/deal")).andExpect(status().isOk());
         this.mockMvc.perform(post("/api/blackjack/test/deal")).andExpect(status().isOk())
-                .andExpect(content().string(matchesPattern("h")));
+                .andExpect(content().string(not(test)));
                 //mapper.readValue(content().toString(), Hand.class).getCards()
     }
 
@@ -74,13 +72,14 @@ public class BlackJackControllerTest {
         ObjectMapper mapper = new ObjectMapper();
         Hand dud = new Hand();
         dud.addCard(new Card(Card.Suit.SPADE, 1));
-        this.mockMvc.perform(post("/api/blackjack/2/hit")).andExpect(status().isOk())
+        this.mockMvc.perform(post("/api/blackjack/test2/hit")).andExpect(status().isOk())
                 .andExpect(content().string(equalTo(mapper.writeValueAsString(dud))));
         dud.addCard(new Card(Card.Suit.SPADE, 2));
-        this.mockMvc.perform(post("/api/blackjack/2/hit")).andExpect(status().isOk())
+        this.mockMvc.perform(post("/api/blackjack/test2/hit")).andExpect(status().isOk())
                 .andExpect(content().string(equalTo(mapper.writeValueAsString(dud))));
         dud.addCard(new Card(Card.Suit.SPADE, 3));
-        this.mockMvc.perform(post("/api/blackjack/2/hit")).andExpect(status().isOk())
+        this.mockMvc.perform(post("/api/blackjack/test2/hit")).andExpect(status().isOk())
                 .andExpect(content().string(equalTo(mapper.writeValueAsString(dud))));
+        this.mockMvc.perform(post("/api/blackjack/1/hit")).andExpect(status().is4xxClientError());
     }
 }

@@ -1,6 +1,7 @@
 package edu.ithaca.dragon.spring;
 
 import edu.ithaca.dragon.blackjack.*;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -26,8 +27,10 @@ public class BlackJackController {
         p2.addCardToHand(0, new Card(Card.Suit.DIAMOND, 12));
         BlackJack b2 = new BlackJack("2", p2);
         BlackJack b3 = new BlackJack("test", new Player("0"));
+        BlackJack b4 = new BlackJack("test2", new Player("0"));
         games.put(b2.getID(), b2);
         games.put(b3.getID(), b3);
+        games.put(b4.getID(), b4);
         ID = new AtomicLong(3);
     }
 
@@ -54,9 +57,19 @@ public class BlackJackController {
     }
 
     @PostMapping(path = "/api/blackjack/{id}/hit")
-    public Hand hit(@PathVariable("id") String id){
-        return null;
+    public Hand hit(@PathVariable("id") String id) throws NoMoreCardsException{
+        if(!games.containsKey(id)) throw new GameDoesNotExist("Game does not exist");
+        games.get(id).hit();
+        return games.get(id).getHands().get(0);
     }
+
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST, reason = "Game does not exist")
+    @ExceptionHandler(GameDoesNotExist.class)
+    public void noGameException(){}
+
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST, reason = "No more cards in deck")
+    @ExceptionHandler(NoMoreCardsException.class)
+    public void noCardsException(){}
 
 
 }
