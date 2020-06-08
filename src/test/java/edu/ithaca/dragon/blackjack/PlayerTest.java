@@ -183,4 +183,16 @@ public class PlayerTest {
         assertEquals(0, p1.getHands().size());
     }
 
+    @Test
+    public void addHandTest(){
+        Player p1 = new Player("0");
+        Hand h1 = new Hand();
+        h1.addCard(new Card(Card.Suit.SPADE, 2));
+        assertEquals(0, p1.getHands().size());
+        p1.addHand(h1);
+        assertEquals(1, p1.getHands().size());
+        Card c1 =  h1.getCards().get(0);
+        assertEquals(0, c1.compareTo(p1.getHands().get(0).getCards().get(0)));
+    }
+
 }
