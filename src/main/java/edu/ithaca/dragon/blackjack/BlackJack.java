@@ -79,6 +79,11 @@ public class BlackJack {
 
     }
     public void hit() throws NoMoreCardsException{
-
+        try{
+            hands.get(0).addCard(deck.getNextCard());
+        }
+        catch(NoMoreCardsException e){
+            throw new NoMoreCardsException(e.getMessage());
+        }
     }
 }
