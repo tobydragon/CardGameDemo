@@ -39,7 +39,9 @@ public class Player implements Comparable {
 
     public void addHand(Hand hand){}
 
-    public void clearHands(){}
+    public void clearHands(){
+        hands.clear();
+    }
 
     @Override
     public int compareTo(Object o) {
