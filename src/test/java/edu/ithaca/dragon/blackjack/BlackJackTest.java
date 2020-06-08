@@ -150,4 +150,20 @@ public class BlackJackTest {
 
     }
 
+    @Test
+    public void hitTest(){
+        BlackJack b1 = new BlackJack("0", new Player("0"));
+
+        b1.deal();
+        assertEquals(2, b1.getHand(0).numCards());
+        b1.hit();
+        assertEquals(3, b1.getHand(0).numCards());
+        b1.hit();
+        assertEquals(4, b1.getHand(0).numCards());
+        for(int x = 0; x < 48; x++){
+            b1.hit();
+        }
+        assertThrows(NoMoreCardsException.class, ()-> b1.hit());
+    }
+
 }

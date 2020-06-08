@@ -51,6 +51,10 @@ public class BlackJack {
         return hands;
     }
 
+    public Hand getHand(int handIndex){
+        return hands.get(handIndex);
+    }
+
     public List<Player> getPlayers() {
         return players;
     }
@@ -72,6 +76,9 @@ public class BlackJack {
                 p.addCardToHand(0, deck.getNextCard());
             }
         }
+
+    }
+    public void hit() throws NoMoreCardsException{
 
     }
 }
