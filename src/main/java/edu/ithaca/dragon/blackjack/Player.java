@@ -37,7 +37,9 @@ public class Player implements Comparable {
         return ID;
     }
 
-    public void addHand(Hand hand){}
+    public void addHand(Hand hand){
+        hands.add(hand);
+    }
 
     public void clearHands(){
         hands.clear();
