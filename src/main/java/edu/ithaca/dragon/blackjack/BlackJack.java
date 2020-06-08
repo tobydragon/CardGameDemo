@@ -55,5 +55,19 @@ public class BlackJack {
         return deck;
     }
 
-    public void deal(){}
+    public void deal(){
+        hands.clear();
+        for(Player p : players){
+            p.clearHands();
+            p.addHand(new Hand());
+            hands.add(p.getHands().get(0));
+        }
+        deck.shuffle();
+        for(int x =0; x < 2; x++){
+            for(Player p: players){
+                p.addCardToHand(0, deck.getNextCard());
+            }
+        }
+
+    }
 }

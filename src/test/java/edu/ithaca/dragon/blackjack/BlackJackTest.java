@@ -146,6 +146,8 @@ public class BlackJackTest {
             assertNotEquals(0, c.get(x).compareTo(c.get(x + 1)));
         }
 
+        assertEquals(48, b1.getDeck().numCardsInDeck());
+
     }
 
 }

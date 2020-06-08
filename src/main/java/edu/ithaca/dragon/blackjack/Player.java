@@ -29,8 +29,8 @@ public class Player implements Comparable {
         return hands.get(index).numCards();
     }
 
-    public void addCardToHand(int index, Card card) throws IllegalArgumentException{
-        hands.get(index).addCard(card);
+    public void addCardToHand(int handIndex, Card card) throws IllegalArgumentException{
+        hands.get(handIndex).addCard(card);
     }
 
     public String getID() {
