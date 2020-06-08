@@ -53,5 +53,10 @@ public class BlackJackController {
         return games.get(id).getHands().get(0);
     }
 
+    @PostMapping(path = "/api/blackjack/{id}/hit")
+    public Hand hit(@PathVariable("id") String id){
+        return null;
+    }
+
 
 }
