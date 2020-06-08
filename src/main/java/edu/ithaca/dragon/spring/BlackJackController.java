@@ -1,18 +1,18 @@
 package edu.ithaca.dragon.spring;
 
 import edu.ithaca.dragon.blackjack.*;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicLong;
 
 @RestController
 public class BlackJackController {
 
     private Map<String, BlackJack> games;
+    private AtomicLong ID;
 
     public BlackJackController(){
         games = new HashMap<>();
@@ -26,12 +26,22 @@ public class BlackJackController {
         p2.addCardToHand(0, new Card(Card.Suit.DIAMOND, 12));
         BlackJack b2 = new BlackJack("2", p2);
         games.put(b2.getID(), b2);
+        ID = new AtomicLong(3);
     }
 
     @GetMapping("/api/blackjack/{id}")
-    public Hand getHand(@PathVariable Long id){
+    public Hand getHand(@PathVariable String id){
         if(!games.containsKey(id)) return null;
         return games.get(id).getHands().get(0);
+    }
+
+    @PostMapping(path = "/api/blackjack/newgame")
+    public String newGame(String player){
+        Player p1 = new Player(player);
+        String id = String.format("%07d", this.ID.getAndIncrement());
+        if(games.containsKey(id)) throw new IllegalArgumentException("Game already Exists"); // This should never happen
+        games.put(id, new BlackJack(id, p1));
+        return id;
     }
 
 
