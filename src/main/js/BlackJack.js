@@ -49,25 +49,27 @@ class Hand extends React.Component {
         super(props);
         this.handleHit = this.handleHit.bind(this);
         this.state = {
-            cards: [
-                { suit: "spades", value: 2 },
-                { suit: "hearts", value: 4 },
-                { suit: "diamonds", value: 6 },
-                { suit: "hearts", value: 5 }
-            ]
+            cards: [ ]
         };
     }
 
+    componentDidMount() {
+        fetch("http://localhost:8080/api/blackjack/0")
+            .then(response => response.json())
+            // .then(data => console.log(data));
+            .then(responseJson => this.setState({ cards: responseJson.hand.cards }));
+    }
+
     handleHit() {
-        this.setState({
-            cards: [
-                { suit: "spades", value: 2 },
-                { suit: "hearts", value: 4 },
-                { suit: "diamonds", value: 6 },
-                { suit: "hearts", value: 5 },
-                { suit: "clubs", value: 8 }
-            ]
-        });
+        // this.setState({
+        //     cards: [
+        //         { suit: "spades", value: 2 },
+        //         { suit: "hearts", value: 4 },
+        //         { suit: "diamonds", value: 6 },
+        //         { suit: "hearts", value: 5 },
+        //         { suit: "clubs", value: 8 }
+        //     ]
+        // });
     }
 
     render() {
