@@ -2,6 +2,7 @@ package edu.ithaca.dragon.spring;
 
 import edu.ithaca.dragon.blackjack.*;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -35,13 +36,16 @@ public class BlackJackController {
     }
 
     @GetMapping("/api/blackjack/{id}")
-    public Hand getHand(@PathVariable String id){
-        if(!games.containsKey(id)) return null;
-        return games.get(id).getHands().get(0);
+    public HandReturn getHand(@PathVariable String id){
+        if(!games.containsKey(id)) throw new GameDoesNotExist("Game does not exist");
+        Hand h1 = games.get(id).getHand(0);
+        int val = BlackJack.assessHand(h1);
+        String ID = games.get(id).getPlayers().get(0).getID();
+        return new HandReturn(h1, BlackJack.BlackJackState.toState(val), val, ID);
     }
 
-    @PostMapping(path = "/api/blackjack/newgame")
-    public String newGame(String player){
+    @PostMapping(path = "/api/blackjack/newgame", consumes = "text/plain")
+    public String newGame(@RequestBody String player){
         Player p1 = new Player(player);
         String id = String.format("%07d", this.ID.getAndIncrement());
         if(games.containsKey(id)) throw new IllegalArgumentException("Game already Exists"); // This should never happen
@@ -50,17 +54,23 @@ public class BlackJackController {
     }
 
     @PostMapping(path = "/api/blackjack/{id}/deal")
-    public Hand deal(@PathVariable String id){
+    public HandReturn deal(@PathVariable String id){
         if(!games.containsKey(id)) throw new GameDoesNotExist("Game does not exist");
         games.get(id).deal();
-        return games.get(id).getHands().get(0);
+        Hand h1 = games.get(id).getHand(0);
+        int val = BlackJack.assessHand(h1);
+        String ID = games.get(id).getPlayers().get(0).getID();
+        return new HandReturn(h1, BlackJack.BlackJackState.toState(val), val, ID);
     }
 
     @PostMapping(path = "/api/blackjack/{id}/hit")
-    public Hand hit(@PathVariable("id") String id) throws NoMoreCardsException{
+    public HandReturn hit(@PathVariable("id") String id) throws NoMoreCardsException{
         if(!games.containsKey(id)) throw new GameDoesNotExist("Game does not exist");
         games.get(id).hit();
-        return games.get(id).getHands().get(0);
+        Hand h1 = games.get(id).getHand(0);
+        int val = BlackJack.assessHand(h1);
+        String ID = games.get(id).getPlayers().get(0).getID();
+        return new HandReturn(h1, BlackJack.BlackJackState.toState(val), val, ID);
     }
 
     @ResponseStatus(value = HttpStatus.BAD_REQUEST, reason = "Game does not exist")
