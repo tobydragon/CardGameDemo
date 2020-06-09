@@ -44,4 +44,9 @@ public class Card implements Comparable{
     public Suit getSuit() {
         return suit;
     }
+
+    @Override
+    public String toString() {
+        return "" + value + " of " + suit;
+    }
 }

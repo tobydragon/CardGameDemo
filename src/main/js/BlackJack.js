@@ -61,15 +61,15 @@ class Hand extends React.Component {
     }
 
     handleHit() {
-        // this.setState({
-        //     cards: [
-        //         { suit: "spades", value: 2 },
-        //         { suit: "hearts", value: 4 },
-        //         { suit: "diamonds", value: 6 },
-        //         { suit: "hearts", value: 5 },
-        //         { suit: "clubs", value: 8 }
-        //     ]
-        // });
+        const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ title: 'Hit' })
+        };
+        fetch("http://localhost:8080/api/blackjack/0/hit", requestOptions)
+            .then(response => response.json())
+            // .then(data => console.log(data))
+            .then(responseJson => this.setState({ cards: responseJson.hand.cards }));
     }
 
     render() {
