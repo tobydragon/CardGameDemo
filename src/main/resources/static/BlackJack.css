@@ -1,8 +1,21 @@
-header {
+.header {
     text-align: center;
 }
 
-card {
+.btn {
+    margin-right: 1rem;
+}
+
+.btn-toolbar {
+    text-align: center;
+}
+
+.cardDeck {
+    display: flex;
+    flex-direction: row;
+}
+
+.card {
     margin-right: 1rem;
     text-align: center;
 }
