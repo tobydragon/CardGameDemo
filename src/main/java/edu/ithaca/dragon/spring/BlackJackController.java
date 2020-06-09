@@ -12,19 +12,19 @@ import java.util.Map;
 @RestController
 public class BlackJackController {
 
-    private Map<Long, BlackJack> games;
+    private Map<String, BlackJack> games;
 
     public BlackJackController(){
         games = new HashMap<>();
-        Player p1 = new Player(0, new Hand());
+        Player p1 = new Player("0", new Hand());
         p1.addCardToHand(0, new Card(Card.Suit.SPADE, 1));
         p1.addCardToHand(0, new Card(Card.Suit.SPADE, 13));
-        BlackJack b1 = new BlackJack(0, p1);
+        BlackJack b1 = new BlackJack("0", p1);
         games.put(b1.getID(), b1);
-        Player p2 = new Player(0, new Hand());
+        Player p2 = new Player("0", new Hand());
         p2.addCardToHand(0, new Card(Card.Suit.DIAMOND, 10));
         p2.addCardToHand(0, new Card(Card.Suit.DIAMOND, 12));
-        BlackJack b2 = new BlackJack(2, p2);
+        BlackJack b2 = new BlackJack("2", p2);
         games.put(b2.getID(), b2);
     }
 

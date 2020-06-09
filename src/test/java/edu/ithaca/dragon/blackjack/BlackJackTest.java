@@ -15,15 +15,15 @@ public class BlackJackTest {
 
     @Test
     public void ConstructorTest(){
-        BlackJack b1 = new BlackJack(0, new Player(0));
-        assertEquals(0, b1.getID());
+        BlackJack b1 = new BlackJack("0", new Player("0"));
+        assertEquals("0", b1.getID());
         assertEquals(0, b1.getHands().size());
         assertEquals(1, b1.getPlayers().size());
         assertNotEquals(null, b1.getDeck());
 
-        Player p1 = new Player(2, new Hand());
-        b1 = new BlackJack(1, p1);
-        assertEquals(1, b1.getID());
+        Player p1 = new Player("2", new Hand());
+        b1 = new BlackJack("1", p1);
+        assertEquals("1", b1.getID());
         assertEquals(1, b1.getHands().size());
         assertEquals(1, b1.getPlayers().size());
         assertNotEquals(null, b1.getDeck());
@@ -63,9 +63,9 @@ public class BlackJackTest {
         hands.add(h3);
         hands.add(h4);
 
-        Player p2 = new Player(1, hands);
-        BlackJack b2 = new BlackJack(0, p2 );
-        assertEquals(0, b2.getID());
+        Player p2 = new Player("1", hands);
+        BlackJack b2 = new BlackJack("0", p2 );
+        assertEquals("0", b2.getID());
         assertEquals(4, b2.getHands().size());
         assertEquals(1, b2.getPlayers().size());
         assertNotEquals(null, b2.getDeck());
@@ -73,16 +73,16 @@ public class BlackJackTest {
         ArrayList<Player> players = new ArrayList<>();
         players.add(p1);
         players.add(p2);
-        BlackJack b3 = new BlackJack(0, players);
-        assertEquals(0, b3.getID());
+        BlackJack b3 = new BlackJack("0", players);
+        assertEquals("0", b3.getID());
         assertEquals(5, b3.getHands().size());
         assertEquals(2, b3.getPlayers().size());
         assertNotEquals(null, b3.getDeck());
 
-        Player p3 = new Player(1);
+        Player p3 = new Player("1");
         players.add(p3);
         Exception e = Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            new BlackJack(0, players);
+            new BlackJack("0", players);
         });
         assertEquals("Cannot have 2 players with the same ID", e.getMessage());
     }
