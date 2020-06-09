@@ -13,8 +13,8 @@ import Card from "react-bootstrap/Card";
 //TODO: figure out how to make this work in webpack
 // import "./BlackJack.css";
 
-function CardsListComponent(cardListModel) {
-    const cardsArray = cardListModel.map(aCardModel => (
+function CardsListViewFromCardListModel(props) {
+    const cardsArray = props.cards.map(aCardModel => (
         <Card>
             <Card.Title>{aCardModel.value}</Card.Title>
             <Card.Title> of</Card.Title>
@@ -24,34 +24,68 @@ function CardsListComponent(cardListModel) {
     return <CardGroup className="cardDeck">{cardsArray}</CardGroup>;
 }
 
-function HandButtons() {
-    return (
-        <ButtonToolbar>
-            <Button>Hit</Button>
-            <Button>Stand</Button>
-        </ButtonToolbar>
-    );
+class HandButtons extends React.Component {
+    constructor(props) {
+        super(props);
+        this.handleHitClick = this.handleHitClick.bind(this);
+    }
+
+    handleHitClick(e) {
+        this.props.onHitClick();
+    }
+
+    render() {
+        return (
+            <ButtonToolbar>
+                <Button onClick={this.handleHitClick}>Hit </Button>
+                <Button>Stand</Button>
+            </ButtonToolbar>
+        );
+    }
 }
 
-function Hand() {
-    const exampleHandModel = {
-        cards: [
-            { suit: "spades", value: 2 },
-            { suit: "hearts", value: 4 },
-            { suit: "diamonds", value: 6 },
-            { suit: "hearts", value: 5 }
-        ]
-    };
-    return (
-        <Container>
-            <Row>
-                <Col>{CardsListComponent(exampleHandModel.cards)}</Col>
-            </Row>
-            <Row>
-                <Col>{HandButtons()}</Col>
-            </Row>
-        </Container>
-    );
+class Hand extends React.Component {
+    constructor(props) {
+        super(props);
+        this.handleHit = this.handleHit.bind(this);
+        this.state = {
+            cards: [
+                { suit: "spades", value: 2 },
+                { suit: "hearts", value: 4 },
+                { suit: "diamonds", value: 6 },
+                { suit: "hearts", value: 5 }
+            ]
+        };
+    }
+
+    handleHit() {
+        this.setState({
+            cards: [
+                { suit: "spades", value: 2 },
+                { suit: "hearts", value: 4 },
+                { suit: "diamonds", value: 6 },
+                { suit: "hearts", value: 5 },
+                { suit: "clubs", value: 8 }
+            ]
+        });
+    }
+
+    render() {
+        return (
+            <Container>
+                <Row>
+                    <Col>
+                        <CardsListViewFromCardListModel cards={this.state.cards} />
+                    </Col>
+                </Row>
+                <Row>
+                    <Col>
+                        <HandButtons onHitClick={this.handleHit} />
+                    </Col>
+                </Row>
+            </Container>
+        );
+    }
 }
 
 export default function BlackJackGame() {
@@ -60,7 +94,7 @@ export default function BlackJackGame() {
             <Jumbotron>
                 <h1 className="center">Welcome To Blackjack</h1>
             </Jumbotron>
-            <div>{Hand()}</div>
+            <Hand />
         </Container>
     );
 }
