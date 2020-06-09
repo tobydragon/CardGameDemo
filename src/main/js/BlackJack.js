@@ -10,22 +10,18 @@ import ButtonToolbar from "react-bootstrap/ButtonToolbar";
 import CardGroup from "react-bootstrap/CardGroup";
 import Card from "react-bootstrap/Card";
 
-//TODO: fix import of css
+//TODO: figure out how to make this work in webpack
 // import "./BlackJack.css";
 
-function Cards(cardListModel) {
-    return (
-        <CardGroup className="cardDeck">
-            <Card>
-                <Card.Title>King</Card.Title>
-                <Card.Title>Hearts</Card.Title>
-            </Card>
-            <Card>
-                <Card.Title>9</Card.Title>
-                <Card.Title>Spades</Card.Title>
-            </Card>
-        </CardGroup>
-    );
+function CardsListComponent(cardListModel) {
+    const cardsArray = cardListModel.map(aCardModel => (
+        <Card>
+            <Card.Title>{aCardModel.value}</Card.Title>
+            <Card.Title> of</Card.Title>
+            <Card.Title>{aCardModel.suit}</Card.Title>
+        </Card>
+    ));
+    return <CardGroup className="cardDeck">{cardsArray}</CardGroup>;
 }
 
 function HandButtons() {
@@ -39,12 +35,17 @@ function HandButtons() {
 
 function Hand() {
     const exampleHandModel = {
-        cards: [{ suit: "spades", value: 10 }, { suit: "hearts", value: 4 }]
+        cards: [
+            { suit: "spades", value: 2 },
+            { suit: "hearts", value: 4 },
+            { suit: "diamonds", value: 6 },
+            { suit: "hearts", value: 5 }
+        ]
     };
     return (
         <Container>
             <Row>
-                <Col>{Cards(exampleHandModel.cards)}</Col>
+                <Col>{CardsListComponent(exampleHandModel.cards)}</Col>
             </Row>
             <Row>
                 <Col>{HandButtons()}</Col>
@@ -53,7 +54,7 @@ function Hand() {
     );
 }
 
-export default function BlackJack() {
+export default function BlackJackGame() {
     return (
         <Container>
             <Jumbotron>
