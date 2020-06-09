@@ -34,4 +34,8 @@ public class Hand {
         }
         cards.add(cardIn);
     }
+
+    public void clearCards(){
+        cards.clear();
+    }
 }

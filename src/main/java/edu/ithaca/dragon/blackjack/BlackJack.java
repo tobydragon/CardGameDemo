@@ -14,6 +14,8 @@ public class BlackJack {
         ID = IDin;
         players = new ArrayList<>();
         players.add(playerIn);
+        if(playerIn.getHands().size() <= 0)
+            playerIn.addHand(new Hand());
         hands = new ArrayList<>(playerIn.getHands());
         deck = new Deck();
     }
@@ -34,9 +36,9 @@ public class BlackJack {
         players = new ArrayList<>(playerIn);
         hands = new ArrayList<>();
         for(Player p : players){
-            for(Hand h: p.getHands()){
-                hands.add(h);
-            }
+            if(p.getHands().size() <= 0)
+                p.addHand(new Hand());
+            hands.addAll(p.getHands());
         }
         deck = new Deck();
     }
@@ -49,11 +51,68 @@ public class BlackJack {
         return hands;
     }
 
+    public Hand getHand(int handIndex){
+        return hands.get(handIndex);
+    }
+
     public List<Player> getPlayers() {
         return players;
     }
 
     public Deck getDeck() {
         return deck;
+    }
+
+    public void deal(){
+        hands.clear();
+        for(Player p : players){
+            p.clearHands();
+            p.addHand(new Hand());
+            hands.add(p.getHands().get(0));
+        }
+        deck.shuffle();
+        for(int x =0; x < 2; x++){
+            for(Player p: players){
+                p.addCardToHand(0, deck.getNextCard());
+            }
+        }
+
+    }
+
+    public enum BlackJackState{
+        UNDER,BLACKJACK,BUST;
+        public static BlackJackState toState(int val){
+            if(val > 21) return BUST;
+            if(val < 21) return UNDER;
+            return BLACKJACK;
+        }
+    }
+
+    public BlackJackState hit() throws NoMoreCardsException{
+        try{
+            hands.get(0).addCard(deck.getNextCard());
+        }
+        catch(NoMoreCardsException e){
+            throw new NoMoreCardsException(e.getMessage());
+        }
+        return BlackJackState.toState(assessHand(hands.get(0)));
+    }
+
+    public static int assessHand(Hand h){
+        List<Card> cards = h.getCards();
+        int ace = 0;
+        int total = 0;
+        for(Card c: cards){
+            if(c.getValue() == 1){
+                total += 11;
+                ace++;
+            }
+            else total += Math.min(c.getValue(), 10);
+        }
+        while(ace > 0 && total > 21){
+            total -= 10;
+            ace --;
+        }
+        return total;
     }
 }
