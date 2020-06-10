@@ -1,12 +1,12 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import BlackJackGame from "./BlackJack";
+import BlackJackApp from "./BlackJackApp";
 
 
 const reactElement = document.getElementById("react");
 ReactDOM.render(
     <React.StrictMode>
-        <BlackJackGame/>
+        <BlackJackApp/>
     </React.StrictMode>,
     reactElement
 );

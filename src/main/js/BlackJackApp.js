@@ -1,0 +1,38 @@
+import React from "react";
+import GameChooser from "./GameChooser";
+import BlackJackGame from "./BlackJackGame";
+
+class BlackJackApp extends React.Component {
+    constructor(props) {
+        super(props);
+        this.Pages = {
+            LOGIN: 1,
+            GAME: 2
+        };
+
+        this.handleReturnToLastGame = this.handleReturnToLastGame.bind(this);
+        this.state = {
+            currPage: this.Pages.LOGIN
+        };
+    }
+
+    handleReturnToLastGame() {
+        this.setState({
+            currPage: this.Pages.GAME
+        });
+    }
+
+    render() {
+        if (this.state.currPage === this.Pages.LOGIN) {
+            return <GameChooser onReturnToGameClick={this.handleReturnToLastGame} />;
+        } else if (this.state.currPage === this.Pages.GAME) {
+            return <BlackJackGame />;
+        } else {
+            return "ERROR: Bad state in BlackJackApp.render";
+        }
+    }
+}
+
+export default function App() {
+    return <BlackJackApp />;
+}
