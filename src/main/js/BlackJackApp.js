@@ -12,12 +12,14 @@ class BlackJackApp extends React.Component {
 
         this.handleReturnToLastGame = this.handleReturnToLastGame.bind(this);
         this.state = {
+            gameId: null,
             currPage: this.Pages.LOGIN
         };
     }
 
-    handleReturnToLastGame() {
+    handleReturnToLastGame(gameId) {
         this.setState({
+            gameId:gameId,
             currPage: this.Pages.GAME
         });
     }
@@ -26,7 +28,7 @@ class BlackJackApp extends React.Component {
         if (this.state.currPage === this.Pages.LOGIN) {
             return <GameChooser onReturnToGameClick={this.handleReturnToLastGame} />;
         } else if (this.state.currPage === this.Pages.GAME) {
-            return <BlackJackGame />;
+            return <BlackJackGame gameId={this.state.gameId} />;
         } else {
             return "ERROR: Bad state in BlackJackApp.render";
         }

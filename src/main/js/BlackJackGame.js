@@ -51,7 +51,7 @@ class Hand extends React.Component {
         this.handleHandResponse = this.handleHandResponse.bind(this);
         this.state = {
             cards: [ ],
-            gameId: "test2"
+            gameId: props.gameId
         };
     }
 
@@ -85,13 +85,13 @@ class Hand extends React.Component {
     }
 }
 
-export default function BlackJackGame() {
+export default function BlackJackGame(props) {
     return (
         <Container>
             <Jumbotron>
                 <h1 className="center">Welcome To Blackjack</h1>
             </Jumbotron>
-            <Hand />
+            <Hand gameId={props.gameId}/>
         </Container>
     );
 }

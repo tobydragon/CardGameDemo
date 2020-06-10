@@ -5,11 +5,31 @@ import Form from "react-bootstrap/Form";
 class GameChooserForm extends React.Component {
     constructor(props) {
         super(props);
+        this.handleInputChange = this.handleInputChange.bind(this);
         this.handleReturnToGameClick = this.handleReturnToGameClick.bind(this);
+        this.state={
+            userName: "",
+            gameName: ""
+        }
+    }
+
+    /**
+     * in order for this to work, the name attribute of the input fields needs to be set to the name
+     * of the state variable that will be synced with the input field by this method
+     */
+    handleInputChange(event) {
+        const target = event.target;
+        const name = target.name;
+        const value = target.value;
+        // console.log("GameChooserForm.handleInputEvent - value changed:"+name+":"+value)
+        this.setState({
+            [name]: value
+        });
     }
 
     handleReturnToGameClick(e) {
-        this.props.onReturnToGameClick();
+        console.log(e);
+        this.props.onReturnToGameClick(this.state.gameName);
     }
 
     render() {
@@ -17,12 +37,12 @@ class GameChooserForm extends React.Component {
             <Form>
                 <Form.Group controlId="formusername">
                     <Form.Label>New Game</Form.Label>
-                    <Form.Control type="text" placeholder="Enter username" />
+                    <Form.Control onChange={this.handleInputChange} name="userName" type="text" placeholder="Enter username" />
                 </Form.Group>
                 <Button variant="primary">New Game</Button>
                 <Form.Group controlId="formgamename">
                     <Form.Label>Return to Game</Form.Label>
-                    <Form.Control type="text" placeholder="Enter Game name" />
+                    <Form.Control onChange={this.handleInputChange} name="gameName" type="text" placeholder="Enter Game name" />
                 </Form.Group>
                 <Button onClick={this.handleReturnToGameClick} variant="primary">
                     Return to Game
