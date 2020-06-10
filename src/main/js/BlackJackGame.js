@@ -53,12 +53,13 @@ class Hand extends React.Component {
         this.handleHandResponse = this.handleHandResponse.bind(this);
         this.state = {
             cards: [ ],
-            gameId: props.gameId
+            gameId: props.gameId,
+            apiUrl: props.baseApiUrl+"/"+props.gameId
         };
     }
 
     componentDidMount() {
-        getFromServer("http://localhost:8080/api/blackjack/", this.state.gameId, "", this.handleHandResponse);
+        getFromServer(this.state.apiUrl, "", this.handleHandResponse);
     }
 
     handleHandResponse(responseJson){
@@ -66,7 +67,7 @@ class Hand extends React.Component {
     }
 
     handleHit() {
-        postToServer("http://localhost:8080/api/blackjack/", this.state.gameId, "/hit", this.handleHandResponse);
+        postToServer(this.state.apiUrl, "/hit", "", this.handleHandResponse);
     }
 
     render() {
@@ -93,7 +94,7 @@ export default function BlackJackGame(props) {
             <Jumbotron>
                 <h1 className="center">Welcome To Blackjack</h1>
             </Jumbotron>
-            <Hand gameId={props.gameId}/>
+            <Hand gameId={props.gameId} baseApiUrl={props.baseApiUrl}/>
         </Container>
     );
 }

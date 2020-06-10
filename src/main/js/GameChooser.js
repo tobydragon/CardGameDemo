@@ -2,11 +2,12 @@ import React from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 
-class GameChooserForm extends React.Component {
+export default class GameChooserForm extends React.Component {
     constructor(props) {
         super(props);
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleReturnToGameClick = this.handleReturnToGameClick.bind(this);
+        this.handleNewGameClick = this.handleNewGameClick.bind(this);
         this.state={
             userName: "",
             gameName: ""
@@ -28,8 +29,11 @@ class GameChooserForm extends React.Component {
     }
 
     handleReturnToGameClick(e) {
-        console.log(e);
         this.props.onReturnToGameClick(this.state.gameName);
+    }
+
+    handleNewGameClick(e){
+        this.props.onNewGameClick(this.state.userName);
     }
 
     render() {
@@ -39,7 +43,7 @@ class GameChooserForm extends React.Component {
                     <Form.Label>New Game</Form.Label>
                     <Form.Control onChange={this.handleInputChange} name="userName" type="text" placeholder="Enter username" />
                 </Form.Group>
-                <Button variant="primary">New Game</Button>
+                <Button onClick={this.handleNewGameClick} variant="primary">New Game</Button>
                 <Form.Group controlId="formgamename">
                     <Form.Label>Return to Game</Form.Label>
                     <Form.Control onChange={this.handleInputChange} name="gameName" type="text" placeholder="Enter Game name" />
@@ -51,7 +55,7 @@ class GameChooserForm extends React.Component {
         );
     }
 }
-
-export default function GameChooser(props) {
-    return <GameChooserForm onReturnToGameClick={props.onReturnToGameClick} />;
-}
+//
+// export default function GameChooser(props) {
+//     return new GameChooserForm(props);
+// }
