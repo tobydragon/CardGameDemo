@@ -48,28 +48,23 @@ class Hand extends React.Component {
     constructor(props) {
         super(props);
         this.handleHit = this.handleHit.bind(this);
+        this.handleHandResponse = this.handleHandResponse.bind(this);
         this.state = {
-            cards: [ ]
+            cards: [ ],
+            gameId: "test2"
         };
     }
 
     componentDidMount() {
-        fetch("http://localhost:8080/api/blackjack/0")
-            .then(response => response.json())
-            // .then(data => console.log(data));
-            .then(responseJson => this.setState({ cards: responseJson.hand.cards }));
+        getFromServer("http://localhost:8080/api/blackjack/", this.state.gameId, "", this.handleHandResponse);
+    }
+
+    handleHandResponse(responseJson){
+        this.setState({ cards: responseJson.hand.cards })
     }
 
     handleHit() {
-        const requestOptions = {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ title: 'Hit' })
-        };
-        fetch("http://localhost:8080/api/blackjack/0/hit", requestOptions)
-            .then(response => response.json())
-            // .then(data => console.log(data))
-            .then(responseJson => this.setState({ cards: responseJson.hand.cards }));
+        postToServer("http://localhost:8080/api/blackjack/", this.state.gameId, "/hit", this.handleHandResponse);
     }
 
     render() {
@@ -99,4 +94,23 @@ export default function BlackJackGame() {
             <Hand />
         </Container>
     );
+}
+
+function getFromServer(baseApiUrl, gameId, callUrl, callBack){
+    fetch(baseApiUrl+gameId+callUrl)
+        .then(response => response.json())
+        // .then(data => console.log(data));
+        .then(responseJson => callBack(responseJson));
+}
+
+function postToServer(baseApiUrl, gameId, callUrl, callBack){
+    const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ title: 'Hit' })
+    };
+    fetch(baseApiUrl+gameId+callUrl, requestOptions)
+        .then(response => response.json())
+        // .then(data => console.log(data))
+        .then(responseJson => callBack(responseJson));
 }
