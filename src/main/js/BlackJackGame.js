@@ -10,6 +10,8 @@ import ButtonToolbar from "react-bootstrap/ButtonToolbar";
 import CardGroup from "react-bootstrap/CardGroup";
 import Card from "react-bootstrap/Card";
 
+import {getFromServer, postToServer} from "./Comm";
+
 //TODO: figure out how to make this work in webpack
 // import "./BlackJack.css";
 
@@ -94,23 +96,4 @@ export default function BlackJackGame(props) {
             <Hand gameId={props.gameId}/>
         </Container>
     );
-}
-
-function getFromServer(baseApiUrl, gameId, callUrl, callBack){
-    fetch(baseApiUrl+gameId+callUrl)
-        .then(response => response.json())
-        // .then(data => console.log(data));
-        .then(responseJson => callBack(responseJson));
-}
-
-function postToServer(baseApiUrl, gameId, callUrl, callBack){
-    const requestOptions = {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ title: 'Hit' })
-    };
-    fetch(baseApiUrl+gameId+callUrl, requestOptions)
-        .then(response => response.json())
-        // .then(data => console.log(data))
-        .then(responseJson => callBack(responseJson));
 }

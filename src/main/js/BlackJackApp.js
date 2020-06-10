@@ -24,6 +24,10 @@ class BlackJackApp extends React.Component {
         });
     }
 
+    handleNewGameRequest(userId){
+
+    }
+
     render() {
         if (this.state.currPage === this.Pages.LOGIN) {
             return <GameChooser onReturnToGameClick={this.handleReturnToLastGame} />;
