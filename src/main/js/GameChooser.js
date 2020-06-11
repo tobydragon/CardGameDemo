@@ -43,7 +43,9 @@ export default class GameChooserForm extends React.Component {
                     <Form.Label>New Game</Form.Label>
                     <Form.Control onChange={this.handleInputChange} name="userName" type="text" placeholder="Enter username" />
                 </Form.Group>
-                <Button onClick={this.handleNewGameClick} variant="primary">New Game</Button>
+                <Button onClick={this.handleNewGameClick} variant="primary">
+                    New Game
+                </Button>
                 <Form.Group controlId="formgamename">
                     <Form.Label>Return to Game</Form.Label>
                     <Form.Control onChange={this.handleInputChange} name="gameName" type="text" placeholder="Enter Game name" />

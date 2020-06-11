@@ -16,6 +16,7 @@ import {getFromServer, postToServer} from "./Comm";
 // import "./BlackJack.css";
 
 function CardsListViewFromCardListModel(props) {
+    //using react-bootstrap data structure called Card, not to be confused with also talking about playing cards
     const cardsArray = props.cards.map(aCardModel => (
         <Card>
             <Card.Title>{aCardModel.value}</Card.Title>

@@ -11,7 +11,7 @@ class BlackJackApp extends React.Component {
             GAME: 2
         };
 
-        this.handleReturnToLastGame = this.handleReturnToLastGame.bind(this);
+        this.handleGoToGame = this.handleGoToGame.bind(this);
         this.handleNewGameRequest = this.handleNewGameRequest.bind(this);
         this.handleNewGameServerResponse = this.handleNewGameServerResponse.bind(this);
         this.state = {
@@ -21,7 +21,7 @@ class BlackJackApp extends React.Component {
         };
     }
 
-    handleReturnToLastGame(gameId) {
+    handleGoToGame(gameId) {
         this.setState({
             gameId:gameId,
             currPage: this.Pages.GAME
@@ -33,12 +33,12 @@ class BlackJackApp extends React.Component {
     }
 
     handleNewGameServerResponse(responseJson){
-        this.handleReturnToLastGame(responseJson.text);
+        this.handleGoToGame(responseJson.text);
     }
 
     render() {
         if (this.state.currPage === this.Pages.LOGIN) {
-            return <GameChooserForm onReturnToGameClick={this.handleReturnToLastGame} onNewGameClick={this.handleNewGameRequest} />;
+            return <GameChooserForm onReturnToGameClick={this.handleGoToGame} onNewGameClick={this.handleNewGameRequest} />;
         } else if (this.state.currPage === this.Pages.GAME) {
             return <BlackJackGame gameId={this.state.gameId} baseApiUrl={this.state.baseApiUrl}/>;
         } else {
