@@ -30,15 +30,21 @@ class HandButtons extends React.Component {
     constructor(props) {
         super(props);
         this.handleHitClick = this.handleHitClick.bind(this);
+        this.handleDealClick = this.handleDealClick.bind(this);
     }
 
     handleHitClick(e) {
         this.props.onHitClick();
     }
 
+    handleDealClick(e) {
+        this.props.onDealClick();
+    }
+
     render() {
         return (
             <ButtonToolbar>
+                <Button onClick={this.handleDealClick}> Deal</Button>
                 <Button onClick={this.handleHitClick}>Hit </Button>
                 <Button>Stand</Button>
             </ButtonToolbar>
@@ -50,6 +56,7 @@ class Hand extends React.Component {
     constructor(props) {
         super(props);
         this.handleHit = this.handleHit.bind(this);
+        this.handleDeal = this.handleDeal.bind(this);
         this.handleHandResponse = this.handleHandResponse.bind(this);
         this.state = {
             cards: [ ],
@@ -70,6 +77,10 @@ class Hand extends React.Component {
         postToServer(this.state.apiUrl, "/hit", "", this.handleHandResponse);
     }
 
+    handleDeal(){
+        postToServer(this.state.apiUrl, "/deal", "", this.handleHandResponse);
+    }
+
     render() {
         return (
             <Container>
@@ -80,7 +91,7 @@ class Hand extends React.Component {
                 </Row>
                 <Row>
                     <Col>
-                        <HandButtons onHitClick={this.handleHit} />
+                        <HandButtons onHitClick={this.handleHit} onDealClick={this.handleDeal}/>
                     </Col>
                 </Row>
             </Container>
