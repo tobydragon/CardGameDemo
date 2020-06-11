@@ -53,7 +53,7 @@ public class BlackJackControllerTest {
         HandReturn hr1 = new HandReturn(dud, BlackJack.BlackJackState.UNDER, 0, "Stephen");
         for(int x = 3; x < 10; x++){
             this.mockMvc.perform(post("/api/blackjack/newgame").contentType(MediaType.TEXT_PLAIN).content("Stephen"))
-                    .andExpect(status().isOk()).andExpect(content().string(equalTo(String.format("%07d", x))));
+                    .andExpect(status().isOk()).andExpect(content().string(equalTo(String.format("{\"text\":\"%07d\"}", x))));
             this.mockMvc.perform(get(String.format("/api/blackjack/%07d", x))).andDo(print()).andExpect(status().isOk())
                     .andExpect(content().string(equalTo(mapper.writeValueAsString(hr1))));
         }

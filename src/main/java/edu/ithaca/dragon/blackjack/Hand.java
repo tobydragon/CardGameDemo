@@ -30,12 +30,17 @@ public class Hand {
         if(cardIn == null) throw new IllegalArgumentException("Cannot add null card to hand");
         for(Card c: cards){
             if(c.compareTo(cardIn) == 0)
-                throw new IllegalArgumentException("Cannot add duplicate card to hand");
+                throw new IllegalArgumentException("Cannot add duplicate card [" + c + "] to hand: " + this);
         }
         cards.add(cardIn);
     }
 
     public void clearCards(){
         cards.clear();
+    }
+
+    @Override
+    public String toString() {
+        return cards.toString();
     }
 }

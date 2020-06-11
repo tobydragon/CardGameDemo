@@ -45,12 +45,12 @@ public class BlackJackController {
     }
 
     @PostMapping(path = "/api/blackjack/newgame", consumes = "text/plain")
-    public String newGame(@RequestBody String player){
+    public TextInJsonResponse newGame(@RequestBody String player){
         Player p1 = new Player(player);
         String id = String.format("%07d", this.ID.getAndIncrement());
         if(games.containsKey(id)) throw new IllegalArgumentException("Game already Exists"); // This should never happen
         games.put(id, new BlackJack(id, p1));
-        return id;
+        return new TextInJsonResponse(id);
     }
 
     @PostMapping(path = "/api/blackjack/{id}/deal")
