@@ -19,6 +19,7 @@ public class BlackJack {
             playerIn.addHand(new Hand());
         hands = new ArrayList<>(playerIn.getHands());
         deck = new Deck();
+        dealer = new Hand();
     }
     public BlackJack(String IDin, ArrayList<Player> playerIn)throws IllegalArgumentException{
         ID = IDin;
@@ -42,6 +43,7 @@ public class BlackJack {
             hands.addAll(p.getHands());
         }
         deck = new Deck();
+        dealer = new Hand();
     }
 
     public String getID() {
@@ -62,6 +64,10 @@ public class BlackJack {
 
     public Deck getDeck() { return deck; }
 
+    public void setDeck(Deck deck) {
+        this.deck = deck;
+    }
+
     public void deal(){
         hands.clear();
         for(Player p : players){
@@ -71,9 +77,10 @@ public class BlackJack {
         }
         deck.shuffle();
         for(int x =0; x < 2; x++){
-            for(Player p: players){
-                p.addCardToHand(0, deck.getNextCard());
+            for(Hand h: hands){
+                h.addCard( deck.getNextCard());
             }
+            dealer.addCard(deck.getNextCard());
         }
 
     }
@@ -113,5 +120,9 @@ public class BlackJack {
             ace --;
         }
         return total;
+    }
+
+    public void takeDealerTurn(){
+
     }
 }
