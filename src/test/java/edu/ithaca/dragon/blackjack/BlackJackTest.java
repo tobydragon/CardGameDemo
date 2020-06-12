@@ -264,4 +264,17 @@ public class BlackJackTest {
 
     }
 
+    @Test
+    public void dealerTest(){
+        BlackJack b1 = new BlackJack("0", new Player("test"));
+        b1.deal();
+        assertEquals(2,b1.getDealerHand().numCards());
+        ArrayList<Card> c1 = b1.getDeck().getNotInDeck();
+        assertEquals(0, c1.get(1).compareTo(b1.getDealerHand().getCards().get(0)));
+        assertEquals(0, c1.get(3).compareTo(b1.getDealerHand().getCards().get(1)));
+        //not in deck should be the first four cards in order of the deck after it was shuffled
+        //As such the second and four cards should be the dealers because of dealing protocol (player then dealer then player then dealer)
+
+    }
+
 }

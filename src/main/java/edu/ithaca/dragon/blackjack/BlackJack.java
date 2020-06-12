@@ -9,6 +9,7 @@ public class BlackJack {
     private List<Player> players;
     private List<Hand> hands;
     private Deck deck;
+    private Hand dealer;
 
     public BlackJack(String IDin, Player playerIn){
         ID = IDin;
@@ -51,17 +52,15 @@ public class BlackJack {
         return hands;
     }
 
-    public Hand getHand(int handIndex){
-        return hands.get(handIndex);
-    }
+    public Hand getHand(int handIndex){ return hands.get(handIndex);    }
+
+    public Hand getDealerHand() { return dealer; }
 
     public List<Player> getPlayers() {
         return players;
     }
 
-    public Deck getDeck() {
-        return deck;
-    }
+    public Deck getDeck() { return deck; }
 
     public void deal(){
         hands.clear();
