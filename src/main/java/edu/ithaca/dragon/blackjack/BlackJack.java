@@ -75,6 +75,7 @@ public class BlackJack {
             p.addHand(new Hand());
             hands.add(p.getHands().get(0));
         }
+        dealer = new Hand();
         deck.shuffle();
         for(int x =0; x < 2; x++){
             for(Hand h: hands){
@@ -123,6 +124,8 @@ public class BlackJack {
     }
 
     public void takeDealerTurn(){
-
+        while (assessHand(dealer) < 17 && deck.getDeck().size() > 0){
+            dealer.addCard(deck.getNextCard());
+        }
     }
 }

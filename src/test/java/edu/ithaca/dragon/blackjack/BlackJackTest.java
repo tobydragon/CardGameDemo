@@ -299,10 +299,11 @@ public class BlackJackTest {
         b1.takeDealerTurn();
         assertEquals(20, BlackJack.assessHand(b1.getDealerHand()));
 
-        b1.setDeck(new Deck());
+        b1 = new BlackJack("0", new Player("0"));
         b1.getDealerHand().addCard(b1.getDeck().getNextCard());
         b1.getDealerHand().addCard(b1.getDeck().getNextCard());
-        assertEquals(21, BlackJack.assessHand(b1.getDealerHand()));
+        b1.takeDealerTurn();
+        assertEquals(20, BlackJack.assessHand(b1.getDealerHand()));
 
         for(int x = 0;x < 100; x ++){
             b1.deal();
