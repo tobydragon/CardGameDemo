@@ -89,4 +89,9 @@ public class BlackJackControllerTest {
                 .andExpect(content().string(equalTo(mapper.writeValueAsString(dud))));
         this.mockMvc.perform(post("/api/blackjack/1/hit")).andExpect(status().is4xxClientError());
     }
+
+    @Test
+    public void stayTest() throws Exception{
+
+    }
 }
