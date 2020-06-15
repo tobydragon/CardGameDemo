@@ -100,8 +100,9 @@ public class BlackJackController {
         Hand h1 = games.get(id).getHand(0);
         Hand h2 = games.get(id).getDealerHand();
         int val = BlackJack.assessHand(h1);
+        int dealerVal = BlackJack.assessHand(h2);
         String ID = games.get(id).getPlayers().get(0).getID();
-        return new HandReturn(h1,h2, BlackJack.BlackJackState.toState(val), val, ID);
+        return new HandReturn(h1,h2, BlackJack.BlackJackState.toState(val), val, dealerVal, ID);
     }
 
     @ResponseStatus(value = HttpStatus.BAD_REQUEST, reason = "Game does not exist")

@@ -4,24 +4,27 @@ public class HandReturn {
     private Hand playerHand;
     private Hand dealerHand;
     private BlackJack.BlackJackState state;
-    private int value;
+    private int playerValue;
+    private int dealerValue;
     private String user;
     private BlackJack.WinState winState;
 
-    public HandReturn (Hand playerHand,Hand dealerHand, BlackJack.BlackJackState state, int value, String user, BlackJack.WinState winState){
+    public HandReturn (Hand playerHand,Hand dealerHand, BlackJack.BlackJackState state, int playerValue,int dealerValue, String user, BlackJack.WinState winState){
         this.playerHand = playerHand;
         this.dealerHand = dealerHand;
         this.state = state;
-        this.value = value;
+        this.playerValue = playerValue;
+        this.dealerValue = dealerValue;
         this.user = user;
         this.winState = winState;
     }
 
-    public HandReturn (Hand playerHand,Hand dealerHand, BlackJack.BlackJackState state, int value, String user){
+    public HandReturn (Hand playerHand,Hand dealerHand, BlackJack.BlackJackState state, int playerValue, int dealerValue, String user){
         this.playerHand = playerHand;
         this.dealerHand = dealerHand;
         this.state = state;
-        this.value = value;
+        this.playerValue = playerValue;
+        this.dealerValue = dealerValue;
         this.user = user;
         this.winState = BlackJack.WinState.NONE;
     }
@@ -29,13 +32,18 @@ public class HandReturn {
         this.playerHand = null;
         this.dealerHand = null;
         this.state = null;
-        this.value = 0;
+        this.playerValue = 0;
+        this.dealerValue = 0;
         this.user = "";
         this.winState = BlackJack.WinState.NONE;
     }
 
-    public int getValue() {
-        return value;
+    public int getPlayerValue() {
+        return playerValue;
+    }
+
+    public int getDealerValue() {
+        return dealerValue;
     }
 
     public BlackJack.BlackJackState getState() {
@@ -74,8 +82,12 @@ public class HandReturn {
         this.user = user;
     }
 
-    public void setValue(int value) {
-        this.value = value;
+    public void setPlayerValue(int value) {
+        this.playerValue = value;
+    }
+
+    public void setDealerValue(int dealerValue) {
+        this.dealerValue = dealerValue;
     }
 
     public void setWinState(BlackJack.WinState winState) {
@@ -88,7 +100,8 @@ public class HandReturn {
                 "playerHand=" + playerHand +
                 ", dealerHand=" + dealerHand +
                 ", state=" + state +
-                ", value=" + value +
+                ", playerValue=" + playerValue +
+                ", dealerValue=" + dealerValue +
                 ", user='" + user + '\'' +
                 ", winState=" + winState +
                 '}';
