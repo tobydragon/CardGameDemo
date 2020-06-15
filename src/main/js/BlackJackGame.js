@@ -71,7 +71,7 @@ class Hand extends React.Component {
     }
 
     handleHandResponse(responseJson){
-        this.setState({ cards: responseJson.hand.cards })
+        this.setState({ cards: responseJson.playerHand.cards });
     }
 
     handleHit() {
