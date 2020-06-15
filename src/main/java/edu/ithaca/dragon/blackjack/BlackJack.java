@@ -133,10 +133,16 @@ public class BlackJack {
     }
 
     public WinState stay(){
-        return null;
+        if(assessHand(hands.get(0)) > 21) return WinState.LOSE;
+        takeDealerTurn();
+        if(assessHand(dealer) > 21) return WinState.WIN;
+        int win = compareHands(hands.get(0), dealer);
+        if(win == 0) return WinState.TIE;
+        return win > 0 ? WinState.LOSE:WinState.WIN;
     }
 
     public static int compareHands(Hand rhs, Hand lhs){
-        return -123;
+        if (assessHand(rhs) == assessHand(lhs)) return 0;
+        return assessHand(rhs) > assessHand(lhs) ? -1 : 1;
     }
 }
