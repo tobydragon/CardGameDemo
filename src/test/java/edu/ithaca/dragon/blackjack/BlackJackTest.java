@@ -312,4 +312,69 @@ public class BlackJackTest {
         }
     }
 
+    @Test
+    public void compareHandsTest(){
+        Hand h1 = new Hand();
+        h1.addCard(new Card(Card.Suit.SPADE, 1));
+        h1.addCard(new Card(Card.Suit.DIAMOND, 13));
+        Hand h2 = new Hand();
+        h2.addCard(new Card(Card.Suit.DIAMOND, 3));
+        h2.addCard(new Card(Card.Suit.DIAMOND, 4));
+        h2.addCard(new Card(Card.Suit.DIAMOND, 5));
+        h2.addCard(new Card(Card.Suit.DIAMOND, 6));
+        Hand h3 = new Hand();
+        h3.addCard(new Card(Card.Suit.HEART, 8));
+        h3.addCard(new Card(Card.Suit.CLUB, 11));
+
+        assertEquals(-1, BlackJack.compareHands(h1, h2));
+        assertEquals(1, BlackJack.compareHands(h2, h1));
+        assertEquals(0, BlackJack.compareHands(h2, h3));
+        assertEquals(0, BlackJack.compareHands(h2, h2));
+    }
+
+    @Test
+    public void stayTest(){
+        BlackJack b1 = new BlackJack("0", new Player(""));
+        Deck deck = b1.getDeck();
+        b1.getDealerHand().addCard(deck.getNextCard());
+        b1.getHands().get(0).addCard(deck.getNextCard());
+        b1.getDealerHand().addCard(deck.getNextCard());
+        b1.getHands().get(0).addCard(deck.getNextCard());
+
+        b1.hit();
+        b1.hit();
+        assertEquals(14,BlackJack.assessHand(b1.getDealerHand()));
+        assertEquals(17, BlackJack.assessHand(b1.getHand(0)));
+        assertEquals(BlackJack.WinState.LOSE, b1.stay());
+
+        b1 = new BlackJack("0", new Player(""));
+        deck = b1.getDeck();
+        b1.getHands().get(0).addCard(deck.getNextCard());
+        b1.getDealerHand().addCard(deck.getNextCard());
+        b1.getHands().get(0).addCard(deck.getNextCard());
+        b1.getDealerHand().addCard(deck.getNextCard());
+
+        b1.hit();
+
+        assertEquals(6,BlackJack.assessHand(b1.getDealerHand()));
+        assertEquals(19, BlackJack.assessHand(b1.getHand(0)));
+        assertEquals(BlackJack.WinState.TIE, b1.stay());
+
+        b1 = new BlackJack("0", new Player(""));
+        deck = b1.getDeck();
+        deck.getNextCard();
+        b1.getHands().get(0).addCard(deck.getNextCard());
+        b1.getDealerHand().addCard(deck.getNextCard());
+        b1.getHands().get(0).addCard(deck.getNextCard());
+        b1.getDealerHand().addCard(deck.getNextCard());
+
+        b1.hit();
+        b1.hit();
+
+        assertEquals(8,BlackJack.assessHand(b1.getDealerHand()));
+        assertEquals(19, BlackJack.assessHand(b1.getHand(0)));
+        assertEquals(BlackJack.WinState.WIN, b1.stay());
+
+    }
+
 }

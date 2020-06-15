@@ -6,9 +6,9 @@ public class HandReturn {
     private BlackJack.BlackJackState state;
     private int value;
     private String user;
-    private WinState winState;
+    private BlackJack.WinState winState;
 
-    public HandReturn (Hand playerHand,Hand dealerHand, BlackJack.BlackJackState state, int value, String user, WinState winState){
+    public HandReturn (Hand playerHand,Hand dealerHand, BlackJack.BlackJackState state, int value, String user, BlackJack.WinState winState){
         this.playerHand = playerHand;
         this.dealerHand = dealerHand;
         this.state = state;
@@ -23,7 +23,7 @@ public class HandReturn {
         this.state = state;
         this.value = value;
         this.user = user;
-        this.winState = WinState.NONE;
+        this.winState = BlackJack.WinState.NONE;
     }
     public HandReturn (){
         this.playerHand = null;
@@ -74,7 +74,5 @@ public class HandReturn {
         this.value = value;
     }
 
-    public enum WinState{
-        WIN, LOSE, TIE, NONE
-    }
+
 }
