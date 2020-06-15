@@ -17,6 +17,7 @@ public class BlackJackController {
     private AtomicLong ID;
 
     public BlackJackController(){
+        //TODO: Fix these tests to have the cards out of the deck
         games = new HashMap<>();
         Player p1 = new Player("0", new Hand());
         p1.addCardToHand(0, new Card(Card.Suit.SPADE, 1));
@@ -38,10 +39,7 @@ public class BlackJackController {
     @GetMapping("/api/blackjack/{id}")
     public HandReturn getHand(@PathVariable String id){
         if(!games.containsKey(id)) throw new GameDoesNotExist("Game does not exist");
-        Hand h1 = games.get(id).getHand(0);
-        int val = BlackJack.assessHand(h1);
-        String ID = games.get(id).getPlayers().get(0).getID();
-        return new HandReturn(h1, BlackJack.BlackJackState.toState(val), val, ID);
+        return createHandReturn(id);
     }
 
     @PostMapping(path = "/api/blackjack/newgame", consumes = "text/plain")
@@ -57,20 +55,22 @@ public class BlackJackController {
     public HandReturn deal(@PathVariable String id){
         if(!games.containsKey(id)) throw new GameDoesNotExist("Game does not exist");
         games.get(id).deal();
-        Hand h1 = games.get(id).getHand(0);
-        int val = BlackJack.assessHand(h1);
-        String ID = games.get(id).getPlayers().get(0).getID();
-        return new HandReturn(h1, BlackJack.BlackJackState.toState(val), val, ID);
+        return createHandReturn(id);
     }
 
     @PostMapping(path = "/api/blackjack/{id}/hit")
     public HandReturn hit(@PathVariable("id") String id) throws NoMoreCardsException{
         if(!games.containsKey(id)) throw new GameDoesNotExist("Game does not exist");
         games.get(id).hit();
+        return createHandReturn(id);
+    }
+
+    public HandReturn createHandReturn(String id){
         Hand h1 = games.get(id).getHand(0);
+        Hand h2 = games.get(id).getDealerHand();
         int val = BlackJack.assessHand(h1);
         String ID = games.get(id).getPlayers().get(0).getID();
-        return new HandReturn(h1, BlackJack.BlackJackState.toState(val), val, ID);
+        return new HandReturn(h1,h2, BlackJack.BlackJackState.toState(val), val, ID);
     }
 
     @ResponseStatus(value = HttpStatus.BAD_REQUEST, reason = "Game does not exist")
