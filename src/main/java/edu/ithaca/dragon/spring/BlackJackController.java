@@ -13,11 +13,15 @@ import java.util.concurrent.atomic.AtomicLong;
 @RestController
 public class BlackJackController {
 
+
+    //ToDO: need to add a few mappings to make new player, get games of player and make sure that updater player/game/server card is complete about 1.5 hours work so far"
     private Map<String, BlackJack> games;
+    private Map<String, Player> players;
     private AtomicLong ID;
 
     public BlackJackController(){
         games = new HashMap<>();
+        players = new HashMap<>();
 
         Player p1 = new Player("0", new Hand());
         BlackJack b1 = new BlackJack("0", p1);
@@ -67,9 +71,12 @@ public class BlackJackController {
     @PostMapping(path = "/api/blackjack/newgame", consumes = "text/plain")
     public TextInJsonResponse newGame(@RequestBody String player){
         Player p1 = new Player(player);
+        if(players.containsKey(player)) p1 = players.get(player);
+        else players.put(player, p1);
         String id = String.format("%07d", this.ID.getAndIncrement());
         if(games.containsKey(id)) throw new IllegalArgumentException("Game already Exists"); // This should never happen
         games.put(id, new BlackJack(id, p1));
+        p1.addGame(games.get(id));
         return new TextInJsonResponse(id);
     }
 
@@ -125,6 +132,10 @@ public class BlackJackController {
     @ResponseStatus(value = HttpStatus.BAD_REQUEST, reason = "No more cards in deck")
     @ExceptionHandler(NoMoreCardsException.class)
     public void noCardsException(){}
+
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST, reason = "Player Already Exist")
+    @ExceptionHandler(PlayerAlreadyExist.class)
+    public void playerExistsAlready(){}
 
 
 }
