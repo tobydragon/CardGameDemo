@@ -89,7 +89,11 @@ public class BlackJackController {
 
     @PostMapping(path = "/api/blackjack/{id}/stay")
     public HandReturn stay(@PathVariable("id") String id){
-        return new HandReturn();
+        if(!games.containsKey(id)) throw new GameDoesNotExist("Game does not exist");
+        BlackJack.WinState win = games.get(id).stay();
+        HandReturn hr = createHandReturn(id);
+        hr.setWinState(win);
+        return hr;
     }
 
     public HandReturn createHandReturn(String id){
