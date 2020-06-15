@@ -9,6 +9,7 @@ public class BlackJack {
     private List<Player> players;
     private List<Hand> hands;
     private Deck deck;
+    private Hand dealer;
 
     public BlackJack(String IDin, Player playerIn){
         ID = IDin;
@@ -18,6 +19,7 @@ public class BlackJack {
             playerIn.addHand(new Hand());
         hands = new ArrayList<>(playerIn.getHands());
         deck = new Deck();
+        dealer = new Hand();
     }
     public BlackJack(String IDin, ArrayList<Player> playerIn)throws IllegalArgumentException{
         ID = IDin;
@@ -41,6 +43,7 @@ public class BlackJack {
             hands.addAll(p.getHands());
         }
         deck = new Deck();
+        dealer = new Hand();
     }
 
     public String getID() {
@@ -51,16 +54,18 @@ public class BlackJack {
         return hands;
     }
 
-    public Hand getHand(int handIndex){
-        return hands.get(handIndex);
-    }
+    public Hand getHand(int handIndex){ return hands.get(handIndex);    }
+
+    public Hand getDealerHand() { return dealer; }
 
     public List<Player> getPlayers() {
         return players;
     }
 
-    public Deck getDeck() {
-        return deck;
+    public Deck getDeck() { return deck; }
+
+    public void setDeck(Deck deck) {
+        this.deck = deck;
     }
 
     public void deal(){
@@ -70,11 +75,13 @@ public class BlackJack {
             p.addHand(new Hand());
             hands.add(p.getHands().get(0));
         }
+        dealer = new Hand();
         deck.shuffle();
         for(int x =0; x < 2; x++){
-            for(Player p: players){
-                p.addCardToHand(0, deck.getNextCard());
+            for(Hand h: hands){
+                h.addCard( deck.getNextCard());
             }
+            dealer.addCard(deck.getNextCard());
         }
 
     }
@@ -114,5 +121,11 @@ public class BlackJack {
             ace --;
         }
         return total;
+    }
+
+    public void takeDealerTurn(){
+        while (assessHand(dealer) < 17 && deck.getDeck().size() > 0){
+            dealer.addCard(deck.getNextCard());
+        }
     }
 }
