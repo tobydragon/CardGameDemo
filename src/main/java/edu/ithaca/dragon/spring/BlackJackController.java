@@ -46,12 +46,15 @@ public class BlackJackController {
         games.put(b4.getID(), b4);
 
         Player p3 = new Player("0", new Hand());
-        BlackJack b5 = new BlackJack("stayTest", p3);
+        BlackJack b5 = new BlackJack("stayLose", p3);
         d1 = b5.getDeck();
-        p3.addCardToHand(0, d1.getNextCard());
+        b5.getDealerHand().addCard(d1.getNextCard());
         p3.addCardToHand(0, d1.getNextCard());
         b5.getDealerHand().addCard(d1.getNextCard());
-        b5.getDealerHand().addCard(d1.getNextCard());
+        p3.addCardToHand(0, d1.getNextCard());
+        b5.hit();
+        b5.hit();
+        games.put(b5.getID(), b5);
         ID = new AtomicLong(3);
     }
 
@@ -86,7 +89,7 @@ public class BlackJackController {
 
     @PostMapping(path = "/api/blackjack/{id}/stay")
     public HandReturn stay(@PathVariable("id") String id){
-        return null;
+        return new HandReturn();
     }
 
     public HandReturn createHandReturn(String id){

@@ -31,7 +31,7 @@ public class HandReturn {
         this.state = null;
         this.value = 0;
         this.user = "";
-        this.winState = null;
+        this.winState = BlackJack.WinState.NONE;
     }
 
     public int getValue() {
@@ -54,6 +54,10 @@ public class HandReturn {
         return user;
     }
 
+    public BlackJack.WinState getWinState() {
+        return winState;
+    }
+
     public void setDealerHand(Hand dealerHand) {
         this.dealerHand = dealerHand;
     }
@@ -74,5 +78,19 @@ public class HandReturn {
         this.value = value;
     }
 
+    public void setWinState(BlackJack.WinState winState) {
+        this.winState = winState;
+    }
 
+    @Override
+    public String toString() {
+        return "HandReturn{" +
+                "playerHand=" + playerHand +
+                ", dealerHand=" + dealerHand +
+                ", state=" + state +
+                ", value=" + value +
+                ", user='" + user + '\'' +
+                ", winState=" + winState +
+                '}';
+    }
 }

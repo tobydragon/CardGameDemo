@@ -8,11 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-
-
+import org.springframework.test.web.servlet.MvcResult;
 import java.util.ArrayList;
 import java.util.Dictionary;
-
 import static org.hamcrest.Matchers.*;
 import static org.hamcrest.Matchers.typeCompatibleWith;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -20,6 +18,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.junit.jupiter.api.Assertions.*;
+
 
 @WebMvcTest(BlackJackController.class)
 public class BlackJackControllerTest {
@@ -95,7 +95,11 @@ public class BlackJackControllerTest {
 
     @Test
     public void stayTest() throws Exception{
-
+        ObjectMapper mapper = new ObjectMapper();
+        MvcResult result = this.mockMvc.perform(post("/api/blackjack/stayLose/stay")).andExpect(status().isOk()).andReturn();
+        String content = result.getResponse().getContentAsString();
+        HandReturn hr = mapper.readValue(content, HandReturn.class);
+        assertEquals(BlackJack.WinState.LOSE, hr.getWinState());
     }
 
 
