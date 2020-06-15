@@ -77,17 +77,30 @@ public class BlackJackController {
     public HandReturn deal(@PathVariable String id){
         if(!games.containsKey(id)) throw new GameDoesNotExist("Game does not exist");
         games.get(id).deal();
-        return createHandReturn(id);
+        HandReturn hr = createHandReturn(id);
+        if(hr.getPlayerValue() == 21){
+            if(hr.getDealerValue() == 21)
+                hr.setWinState(BlackJack.WinState.TIE);
+            else
+                hr.setWinState(BlackJack.WinState.WIN);
+        }
+        else if(hr.getDealerValue() == 21){
+            hr.setWinState(BlackJack.WinState.LOSE);
+        }
+        return hr;
     }
 
     @PostMapping(path = "/api/blackjack/{id}/hit")
     public HandReturn hit(@PathVariable("id") String id) throws NoMoreCardsException{
         if(!games.containsKey(id)) throw new GameDoesNotExist("Game does not exist");
         games.get(id).hit();
-        return createHandReturn(id);
+        HandReturn hr = createHandReturn(id);
+        if(hr.getState() == BlackJack.BlackJackState.BUST)
+            hr.setWinState(BlackJack.WinState.LOSE);
+        return hr;
     }
 
-    @PostMapping(path = "/api/blackjack/{id}/stay")
+    @PutMapping(path = "/api/blackjack/{id}/stay")
     public HandReturn stay(@PathVariable("id") String id){
         if(!games.containsKey(id)) throw new GameDoesNotExist("Game does not exist");
         BlackJack.WinState win = games.get(id).stay();
