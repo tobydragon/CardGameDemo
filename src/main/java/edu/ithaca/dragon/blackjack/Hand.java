@@ -24,6 +24,10 @@ public class Hand {
         return cards;
     }
 
+    public void setCards(ArrayList<Card> cards) {
+        this.cards = cards;
+    }
+
     public int numCards(){return cards.size();}
 
     public void addCard(Card cardIn) throws IllegalArgumentException{
