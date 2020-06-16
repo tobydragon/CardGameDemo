@@ -74,14 +74,14 @@ public class BlackJackController {
         return hr;
     }
 
-    @GetMapping("/api/blackjack/user/{id}/game")
+    @GetMapping("/api/blackjack/user/{id}/game") // TODO: Fix this. thorws errors when its not suposed to
     public TextInJsonResponse getGame(@PathVariable("id") String id){
         if(!players.containsKey(id)) throw new PlayerDoesNotExist("Player does not exist");
         if(players.get(id).getGame() == null) return new TextInJsonResponse("");
         return new TextInJsonResponse(players.get(id).getGame().getID());
     }
 
-    @PutMapping(value = "/api/blackjack/user/create", consumes = "test/plain")
+    @PutMapping(value = "/api/blackjack/user/create", consumes = "text/plain")
     public boolean createPlayer(@RequestBody String id){
         if(!players.containsKey(id)){
             players.put(id, new Player(id));
