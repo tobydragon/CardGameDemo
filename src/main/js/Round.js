@@ -5,6 +5,7 @@ import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 
 import Hand from "./Hand"
+import PlayerHand from "./PlayerHand";
 
 export default class Round extends React.Component {
     constructor(props) {
@@ -15,12 +16,6 @@ export default class Round extends React.Component {
         this.state = {
             // gameId: props.gameId,
             // apiUrl: props.baseApiUrl+"/"+props.gameId,
-            playerCards: [
-                { suit: "spades", value: 2 },
-                { suit: "hearts", value: 4 },
-                { suit: "diamonds", value: 6 },
-                { suit: "hearts", value: 5 }
-            ],
             dealerCards: [
                 { suit: "spades", value: 5 },
                 { suit: "diamonds", value: 10 },
@@ -58,7 +53,7 @@ export default class Round extends React.Component {
                 </Row>
                 <Row>
                     <Col>
-                        <Hand ownerName={this.state.playerId} cards={this.state.playerCards}/>
+                        <PlayerHand/>
                     </Col>
                 </Row>
             </Container>
