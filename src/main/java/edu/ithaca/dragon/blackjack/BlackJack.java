@@ -94,6 +94,9 @@ public class BlackJack {
             return BLACKJACK;
         }
     }
+    public enum WinState{
+        WIN, LOSE, TIE, NONE
+    }
 
     public BlackJackState hit() throws NoMoreCardsException{
         try{
@@ -127,5 +130,19 @@ public class BlackJack {
         while (assessHand(dealer) < 17 && deck.getDeck().size() > 0){
             dealer.addCard(deck.getNextCard());
         }
+    }
+
+    public WinState stay(){
+        if(assessHand(hands.get(0)) > 21) return WinState.LOSE;
+        takeDealerTurn();
+        if(assessHand(dealer) > 21) return WinState.WIN;
+        int win = compareHands(hands.get(0), dealer);
+        if(win == 0) return WinState.TIE;
+        return win > 0 ? WinState.LOSE:WinState.WIN;
+    }
+
+    public static int compareHands(Hand rhs, Hand lhs){
+        if (assessHand(rhs) == assessHand(lhs)) return 0;
+        return assessHand(rhs) > assessHand(lhs) ? -1 : 1;
     }
 }

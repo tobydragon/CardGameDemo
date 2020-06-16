@@ -26,8 +26,8 @@ public class Card implements Comparable{
         SPADE,HEART,DIAMOND,CLUB
     }
 
-    private final Suit suit;
-    private final int value;
+    private Suit suit;
+    private int value;
 
     public Card(Suit suit, int value){
         int val = value;
@@ -37,12 +37,25 @@ public class Card implements Comparable{
         this.value= val;
     }
 
+    public Card(){
+        suit = null;
+        value = 0;
+    }
+
     public int getValue() {
         return value;
     }
 
     public Suit getSuit() {
         return suit;
+    }
+
+    public void setSuit(Suit suit){
+        this.suit = suit;
+    }
+
+    public void setValue(int value) {
+        this.value = value;
     }
 
     @Override
