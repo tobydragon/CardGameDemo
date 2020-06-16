@@ -2,6 +2,7 @@ import React from "react";
 import GameChooserForm from "./GameChooser";
 import BlackJackGame from "./BlackJackGame";
 import {postToServer} from "./Comm";
+import Round from "./Round"
 
 class BlackJackApp extends React.Component {
     constructor(props) {
@@ -48,5 +49,5 @@ class BlackJackApp extends React.Component {
 }
 
 export default function App() {
-    return <BlackJackApp />;
+    return <Round />;
 }

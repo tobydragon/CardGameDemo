@@ -1,35 +1,67 @@
 import React from "react";
 import {getFromServer, postToServer} from "./Comm";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+import Container from "react-bootstrap/Container";
 
-class round extends React.Component {
+import Hand from "./Hand"
+
+export default class Round extends React.Component {
     constructor(props) {
         super(props);
         this.handleHit = this.handleHit.bind(this);
         this.handleDeal = this.handleDeal.bind(this);
-        this.handleHandResponse = this.handleHandResponse.bind(this);
+        this.handleRoundStateResponse = this.handleRoundStateResponse.bind(this);
         this.state = {
-            gameId: props.gameId,
-            apiUrl: props.baseApiUrl+"/"+props.gameId
+            // gameId: props.gameId,
+            // apiUrl: props.baseApiUrl+"/"+props.gameId,
+            playerCards: [
+                { suit: "spades", value: 2 },
+                { suit: "hearts", value: 4 },
+                { suit: "diamonds", value: 6 },
+                { suit: "hearts", value: 5 }
+            ],
+            dealerCards: [
+                { suit: "spades", value: 5 },
+                { suit: "diamonds", value: 10 },
+            ],
+            playerId: "Susie"
         };
     }
 
     componentDidMount() {
-        getFromServer(this.state.apiUrl,"",this.handleHandResponse);
+        //getFromServer(this.state.apiUrl,"",this.handleHandResponse);
     }
 
-    handlePlayerHandResponse(responseJson){
-        this.setState({cards: responseJson.playerHand.cards})
-    }
-
-    handleDealerHandResponse(responseJson){
-        this.setState({cards: responseJson.dealerHand.cards})
+    handleRoundStateResponse(responseJson){
+        this.setState({
+            playerCards: responseJson.playerHand.cards,
+            dealerCards: responseJson.dealerHand.cards
+        })
     }
 
      handleHit() {
-         postToServer(this.state.apiUrl, "/hit", "", this.handlePlayerHandResponse);
+         postToServer(this.state.apiUrl, "/hit", "", this.handleRoundStateResponse);
      }
 
      handleDeal() {
-         postToServer(this.state.apiUrl, "/deal", "", this.handleHandResponse)
+         postToServer(this.state.apiUrl, "/deal", "", this.handleRoundStateResponse)
+     }
+
+     render(){
+        return (
+            <Container>
+                <Row>
+                    <Col>
+                        <Hand ownerName="Dealer" cards={this.state.dealerCards}/>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col>
+                        <Hand ownerName={this.state.playerId} cards={this.state.playerCards}/>
+                    </Col>
+                </Row>
+            </Container>
+        );
      }
  }
