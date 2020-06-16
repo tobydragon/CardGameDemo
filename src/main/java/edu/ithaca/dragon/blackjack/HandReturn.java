@@ -3,31 +3,20 @@ package edu.ithaca.dragon.blackjack;
 public class HandReturn {
     private Hand playerHand;
     private Hand dealerHand;
-    private BlackJack.BlackJackState state;
+    private BlackJack.RoundState state;
     private int playerValue;
     private int dealerValue;
     private String user;
-    private BlackJack.WinState winState;
 
-    public HandReturn (Hand playerHand,Hand dealerHand, BlackJack.BlackJackState state, int playerValue,int dealerValue, String user, BlackJack.WinState winState){
+    public HandReturn (Hand playerHand, Hand dealerHand, BlackJack.RoundState state, int playerValue, int dealerValue, String user ){
         this.playerHand = playerHand;
         this.dealerHand = dealerHand;
         this.state = state;
         this.playerValue = playerValue;
         this.dealerValue = dealerValue;
         this.user = user;
-        this.winState = winState;
     }
 
-    public HandReturn (Hand playerHand,Hand dealerHand, BlackJack.BlackJackState state, int playerValue, int dealerValue, String user){
-        this.playerHand = playerHand;
-        this.dealerHand = dealerHand;
-        this.state = state;
-        this.playerValue = playerValue;
-        this.dealerValue = dealerValue;
-        this.user = user;
-        this.winState = BlackJack.WinState.NONE;
-    }
     public HandReturn (){
         this.playerHand = null;
         this.dealerHand = null;
@@ -35,7 +24,6 @@ public class HandReturn {
         this.playerValue = 0;
         this.dealerValue = 0;
         this.user = "";
-        this.winState = BlackJack.WinState.NONE;
     }
 
     public int getPlayerValue() {
@@ -46,7 +34,7 @@ public class HandReturn {
         return dealerValue;
     }
 
-    public BlackJack.BlackJackState getState() {
+    public BlackJack.RoundState getState() {
         return state;
     }
 
@@ -62,10 +50,6 @@ public class HandReturn {
         return user;
     }
 
-    public BlackJack.WinState getWinState() {
-        return winState;
-    }
-
     public void setDealerHand(Hand dealerHand) {
         this.dealerHand = dealerHand;
     }
@@ -74,7 +58,7 @@ public class HandReturn {
         this.playerHand = playerHand;
     }
 
-    public void setState(BlackJack.BlackJackState state) {
+    public void setState(BlackJack.RoundState state) {
         this.state = state;
     }
 
@@ -90,9 +74,6 @@ public class HandReturn {
         this.dealerValue = dealerValue;
     }
 
-    public void setWinState(BlackJack.WinState winState) {
-        this.winState = winState;
-    }
 
     @Override
     public String toString() {
@@ -103,7 +84,6 @@ public class HandReturn {
                 ", playerValue=" + playerValue +
                 ", dealerValue=" + dealerValue +
                 ", user='" + user + '\'' +
-                ", winState=" + winState +
                 '}';
     }
 }

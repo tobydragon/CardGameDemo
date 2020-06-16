@@ -77,26 +77,17 @@ public class BlackJack {
 
     }
 
-    public enum BlackJackState{
-        UNDER,BLACKJACK,BUST;
-        public static BlackJackState toState(int val){
-            if(val > 21) return BUST;
-            if(val < 21) return UNDER;
-            return BLACKJACK;
-        }
-    }
-    public enum WinState{
-        WIN, LOSE, TIE, NONE
+    public enum RoundState{
+        BETTING, PLAYING, WON_BLACKJACK, WON_DEALER_BUST, WON_BEAT_DEALER, LOST_PLAYER_BUST, LOST_DEALER_BEATS_PLAYER, PUSH
     }
 
-    public BlackJackState hit() throws NoMoreCardsException{
+    public void hit() throws NoMoreCardsException{
         try{
             hands.get(0).addCard(deck.getNextCard());
         }
         catch(NoMoreCardsException e){
             throw new NoMoreCardsException(e.getMessage());
         }
-        return BlackJackState.toState(assessHand(hands.get(0)));
     }
 
     public static int assessHand(Hand h){
@@ -123,13 +114,13 @@ public class BlackJack {
         }
     }
 
-    public WinState stay(){
-        if(assessHand(hands.get(0)) > 21) return WinState.LOSE;
+    public RoundState stay(){
+        if(assessHand(hands.get(0)) > 21) return RoundState.LOST_PLAYER_BUST;
         takeDealerTurn();
-        if(assessHand(dealer) > 21) return WinState.WIN;
+        if(assessHand(dealer) > 21) return RoundState.WON_DEALER_BUST;
         int win = compareHands(hands.get(0), dealer);
-        if(win == 0) return WinState.TIE;
-        return win > 0 ? WinState.LOSE:WinState.WIN;
+        if(win == 0) return RoundState.PUSH;
+        return win > 0 ? RoundState.LOST_DEALER_BEATS_PLAYER:RoundState.WON_BEAT_DEALER;
     }
 
     public static int compareHands(Hand rhs, Hand lhs){

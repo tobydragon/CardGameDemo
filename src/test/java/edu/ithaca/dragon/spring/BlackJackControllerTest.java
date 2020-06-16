@@ -38,8 +38,8 @@ public class BlackJackControllerTest {
         c2.add(new Card(Card.Suit.DIAMOND, 10));
         c2.add(new Card(Card.Suit.DIAMOND, 12));
         Hand h2 = new Hand(c2);
-        HandReturn hr1 = new HandReturn(h1,new Hand(), BlackJack.BlackJackState.BLACKJACK,21, 0,"0");
-        HandReturn hr2 = new HandReturn(h2, new Hand(), BlackJack.BlackJackState.UNDER, 20, 0, "0");
+        HandReturn hr1 = new HandReturn(h1,new Hand(), null,21, 0,"0");
+        HandReturn hr2 = new HandReturn(h2, new Hand(), null, 20, 0, "0");
         ObjectMapper mapper = new ObjectMapper();
         String test = mapper.writeValueAsString(hr1);
         String test2 = mapper.writeValueAsString(hr2);
@@ -54,7 +54,7 @@ public class BlackJackControllerTest {
     public void newGameTest() throws Exception{
         ObjectMapper mapper = new ObjectMapper();
         Hand dud = new Hand();
-        HandReturn hr1 = new HandReturn(dud, dud, BlackJack.BlackJackState.UNDER, 0, 0, "Stephen");
+        HandReturn hr1 = new HandReturn(dud, dud, null, 0, 0, "Stephen");
         for(int x = 3; x < 10; x++){
             this.mockMvc.perform(post("/api/blackjack/newgame").contentType(MediaType.TEXT_PLAIN).content("Stephen"))
                     .andExpect(status().isOk()).andExpect(content().string(equalTo(String.format("{\"text\":\"%07d\"}", x))));
@@ -67,7 +67,7 @@ public class BlackJackControllerTest {
     public void dealTest() throws Exception{
         ObjectMapper mapper = new ObjectMapper();
         Hand dud = new Hand();
-        HandReturn hr1 = new HandReturn(dud,dud,BlackJack.BlackJackState.UNDER, 0, 0, "0");
+        HandReturn hr1 = new HandReturn(dud,dud,null, 0, 0, "0");
         String test = mapper.writeValueAsString(hr1);
         this.mockMvc.perform(post("/api/blackjack/test/deal")).andExpect(status().isOk());
         this.mockMvc.perform(post("/api/blackjack/test/deal")).andExpect(status().isOk())
@@ -79,7 +79,7 @@ public class BlackJackControllerTest {
     public void hitTest() throws Exception{
         ObjectMapper mapper = new ObjectMapper();
         Hand h1 = new Hand();
-        HandReturn dud = new HandReturn(h1, new Hand(), BlackJack.BlackJackState.UNDER, 11, 0, "0");
+        HandReturn dud = new HandReturn(h1, new Hand(), BlackJack.RoundState.PLAYING, 11, 0, "0");
         dud.getPlayerHand().addCard(new Card(Card.Suit.SPADE, 1));
         this.mockMvc.perform(post("/api/blackjack/test2/hit")).andExpect(status().isOk())
                 .andExpect(content().string(equalTo(mapper.writeValueAsString(dud))));
@@ -100,7 +100,7 @@ public class BlackJackControllerTest {
         MvcResult result = this.mockMvc.perform(put("/api/blackjack/stayLose/stay")).andExpect(status().isOk()).andReturn();
         String content = result.getResponse().getContentAsString();
         HandReturn hr = mapper.readValue(content, HandReturn.class);
-        assertEquals(BlackJack.WinState.LOSE, hr.getWinState());
+        assertEquals(BlackJack.RoundState.LOST_DEALER_BEATS_PLAYER, hr.getState());
     }
 
 
