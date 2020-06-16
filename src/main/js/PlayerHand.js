@@ -5,7 +5,6 @@ import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
 import ButtonToolbar from "react-bootstrap/ButtonToolbar";
-
 import Hand from "./Hand";
 
 export default class PlayerHand extends React.Component {

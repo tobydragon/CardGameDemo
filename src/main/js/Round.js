@@ -6,6 +6,7 @@ import Container from "react-bootstrap/Container";
 
 import Hand from "./Hand"
 import PlayerHand from "./PlayerHand";
+import DealerHand from "./DealerHand";
 
 export default class Round extends React.Component {
     constructor(props) {
@@ -54,7 +55,7 @@ export default class Round extends React.Component {
             <Container>
                 <Row>
                     <Col>
-                        <Hand ownerName="Dealer" cards={this.state.dealerCards}/>
+                        <DealerHand ownerName="Dealer"/>
                     </Col>
                 </Row>
                 <Row>
