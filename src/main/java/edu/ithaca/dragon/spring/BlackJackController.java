@@ -76,9 +76,19 @@ public class BlackJackController {
     }
 
     @GetMapping("/api/blackjack/user/{id}/game")
-    public String getGame(@PathVariable("id") String id){
+    public TextInJsonResponse getGame(@PathVariable("id") String id){
         if(!players.containsKey(id)) throw new PlayerDoesNotExist("Player does not exist");
-        return players.get(id).getGame().getID();
+        if(players.get(id).getGame() == null) return new TextInJsonResponse("");
+        return new TextInJsonResponse(players.get(id).getGame().getID());
+    }
+
+    @PutMapping(value = "/api/blackjack/user/create", consumes = "test/plain")
+    public boolean createPlayer(@RequestBody String id){
+        if(!players.containsKey(id)){
+            players.put(id, new Player(id));
+            return true;
+        }
+        return false;
     }
 
     public HandReturn createHandReturn(String id){
