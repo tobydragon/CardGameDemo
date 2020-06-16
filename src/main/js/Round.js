@@ -25,11 +25,11 @@ class round extends React.Component {
         this.setState({cards: responseJson.dealerHand.cards})
     }
 
-    handleHit() {
-        postToServer(this.state.apiUrl, "/hit", "", this.handlePlayerHandResponse);
-    }
+     handleHit() {
+         postToServer(this.state.apiUrl, "/hit", "", this.handlePlayerHandResponse);
+     }
 
-    handleDeal() {
-        postToServer(this.state.apiUrl, "/deal", "", this.handleHandResponse)
-    }
-}
+     handleDeal() {
+         postToServer(this.state.apiUrl, "/deal", "", this.handleHandResponse)
+     }
+ }
