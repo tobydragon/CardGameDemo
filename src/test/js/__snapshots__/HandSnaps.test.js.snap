@@ -1,0 +1,65 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`hand snapshots test 1`] = `
+<div
+  className="cardDeck card-group"
+>
+  <div
+    className="card"
+  >
+    <div
+      className="card-title h5"
+    >
+      6
+    </div>
+    <div
+      className="card-title h5"
+    >
+       of
+    </div>
+    <div
+      className="card-title h5"
+    >
+      diamonds
+    </div>
+  </div>
+  <div
+    className="card"
+  >
+    <div
+      className="card-title h5"
+    >
+      4
+    </div>
+    <div
+      className="card-title h5"
+    >
+       of
+    </div>
+    <div
+      className="card-title h5"
+    >
+      hearts
+    </div>
+  </div>
+  <div
+    className="card"
+  >
+    <div
+      className="card-title h5"
+    >
+      8
+    </div>
+    <div
+      className="card-title h5"
+    >
+       of
+    </div>
+    <div
+      className="card-title h5"
+    >
+      clubs
+    </div>
+  </div>
+</div>
+`;
