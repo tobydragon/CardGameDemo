@@ -8,7 +8,6 @@ import Hand from "./Hand";
 export default class DealerHand extends React.Component{
     constructor(props) {
         super(props);
-        this.handleDeal = this.handleDeal.bind(this);
         this.state={
             dealerCards: [
                 { suit: "spades", value: 5 },
@@ -17,9 +16,6 @@ export default class DealerHand extends React.Component{
         }
     }
 
-    handleDeal() {
-        postToServer(this.state.apiUrl, "/deal", "", this.handleRoundStateResponse)
-    }
 
     render(){
         return (
