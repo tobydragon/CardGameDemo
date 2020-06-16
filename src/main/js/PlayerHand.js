@@ -13,14 +13,14 @@ export default class PlayerHand extends React.Component {
         super(props);
         this.handleHit = this.handleHit.bind(this);
         this.handleDeal = this.handleDeal.bind(this);
-        this.handleRoundStateResponse = this.handleRoundStateResponse.bind(this);
         this.state={
             playerCards: [
                 { suit: "spades", value: 2 },
                 { suit: "hearts", value: 4 },
                 { suit: "diamonds", value: 6 },
                 { suit: "hearts", value: 5 }
-            ]
+            ],
+            playerId: "Susie"
         };
     }
 
