@@ -18,43 +18,6 @@ public class BlackJackController {
     public BlackJackController(){
         games = createTestGames();
         players = new HashMap<>();
-
-        /*Player p1 = new Player("0", new Hand());
-        BlackJack b1 = new BlackJack("0", p1);
-        Deck d1 = b1.getDeck();
-        d1.getDeck().remove(12);
-        d1.getDeck().add(1, new Card(Card.Suit.SPADE, 13));
-        p1.addCardToHand(0,d1.getNextCard());
-        p1.addCardToHand(0,d1.getNextCard());
-        games.put(b1.getID(), b1);
-
-
-        Player p2 = new Player("0", new Hand());
-        BlackJack b2 = new BlackJack("2", p2);
-        d1 = b2.getDeck();
-        d1.getDeck().remove(35);
-        d1.getDeck().remove(36);
-        d1.getDeck().add(0,new Card(Card.Suit.DIAMOND, 12));
-        d1.getDeck().add(0, new Card(Card.Suit.DIAMOND, 10));
-        p2.addCardToHand(0,d1.getNextCard());
-        p2.addCardToHand(0,d1.getNextCard());
-
-        BlackJack b3 = new BlackJack("test", new Player("0"));
-        BlackJack b4 = new BlackJack("test2", new Player("0"));
-        games.put(b2.getID(), b2);
-        games.put(b3.getID(), b3);
-        games.put(b4.getID(), b4);
-
-        Player p3 = new Player("0", new Hand());
-        BlackJack b5 = new BlackJack("stayLose", p3);
-        d1 = b5.getDeck();
-        b5.getDealerHand().addCard(d1.getNextCard());
-        p3.addCardToHand(0, d1.getNextCard());
-        b5.getDealerHand().addCard(d1.getNextCard());
-        p3.addCardToHand(0, d1.getNextCard());
-        b5.hit();
-        b5.hit();
-        games.put(b5.getID(), b5);*/
         ID = new AtomicLong(3);
     }
 
