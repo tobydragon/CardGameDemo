@@ -2,22 +2,24 @@ package edu.ithaca.dragon.spring;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.ithaca.dragon.blackjack.*;
-import org.assertj.core.util.diff.ChangeDelta;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
+
 import java.util.ArrayList;
-import java.util.Dictionary;
-import static org.hamcrest.Matchers.*;
-import static org.hamcrest.Matchers.typeCompatibleWith;
+import java.util.HashMap;
+import java.util.Map;
+
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.not;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.junit.jupiter.api.Assertions.*;
 
 
 @WebMvcTest(BlackJackController.class)
@@ -100,6 +102,8 @@ public class BlackJackControllerTest {
         HandReturn hr = mapper.readValue(content, HandReturn.class);
         assertEquals(BlackJack.WinState.LOSE, hr.getWinState());
     }
+
+
 
 
 }
