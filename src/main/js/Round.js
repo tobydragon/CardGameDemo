@@ -3,6 +3,8 @@ import {getFromServer, postToServer} from "./Comm";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
+import Table from "react-bootstrap/Table";
+import '../../main/resources/static/BlackJack.css'
 
 import Hand from "./Hand"
 import PlayerHand from "./PlayerHand";
@@ -60,6 +62,22 @@ export default class Round extends React.Component {
                                     handleDeal={this.handleDeal}
                         />
                     </Col>
+                </Row>
+                <Row>
+                    <Table striped bordered hover variant="dark">
+                        <thead>
+                            <tr>
+                                <th>Game ID:</th>
+                                <th>User ID:</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th>{this.state.gameId}</th>
+                                <th>{this.state.playerId}</th>
+                            </tr>
+                        </tbody>
+                    </Table>
                 </Row>
             </Container>
         );
