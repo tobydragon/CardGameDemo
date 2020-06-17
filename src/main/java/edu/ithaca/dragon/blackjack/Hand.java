@@ -40,6 +40,15 @@ public class Hand {
         cards.add(cardIn);
     }
 
+    public void removeCard(Card card){
+        for(int x =  0; x < cards.size(); x++){
+            if(card.compareTo(cards.get(x))==0){
+                cards.remove(x);
+                return;
+            }
+        }
+    }
+
     public void clearCards(){
         cards.clear();
     }

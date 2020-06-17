@@ -6,7 +6,7 @@ import java.util.List;
 public class BettingHand extends Hand{
 
     private double bet;
-    DecimalFormat df = new DecimalFormat("0.00");
+    public static DecimalFormat df = new DecimalFormat("0.00");
 
     public BettingHand(List<Card> cards, double bet){
         super(cards);

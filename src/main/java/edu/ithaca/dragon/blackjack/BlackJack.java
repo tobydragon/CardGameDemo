@@ -6,6 +6,7 @@ public class BlackJack {
     private final String ID;
     private Map<String, Player> players;
     private List<Hand> hands;
+    private BettingHand playerHand;
     private Deck deck;
     private Hand dealer;
 
@@ -16,6 +17,8 @@ public class BlackJack {
         if(playerIn.getHands().size() <= 0)
             playerIn.addHand(new Hand());
         hands = new ArrayList<>(playerIn.getHands());
+        playerIn.setBettingHand(new BettingHand(0.0));
+        playerHand = playerIn.getBettingHand();
         deck = new Deck();
         dealer = new Hand();
     }
@@ -54,6 +57,10 @@ public class BlackJack {
     }
 
     public Deck getDeck() { return deck; }
+
+    public BettingHand getPlayerHand() {
+        return playerHand;
+    }
 
     public void setDeck(Deck deck) {
         this.deck = deck;
