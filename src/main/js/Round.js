@@ -24,7 +24,9 @@ export default class Round extends React.Component {
     }
 
     componentDidMount() {
-        getFromServer(this.state.apiUrl,"",this.handleRoundStateResponse);
+        getFromServer(this.state.apiUrl,"")
+            .then(jsonResponse => this.handleRoundStateResponse(jsonResponse))
+            .catch(errorResponse=>console.error("In Round.componentDidMount: no state loaded, \n" + errorResponse));
     }
 
     handleRoundStateResponse(responseJson){
