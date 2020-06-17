@@ -28,8 +28,6 @@ export default class Round extends React.Component {
     }
 
     handleRoundStateResponse(responseJson){
-        console.log("In Round.handleRoundStateResponse");
-        console.log(responseJson);
         this.setState({
             playerCards: responseJson.playerHand.cards,
             dealerCards: responseJson.dealerHand.cards
