@@ -54,9 +54,9 @@ public class BlackJackControllerTest {
     public void newGameTest() throws Exception{
         ObjectMapper mapper = new ObjectMapper();
         Hand dud = new Hand();
-        HandReturn hr1 = new HandReturn(dud, dud, null, 0, 0, "Stephen");
+        HandReturn hr1 = new HandReturn(dud, dud, null, 0, 0, "stephen");
         for(int x = 3; x < 10; x++){
-            this.mockMvc.perform(post("/api/blackjack/newgame").contentType(MediaType.TEXT_PLAIN).content("Stephen"))
+            this.mockMvc.perform(post("/api/blackjack/newgame").contentType(MediaType.APPLICATION_JSON_VALUE).content("{\"text\":\"stephen\"}"))
                     .andExpect(status().isOk()).andExpect(content().string(equalTo(String.format("{\"text\":\"%07d\"}", x))));
             this.mockMvc.perform(get(String.format("/api/blackjack/%07d", x))).andDo(print()).andExpect(status().isOk())
                     .andExpect(content().string(equalTo(mapper.writeValueAsString(hr1))));
