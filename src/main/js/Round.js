@@ -14,27 +14,21 @@ export default class Round extends React.Component {
         this.handleDeal = this.handleDeal.bind(this);
         this.handleRoundStateResponse = this.handleRoundStateResponse.bind(this);
         this.state = {
-            // gameId: props.gameId,
-            // apiUrl: props.baseApiUrl+"/"+props.gameId,
-            playerCards: [
-                { suit: "spades", value: 2 },
-                { suit: "hearts", value: 4 },
-                { suit: "diamonds", value: 6 },
-                { suit: "hearts", value: 5 }
-            ],
-            dealerCards: [
-                { suit: "spades", value: 5 },
-                { suit: "diamonds", value: 10 },
-            ],
-            playerId: "Susie"
+            gameId: props.gameId,
+            apiUrl: props.baseApiUrl+"/"+props.gameId,
+            playerId: props.playerId,
+            playerCards: [],
+            dealerCards: [],
+
         };
     }
 
     componentDidMount() {
-        //getFromServer(this.state.apiUrl,"",this.handleHandResponse);
+        getFromServer(this.state.apiUrl,"",this.handleRoundStateResponse);
     }
 
     handleRoundStateResponse(responseJson){
+        console.log("In Round.handleRoundStateResponse");
         console.log(responseJson);
         this.setState({
             playerCards: responseJson.playerHand.cards,
