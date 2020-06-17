@@ -1,6 +1,7 @@
 import Card from "react-bootstrap/Card";
 import CardGroup from "react-bootstrap/CardGroup";
 import React from "react";
+import {Container} from "react-bootstrap";
 
 export default function Hand(props) {
     //using react-bootstrap data structure called Card, not to be confused with also talking about playing cards
@@ -11,5 +12,11 @@ export default function Hand(props) {
             <Card.Title>{aCardModel.suit}</Card.Title>
         </Card>
     ));
-    return <CardGroup className="cardDeck">{cardsArray}</CardGroup>;
+    return (
+        <Container>
+            {props.ownerName}
+            <CardGroup className="cardDeck">{cardsArray}</CardGroup>
+        </Container>
+
+    );
 }

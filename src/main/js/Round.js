@@ -6,7 +6,6 @@ import Container from "react-bootstrap/Container";
 
 import Hand from "./Hand"
 import PlayerHand from "./PlayerHand";
-import DealerHand from "./DealerHand";
 
 export default class Round extends React.Component {
     constructor(props) {
@@ -36,6 +35,7 @@ export default class Round extends React.Component {
     }
 
     handleRoundStateResponse(responseJson){
+        console.log(responseJson);
         this.setState({
             playerCards: responseJson.playerHand.cards,
             dealerCards: responseJson.dealerHand.cards
@@ -55,12 +55,16 @@ export default class Round extends React.Component {
             <Container>
                 <Row>
                     <Col>
-                        <DealerHand ownerName="Dealer"/>
+                        <Hand ownerName="Dealer" cards={this.state.dealerCards}/>
                     </Col>
                 </Row>
                 <Row>
                     <Col>
-                        <PlayerHand ownerName={this.state.playerId}/>
+                        <PlayerHand ownerName={this.state.playerId}
+                                    cards={this.state.playerCards}
+                                    handleHit={this.handleHit}
+                                    handleDeal={this.handleDeal}
+                        />
                     </Col>
                 </Row>
             </Container>

@@ -10,25 +10,12 @@ import Hand from "./Hand";
 export default class PlayerHand extends React.Component {
     constructor(props) {
         super(props);
-        this.handleHit = this.handleHit.bind(this);
-        this.handleDeal = this.handleDeal.bind(this);
         this.state={
-            playerCards: [
-                { suit: "spades", value: 2 },
-                { suit: "hearts", value: 4 },
-                { suit: "diamonds", value: 6 },
-                { suit: "hearts", value: 5 }
-            ],
-            playerId: "Susie"
+            ownerName:props.ownerName,
+            cards: props.cards,
+            handleHit: props.handleHit,
+            handleDeal: props.handleDeal,
         };
-    }
-
-    handleHit() {
-        postToServer(this.state.apiUrl, "/hit", "", this.handleRoundStateResponse);
-    }
-
-    handleDeal() {
-        postToServer(this.state.apiUrl, "/deal", "", this.handleRoundStateResponse)
     }
 
     render(){
@@ -36,8 +23,8 @@ export default class PlayerHand extends React.Component {
             <Container>
                 <Row>
                     <Col>
-                        <Hand ownerName={this.state.playerId} cards={this.state.playerCards}/>
-                        <HandButtons/>
+                        <Hand ownerName={this.state.ownerName} cards={this.state.cards}/>
+                        <HandButtons onHitClick={this.state.handleHit} onDealClick={this.props.handleDeal}/>
                     </Col>
                 </Row>
             </Container>
@@ -48,16 +35,22 @@ export default class PlayerHand extends React.Component {
 class HandButtons extends React.Component {
     constructor(props) {
         super(props);
+
         this.handleHitClick = this.handleHitClick.bind(this);
         this.handleDealClick = this.handleDealClick.bind(this);
+        this.state = {
+            onHitClick: props.onHitClick,
+            onDealClick: props.onDealClick,
+        }
+
     }
 
     handleHitClick(e) {
-        this.props.onHitClick();
+        this.state.onHitClick();
     }
 
     handleDealClick(e) {
-        this.props.onDealClick();
+        this.state.onDealClick();
     }
 
     render() {

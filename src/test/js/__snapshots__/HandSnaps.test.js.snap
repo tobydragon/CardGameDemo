@@ -2,139 +2,143 @@
 
 exports[`bigHandEx snapshots test 1`] = `
 <div
-  className="cardDeck card-group"
+  className="container"
 >
   <div
-    className="card"
+    className="cardDeck card-group"
   >
     <div
-      className="card-title h5"
+      className="card"
     >
-      2
+      <div
+        className="card-title h5"
+      >
+        2
+      </div>
+      <div
+        className="card-title h5"
+      >
+         of
+      </div>
+      <div
+        className="card-title h5"
+      >
+        spades
+      </div>
     </div>
     <div
-      className="card-title h5"
+      className="card"
     >
-       of
+      <div
+        className="card-title h5"
+      >
+        4
+      </div>
+      <div
+        className="card-title h5"
+      >
+         of
+      </div>
+      <div
+        className="card-title h5"
+      >
+        hearts
+      </div>
     </div>
     <div
-      className="card-title h5"
+      className="card"
     >
-      spades
-    </div>
-  </div>
-  <div
-    className="card"
-  >
-    <div
-      className="card-title h5"
-    >
-      4
-    </div>
-    <div
-      className="card-title h5"
-    >
-       of
-    </div>
-    <div
-      className="card-title h5"
-    >
-      hearts
-    </div>
-  </div>
-  <div
-    className="card"
-  >
-    <div
-      className="card-title h5"
-    >
-      2
+      <div
+        className="card-title h5"
+      >
+        2
+      </div>
+      <div
+        className="card-title h5"
+      >
+         of
+      </div>
+      <div
+        className="card-title h5"
+      >
+        diamonds
+      </div>
     </div>
     <div
-      className="card-title h5"
+      className="card"
     >
-       of
+      <div
+        className="card-title h5"
+      >
+        5
+      </div>
+      <div
+        className="card-title h5"
+      >
+         of
+      </div>
+      <div
+        className="card-title h5"
+      >
+        hearts
+      </div>
     </div>
     <div
-      className="card-title h5"
+      className="card"
     >
-      diamonds
-    </div>
-  </div>
-  <div
-    className="card"
-  >
-    <div
-      className="card-title h5"
-    >
-      5
-    </div>
-    <div
-      className="card-title h5"
-    >
-       of
-    </div>
-    <div
-      className="card-title h5"
-    >
-      hearts
-    </div>
-  </div>
-  <div
-    className="card"
-  >
-    <div
-      className="card-title h5"
-    >
-      3
+      <div
+        className="card-title h5"
+      >
+        3
+      </div>
+      <div
+        className="card-title h5"
+      >
+         of
+      </div>
+      <div
+        className="card-title h5"
+      >
+        hearts
+      </div>
     </div>
     <div
-      className="card-title h5"
+      className="card"
     >
-       of
+      <div
+        className="card-title h5"
+      >
+        2
+      </div>
+      <div
+        className="card-title h5"
+      >
+         of
+      </div>
+      <div
+        className="card-title h5"
+      >
+        clubs
+      </div>
     </div>
     <div
-      className="card-title h5"
+      className="card"
     >
-      hearts
-    </div>
-  </div>
-  <div
-    className="card"
-  >
-    <div
-      className="card-title h5"
-    >
-      2
-    </div>
-    <div
-      className="card-title h5"
-    >
-       of
-    </div>
-    <div
-      className="card-title h5"
-    >
-      clubs
-    </div>
-  </div>
-  <div
-    className="card"
-  >
-    <div
-      className="card-title h5"
-    >
-      2
-    </div>
-    <div
-      className="card-title h5"
-    >
-       of
-    </div>
-    <div
-      className="card-title h5"
-    >
-      hearts
+      <div
+        className="card-title h5"
+      >
+        2
+      </div>
+      <div
+        className="card-title h5"
+      >
+         of
+      </div>
+      <div
+        className="card-title h5"
+      >
+        hearts
+      </div>
     </div>
   </div>
 </div>
@@ -142,69 +146,77 @@ exports[`bigHandEx snapshots test 1`] = `
 
 exports[`noCardHandEx snapshots test 1`] = `
 <div
-  className="cardDeck card-group"
-/>
+  className="container"
+>
+  <div
+    className="cardDeck card-group"
+  />
+</div>
 `;
 
 exports[`regHandEx snapshots test 1`] = `
 <div
-  className="cardDeck card-group"
+  className="container"
 >
   <div
-    className="card"
+    className="cardDeck card-group"
   >
     <div
-      className="card-title h5"
+      className="card"
     >
-      6
+      <div
+        className="card-title h5"
+      >
+        6
+      </div>
+      <div
+        className="card-title h5"
+      >
+         of
+      </div>
+      <div
+        className="card-title h5"
+      >
+        diamonds
+      </div>
     </div>
     <div
-      className="card-title h5"
+      className="card"
     >
-       of
+      <div
+        className="card-title h5"
+      >
+        4
+      </div>
+      <div
+        className="card-title h5"
+      >
+         of
+      </div>
+      <div
+        className="card-title h5"
+      >
+        hearts
+      </div>
     </div>
     <div
-      className="card-title h5"
+      className="card"
     >
-      diamonds
-    </div>
-  </div>
-  <div
-    className="card"
-  >
-    <div
-      className="card-title h5"
-    >
-      4
-    </div>
-    <div
-      className="card-title h5"
-    >
-       of
-    </div>
-    <div
-      className="card-title h5"
-    >
-      hearts
-    </div>
-  </div>
-  <div
-    className="card"
-  >
-    <div
-      className="card-title h5"
-    >
-      8
-    </div>
-    <div
-      className="card-title h5"
-    >
-       of
-    </div>
-    <div
-      className="card-title h5"
-    >
-      clubs
+      <div
+        className="card-title h5"
+      >
+        8
+      </div>
+      <div
+        className="card-title h5"
+      >
+         of
+      </div>
+      <div
+        className="card-title h5"
+      >
+        clubs
+      </div>
     </div>
   </div>
 </div>
@@ -212,25 +224,29 @@ exports[`regHandEx snapshots test 1`] = `
 
 exports[`singleCardHandEx snapshots test 1`] = `
 <div
-  className="cardDeck card-group"
+  className="container"
 >
   <div
-    className="card"
+    className="cardDeck card-group"
   >
     <div
-      className="card-title h5"
+      className="card"
     >
-      2
-    </div>
-    <div
-      className="card-title h5"
-    >
-       of
-    </div>
-    <div
-      className="card-title h5"
-    >
-      spades
+      <div
+        className="card-title h5"
+      >
+        2
+      </div>
+      <div
+        className="card-title h5"
+      >
+         of
+      </div>
+      <div
+        className="card-title h5"
+      >
+        spades
+      </div>
     </div>
   </div>
 </div>
