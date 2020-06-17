@@ -1,24 +1,32 @@
 package edu.ithaca.dragon.blackjack;
 
+import edu.ithaca.dragon.spring.GameAlreadyExist;
+import edu.ithaca.dragon.spring.GameDoesNotExist;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class Player implements Comparable {
     private final String ID;
     private List<Hand> hands;
+    private BlackJack game;
 
     public Player(String IDin){
         hands = new ArrayList<>();
         ID = IDin;
+        game = null;
     }
     public Player(String IDin, Hand startingHand){
         ID = IDin;
         hands = new ArrayList<>();
         hands.add(startingHand);
+        game = null;
     }
     public Player(String IDin, List<Hand> startingHands){
         ID = IDin;
         hands = new ArrayList<>(startingHands);
+        game = null;
     }
 
     public List<Hand> getHands() {
@@ -43,6 +51,23 @@ public class Player implements Comparable {
 
     public void clearHands(){
         hands.clear();
+    }
+
+    /**
+     * This replaces the current game with the input game
+     * @param game
+     *
+     */
+    public void setGame(BlackJack game){
+        this.game = game;
+    }
+
+    public void removeGame(String id){
+        this.game = null;
+    }
+
+    public BlackJack getGame(){
+        return this.game;
     }
 
     @Override

@@ -1,20 +1,18 @@
 package edu.ithaca.dragon.blackjack;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Collections;
+import java.util.*;
 
 public class BlackJack {
     private final String ID;
-    private List<Player> players;
+    private Map<String, Player> players;
     private List<Hand> hands;
     private Deck deck;
     private Hand dealer;
 
     public BlackJack(String IDin, Player playerIn){
         ID = IDin;
-        players = new ArrayList<>();
-        players.add(playerIn);
+        players = new HashMap<>();
+        players.put(playerIn.getID(), playerIn);
         if(playerIn.getHands().size() <= 0)
             playerIn.addHand(new Hand());
         hands = new ArrayList<>(playerIn.getHands());
@@ -24,20 +22,13 @@ public class BlackJack {
     public BlackJack(String IDin, ArrayList<Player> playerIn)throws IllegalArgumentException{
         ID = IDin;
 
-        //This section duplicates playerIn and sorts it so that if there are duplicates they would be next to each other.
-        //The duplication is to preserve the original order of the incoming players.
-        //It then checks all side by side paris and if any of them are the same it throws an error
-        List<Player> toSort = new ArrayList<>(playerIn);
-        Collections.sort(toSort);
-        for(int x = 0; x < toSort.size()-1; x++){
-            if(toSort.get(x).compareTo(toSort.get(x+1)) == 0)
-                throw new IllegalArgumentException("Cannot have 2 players with the same ID");
+        players = new HashMap<>();
+        for(Player p: playerIn){
+            if(players.containsKey(p.getID())) throw new IllegalArgumentException("Cannot have 2 players with the same ID");
+            players.put(p.getID(), p);
         }
-
-
-        players = new ArrayList<>(playerIn);
         hands = new ArrayList<>();
-        for(Player p : players){
+        for(Player p : players.values()){
             if(p.getHands().size() <= 0)
                 p.addHand(new Hand());
             hands.addAll(p.getHands());
@@ -59,7 +50,7 @@ public class BlackJack {
     public Hand getDealerHand() { return dealer; }
 
     public List<Player> getPlayers() {
-        return players;
+        return new ArrayList<>(players.values());
     }
 
     public Deck getDeck() { return deck; }
@@ -70,7 +61,7 @@ public class BlackJack {
 
     public void deal(){
         hands.clear();
-        for(Player p : players){
+        for(Player p : players.values()){
             p.clearHands();
             p.addHand(new Hand());
             hands.add(p.getHands().get(0));
@@ -86,26 +77,17 @@ public class BlackJack {
 
     }
 
-    public enum BlackJackState{
-        UNDER,BLACKJACK,BUST;
-        public static BlackJackState toState(int val){
-            if(val > 21) return BUST;
-            if(val < 21) return UNDER;
-            return BLACKJACK;
-        }
-    }
-    public enum WinState{
-        WIN, LOSE, TIE, NONE
+    public enum RoundState{
+        BETTING, PLAYING, WON_BLACKJACK, WON_DEALER_BUST, WON_BEAT_DEALER, LOST_PLAYER_BUST, LOST_DEALER_BEATS_PLAYER, PUSH
     }
 
-    public BlackJackState hit() throws NoMoreCardsException{
+    public void hit() throws NoMoreCardsException{
         try{
             hands.get(0).addCard(deck.getNextCard());
         }
         catch(NoMoreCardsException e){
             throw new NoMoreCardsException(e.getMessage());
         }
-        return BlackJackState.toState(assessHand(hands.get(0)));
     }
 
     public static int assessHand(Hand h){
@@ -132,13 +114,13 @@ public class BlackJack {
         }
     }
 
-    public WinState stay(){
-        if(assessHand(hands.get(0)) > 21) return WinState.LOSE;
+    public RoundState stay(){
+        if(assessHand(hands.get(0)) > 21) return RoundState.LOST_PLAYER_BUST;
         takeDealerTurn();
-        if(assessHand(dealer) > 21) return WinState.WIN;
+        if(assessHand(dealer) > 21) return RoundState.WON_DEALER_BUST;
         int win = compareHands(hands.get(0), dealer);
-        if(win == 0) return WinState.TIE;
-        return win > 0 ? WinState.LOSE:WinState.WIN;
+        if(win == 0) return RoundState.PUSH;
+        return win > 0 ? RoundState.LOST_DEALER_BEATS_PLAYER:RoundState.WON_BEAT_DEALER;
     }
 
     public static int compareHands(Hand rhs, Hand lhs){

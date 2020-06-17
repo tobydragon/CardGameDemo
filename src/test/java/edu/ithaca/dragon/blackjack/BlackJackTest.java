@@ -167,15 +167,20 @@ public class BlackJackTest {
         assertThrows(NoMoreCardsException.class, ()-> b1.hit());
 
         BlackJack b2 = new BlackJack("0", new Player("0"));
-
-        assertEquals(BlackJack.BlackJackState.UNDER, b2.hit());
-        assertEquals(BlackJack.BlackJackState.UNDER, b2.hit());
-        assertEquals(BlackJack.BlackJackState.UNDER, b2.hit());
-        assertEquals(BlackJack.BlackJackState.UNDER, b2.hit());
-        assertEquals(BlackJack.BlackJackState.UNDER, b2.hit());
-        assertEquals(BlackJack.BlackJackState.BLACKJACK, b2.hit());
-        assertEquals(BlackJack.BlackJackState.BUST, b2.hit());
-
+        b2.hit();
+        assertTrue(BlackJack.assessHand(b2.getHand(0)) < 21);
+        b2.hit();
+        assertTrue(BlackJack.assessHand(b2.getHand(0)) < 21);
+        b2.hit();
+        assertTrue(BlackJack.assessHand(b2.getHand(0)) < 21);
+        b2.hit();
+        assertTrue(BlackJack.assessHand(b2.getHand(0)) < 21);
+        b2.hit();
+        assertTrue(BlackJack.assessHand(b2.getHand(0)) < 21);
+        b2.hit();
+        assertTrue(BlackJack.assessHand(b2.getHand(0)) == 21);
+        b2.hit();
+        assertTrue(BlackJack.assessHand(b2.getHand(0)) > 21);
 
     }
 
@@ -345,7 +350,7 @@ public class BlackJackTest {
         b1.hit();
         assertEquals(14,BlackJack.assessHand(b1.getDealerHand()));
         assertEquals(17, BlackJack.assessHand(b1.getHand(0)));
-        assertEquals(BlackJack.WinState.LOSE, b1.stay());
+        assertEquals(BlackJack.RoundState.LOST_DEALER_BEATS_PLAYER, b1.stay());
 
         b1 = new BlackJack("0", new Player(""));
         deck = b1.getDeck();
@@ -358,7 +363,7 @@ public class BlackJackTest {
 
         assertEquals(6,BlackJack.assessHand(b1.getDealerHand()));
         assertEquals(19, BlackJack.assessHand(b1.getHand(0)));
-        assertEquals(BlackJack.WinState.TIE, b1.stay());
+        assertEquals(BlackJack.RoundState.PUSH, b1.stay());
 
         b1 = new BlackJack("0", new Player(""));
         deck = b1.getDeck();
@@ -373,7 +378,7 @@ public class BlackJackTest {
 
         assertEquals(8,BlackJack.assessHand(b1.getDealerHand()));
         assertEquals(19, BlackJack.assessHand(b1.getHand(0)));
-        assertEquals(BlackJack.WinState.WIN, b1.stay());
+        assertEquals(BlackJack.RoundState.WON_DEALER_BUST, b1.stay());
 
     }
 
