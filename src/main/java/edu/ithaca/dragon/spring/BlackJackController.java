@@ -27,11 +27,17 @@ public class BlackJackController {
         return createHandReturn(id, null);
     }
 
-    @PostMapping(path = "/api/blackjack/newgame", consumes = "text/plain")
-    public TextInJsonResponse newGame(@RequestBody String player){
+    @PostMapping(path = "/api/blackjack/newgame", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public TextInJsonResponse newGame(@RequestBody TextInJsonResponse in){
+        String player = in.getText();
+        player = player.toLowerCase();
         Player p1 = new Player(player);
-        if(players.containsKey(player)) p1 = players.get(player);
-        else players.put(player, p1);
+        if(players.containsKey(player)) {
+            p1 = players.get(player);
+        }
+        else {
+            players.put(player, p1);
+        }
         String id = String.format("%07d", this.ID.getAndIncrement());
         if(games.containsKey(id)) throw new GameAlreadyExist("Game already Exists"); // This should never happen
         games.put(id, new BlackJack(id, p1));
@@ -74,15 +80,17 @@ public class BlackJackController {
         return hr;
     }
 
-    @GetMapping("/api/blackjack/user/{id}/game") // TODO: Fix this. thorws errors when its not suposed to
-    public TextInJsonResponse getGame(@PathVariable("id") String id){
-        if(!players.containsKey(id)) throw new PlayerDoesNotExist("Player does not exist");
+    @GetMapping(value = "/api/blackjack/user/game", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public TextInJsonResponse getGame(@RequestBody TextInJsonResponse in){
+        String id = in.getText().toLowerCase();
+        if(!players.containsKey(id)) throw new PlayerDoesNotExist("Player: " + id + " does not exist");
         if(players.get(id).getGame() == null) return new TextInJsonResponse("");
         return new TextInJsonResponse(players.get(id).getGame().getID());
     }
 
-    @PutMapping(value = "/api/blackjack/user/create", consumes = "text/plain")
-    public boolean createPlayer(@RequestBody String id){
+    @PutMapping(value = "/api/blackjack/user/create", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public boolean createPlayer(@RequestBody TextInJsonResponse in){
+        String id = in.getText().toLowerCase();
         if(!players.containsKey(id)){
             players.put(id, new Player(id));
             return true;
