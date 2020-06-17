@@ -4,7 +4,6 @@ import edu.ithaca.dragon.blackjack.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -12,13 +11,125 @@ import java.util.concurrent.atomic.AtomicLong;
 
 @RestController
 public class BlackJackController {
-
     private Map<String, BlackJack> games;
+    private Map<String, Player> players;
     private AtomicLong ID;
 
     public BlackJackController(){
-        games = new HashMap<>();
+        games = createTestGames();
+        players = new HashMap<>();
+        ID = new AtomicLong(3);
+    }
 
+    @GetMapping("/api/blackjack/{id}")
+    public HandReturn getHand(@PathVariable String id){
+        if(!games.containsKey(id)) throw new GameDoesNotExist("Game does not exist");
+        return createHandReturn(id, null);
+    }
+
+    @PostMapping(path = "/api/blackjack/newgame", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public TextInJsonResponse newGame(@RequestBody TextInJsonResponse in){
+        String player = in.getText();
+        player = player.toLowerCase();
+        Player p1 = new Player(player);
+        if(players.containsKey(player)) {
+            p1 = players.get(player);
+        }
+        else {
+            players.put(player, p1);
+        }
+        String id = String.format("%07d", this.ID.getAndIncrement());
+        if(games.containsKey(id)) throw new GameAlreadyExist("Game already Exists"); // This should never happen
+        games.put(id, new BlackJack(id, p1));
+        p1.setGame(games.get(id));
+        return new TextInJsonResponse(id);
+    }
+
+    @PostMapping(path = "/api/blackjack/{id}/deal")
+    public HandReturn deal(@PathVariable String id){
+        if(!games.containsKey(id)) throw new GameDoesNotExist("Game does not exist");
+        games.get(id).deal();
+        HandReturn hr = createHandReturn(id, BlackJack.RoundState.PLAYING);
+        if(hr.getPlayerValue() == 21){
+            if(hr.getDealerValue() == 21)
+                hr.setState(BlackJack.RoundState.PUSH);
+            else
+                hr.setState(BlackJack.RoundState.WON_BLACKJACK);
+        }
+        else if(hr.getDealerValue() == 21){
+            hr.setState(BlackJack.RoundState.LOST_DEALER_BEATS_PLAYER);
+        }
+        return hr;
+    }
+
+    @PostMapping(path = "/api/blackjack/{id}/hit")
+    public HandReturn hit(@PathVariable("id") String id) throws NoMoreCardsException{
+        if(!games.containsKey(id)) throw new GameDoesNotExist("Game does not exist");
+        BlackJack.RoundState state = BlackJack.RoundState.PLAYING;
+        games.get(id).hit();
+        if(BlackJack.assessHand(games.get(id).getHand(0)) > 21) state = BlackJack.RoundState.LOST_PLAYER_BUST;
+        HandReturn hr = createHandReturn(id, state);
+        return hr;
+    }
+
+    @PutMapping(path = "/api/blackjack/{id}/stay")
+    public HandReturn stay(@PathVariable("id") String id){
+        if(!games.containsKey(id)) throw new GameDoesNotExist("Game does not exist");
+        BlackJack.RoundState state = games.get(id).stay();
+        HandReturn hr = createHandReturn(id, state);
+        return hr;
+    }
+
+    @GetMapping(value = "/api/blackjack/user/game", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public TextInJsonResponse getGame(@RequestBody TextInJsonResponse in){
+        String id = in.getText().toLowerCase();
+        if(!players.containsKey(id)) throw new PlayerDoesNotExist("Player: " + id + " does not exist");
+        if(players.get(id).getGame() == null) return new TextInJsonResponse("");
+        return new TextInJsonResponse(players.get(id).getGame().getID());
+    }
+
+    @PutMapping(value = "/api/blackjack/user/create", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public boolean createPlayer(@RequestBody TextInJsonResponse in){
+        String id = in.getText().toLowerCase();
+        if(!players.containsKey(id)){
+            players.put(id, new Player(id));
+            return true;
+        }
+        return false;
+    }
+
+    public HandReturn createHandReturn(String id, BlackJack.RoundState state){
+        Hand h1 = games.get(id).getHand(0);
+        Hand h2 = games.get(id).getDealerHand();
+        int val = BlackJack.assessHand(h1);
+        int dealerVal = BlackJack.assessHand(h2);
+        String ID = games.get(id).getPlayers().get(0).getID();
+        return new HandReturn(h1,h2, state,val, dealerVal, ID);
+    }
+
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST, reason = "Game does not exist")
+    @ExceptionHandler(GameDoesNotExist.class)
+    public void noGameException(){}
+
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST, reason = "Game already exist")
+    @ExceptionHandler(GameAlreadyExist.class)
+    public void gameExistException(){}
+
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST, reason = "No more cards in deck")
+    @ExceptionHandler(NoMoreCardsException.class)
+    public void noCardsException(){}
+
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST, reason = "Player Already Exist")
+    @ExceptionHandler(PlayerAlreadyExist.class)
+    public void playerExistsAlready(){}
+
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST, reason = "Player Does Not Exist")
+    @ExceptionHandler(PlayerDoesNotExist.class)
+    public void playerDoesNotExist(){}
+
+
+    public static Map<String, BlackJack> createTestGames(){
+        Map<String, BlackJack> games = new HashMap<>();
         Player p1 = new Player("0", new Hand());
         BlackJack b1 = new BlackJack("0", p1);
         Deck d1 = b1.getDeck();
@@ -55,76 +166,8 @@ public class BlackJackController {
         b5.hit();
         b5.hit();
         games.put(b5.getID(), b5);
-        ID = new AtomicLong(3);
+        return games;
     }
-
-    @GetMapping("/api/blackjack/{id}")
-    public HandReturn getHand(@PathVariable String id){
-        if(!games.containsKey(id)) throw new GameDoesNotExist("Game does not exist");
-        return createHandReturn(id);
-    }
-
-    @PostMapping(path = "/api/blackjack/newgame", consumes = "text/plain")
-    public TextInJsonResponse newGame(@RequestBody String player){
-        Player p1 = new Player(player);
-        String id = String.format("%07d", this.ID.getAndIncrement());
-        if(games.containsKey(id)) throw new IllegalArgumentException("Game already Exists"); // This should never happen
-        games.put(id, new BlackJack(id, p1));
-        return new TextInJsonResponse(id);
-    }
-
-    @PostMapping(path = "/api/blackjack/{id}/deal")
-    public HandReturn deal(@PathVariable String id){
-        if(!games.containsKey(id)) throw new GameDoesNotExist("Game does not exist");
-        games.get(id).deal();
-        HandReturn hr = createHandReturn(id);
-        if(hr.getPlayerValue() == 21){
-            if(hr.getDealerValue() == 21)
-                hr.setWinState(BlackJack.WinState.TIE);
-            else
-                hr.setWinState(BlackJack.WinState.WIN);
-        }
-        else if(hr.getDealerValue() == 21){
-            hr.setWinState(BlackJack.WinState.LOSE);
-        }
-        return hr;
-    }
-
-    @PostMapping(path = "/api/blackjack/{id}/hit")
-    public HandReturn hit(@PathVariable("id") String id) throws NoMoreCardsException{
-        if(!games.containsKey(id)) throw new GameDoesNotExist("Game does not exist");
-        games.get(id).hit();
-        HandReturn hr = createHandReturn(id);
-        if(hr.getState() == BlackJack.BlackJackState.BUST)
-            hr.setWinState(BlackJack.WinState.LOSE);
-        return hr;
-    }
-
-    @PutMapping(path = "/api/blackjack/{id}/stay")
-    public HandReturn stay(@PathVariable("id") String id){
-        if(!games.containsKey(id)) throw new GameDoesNotExist("Game does not exist");
-        BlackJack.WinState win = games.get(id).stay();
-        HandReturn hr = createHandReturn(id);
-        hr.setWinState(win);
-        return hr;
-    }
-
-    public HandReturn createHandReturn(String id){
-        Hand h1 = games.get(id).getHand(0);
-        Hand h2 = games.get(id).getDealerHand();
-        int val = BlackJack.assessHand(h1);
-        int dealerVal = BlackJack.assessHand(h2);
-        String ID = games.get(id).getPlayers().get(0).getID();
-        return new HandReturn(h1,h2, BlackJack.BlackJackState.toState(val), val, dealerVal, ID);
-    }
-
-    @ResponseStatus(value = HttpStatus.BAD_REQUEST, reason = "Game does not exist")
-    @ExceptionHandler(GameDoesNotExist.class)
-    public void noGameException(){}
-
-    @ResponseStatus(value = HttpStatus.BAD_REQUEST, reason = "No more cards in deck")
-    @ExceptionHandler(NoMoreCardsException.class)
-    public void noCardsException(){}
 
 
 }
