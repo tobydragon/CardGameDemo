@@ -2,19 +2,20 @@ package edu.ithaca.dragon.blackjack;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 public class Hand {
     private ArrayList<Card> cards;
 
-    public Hand(ArrayList<Card> startingCards) throws IllegalArgumentException{
+    public Hand(List<Card> startingCards) throws IllegalArgumentException{
         cards = new ArrayList<>();
-        ArrayList<Card> toSort = (ArrayList<Card>)startingCards.clone();
+        ArrayList<Card> toSort = new ArrayList<>(startingCards);
         Collections.sort(toSort);
         for(int x = 0; x < toSort.size() -1; x ++){
             if(toSort.get(x).compareTo(toSort.get(x + 1)) == 0)
                 throw new IllegalArgumentException("Cannot have duplicate cards in hand");
         }
-        cards = (ArrayList<Card>)startingCards.clone();
+        cards = new ArrayList<>(startingCards);
     }
     public Hand(){
         cards = new ArrayList<>();
