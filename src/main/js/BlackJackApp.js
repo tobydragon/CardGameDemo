@@ -30,7 +30,7 @@ class BlackJackApp extends React.Component {
     }
 
     handleNewGameRequest(userId){
-        postToServer(this.state.baseApiUrl, "/newgame", userId, this.handleNewGameServerResponse);
+        postToServer(this.state.baseApiUrl, "/newgame", {"text":userId}, this.handleNewGameServerResponse);
     }
 
     handleNewGameServerResponse(responseJson){

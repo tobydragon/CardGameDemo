@@ -5,11 +5,11 @@ export function getFromServer(apiUrl, callUrl, callBack){
         .then(responseJson => callBack(responseJson));
 }
 
-export function postToServer(apiUrl, callUrl, bodyText, callBack){
+export function postToServer(apiUrl, callUrl, bodyObject, callBack){
     const requestOptions = {
         method: 'POST',
-        headers: { 'Content-Type': 'text/plain' },
-        body: bodyText,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(bodyObject),
     };
     fetch(apiUrl+callUrl, requestOptions)
         .then(response => response.json())
