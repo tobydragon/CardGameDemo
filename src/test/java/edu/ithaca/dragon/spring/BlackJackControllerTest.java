@@ -43,10 +43,10 @@ public class BlackJackControllerTest {
         ObjectMapper mapper = new ObjectMapper();
         String test = mapper.writeValueAsString(hr1);
         String test2 = mapper.writeValueAsString(hr2);
-        this.mockMvc.perform(get("/api/blackjack/0")).andDo(print()).andExpect(status().isOk())
+        this.mockMvc.perform(get("/api/blackjack/0")).andExpect(status().isOk())
                 .andExpect(content().string(equalTo(test)));
-        this.mockMvc.perform(get("/api/blackjack/1")).andDo(print()).andExpect(status().is4xxClientError());
-        this.mockMvc.perform(get("/api/blackjack/2")).andDo(print()).andExpect(status().isOk())
+        this.mockMvc.perform(get("/api/blackjack/1")).andExpect(status().is4xxClientError());
+        this.mockMvc.perform(get("/api/blackjack/2")).andExpect(status().isOk())
                 .andExpect(content().string(equalTo(test2)));
     }
 
@@ -58,7 +58,7 @@ public class BlackJackControllerTest {
         for(int x = 3; x < 10; x++){
             this.mockMvc.perform(post("/api/blackjack/newgame").contentType(MediaType.APPLICATION_JSON_VALUE).content("{\"text\":\"stephen\"}"))
                     .andExpect(status().isOk()).andExpect(content().string(equalTo(String.format("{\"text\":\"%07d\"}", x))));
-            this.mockMvc.perform(get(String.format("/api/blackjack/%07d", x))).andDo(print()).andExpect(status().isOk())
+            this.mockMvc.perform(get(String.format("/api/blackjack/%07d", x))).andExpect(status().isOk())
                     .andExpect(content().string(equalTo(mapper.writeValueAsString(hr1))));
         }
     }

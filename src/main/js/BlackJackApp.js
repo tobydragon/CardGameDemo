@@ -2,6 +2,7 @@ import React from "react";
 import GameChooserForm from "./GameChooser";
 import BlackJackGame from "./BlackJackGame";
 import {postToServer} from "./Comm";
+import Round from "./Round"
 
 class BlackJackApp extends React.Component {
     constructor(props) {
@@ -40,7 +41,7 @@ class BlackJackApp extends React.Component {
         if (this.state.currPage === this.Pages.LOGIN) {
             return <GameChooserForm onReturnToGameClick={this.handleGoToGame} onNewGameClick={this.handleNewGameRequest} />;
         } else if (this.state.currPage === this.Pages.GAME) {
-            return <BlackJackGame gameId={this.state.gameId} baseApiUrl={this.state.baseApiUrl}/>;
+            return <Round gameId={this.state.gameId} baseApiUrl={this.state.baseApiUrl} playerId="player" />;
         } else {
             return "ERROR: Bad state in BlackJackApp.render";
         }
