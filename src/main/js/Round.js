@@ -4,7 +4,6 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import Table from "react-bootstrap/Table";
-import '../../main/resources/static/BlackJack.css'
 
 import Hand from "./Hand"
 import PlayerHand from "./PlayerHand";
@@ -63,7 +62,7 @@ export default class Round extends React.Component {
                         />
                     </Col>
                 </Row>
-                <Row>
+                <div className="idTable">
                     <Table striped bordered hover variant="dark">
                         <thead>
                             <tr>
@@ -78,7 +77,7 @@ export default class Round extends React.Component {
                             </tr>
                         </tbody>
                     </Table>
-                </Row>
+                </div>
             </Container>
         );
      }

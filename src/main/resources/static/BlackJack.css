@@ -18,9 +18,11 @@
 .card {
     margin-right: 1rem;
     text-align: center;
+    width: 150px;
+    height: 200px;
 }
 
 .idTable {
     width: 200px;
-    text-align: right;
+    float: right;
 }
