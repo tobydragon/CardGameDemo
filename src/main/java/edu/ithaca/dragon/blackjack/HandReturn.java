@@ -1,14 +1,14 @@
 package edu.ithaca.dragon.blackjack;
 
 public class HandReturn {
-    private Hand playerHand;
+    private BettingHand playerHand;
     private Hand dealerHand;
     private BlackJack.RoundState state;
     private int playerValue;
     private int dealerValue;
     private String user;
 
-    public HandReturn (Hand playerHand, Hand dealerHand, BlackJack.RoundState state, int playerValue, int dealerValue, String user ){
+    public HandReturn (BettingHand playerHand, Hand dealerHand, BlackJack.RoundState state, int playerValue, int dealerValue, String user ){
         this.playerHand = playerHand;
         this.dealerHand = dealerHand;
         this.state = state;
@@ -54,7 +54,7 @@ public class HandReturn {
         this.dealerHand = dealerHand;
     }
 
-    public void setPlayerHand(Hand playerHand) {
+    public void setPlayerHand(BettingHand playerHand) {
         this.playerHand = playerHand;
     }
 

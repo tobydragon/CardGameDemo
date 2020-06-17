@@ -16,6 +16,15 @@ public class BettingHand extends Hand{
         super();
         this.bet = Double.parseDouble(df.format(bet));
     }
+    public BettingHand(){
+        super();
+        this.bet = 0.00;
+    }
+
+    public BettingHand(List<Card> cards){
+        super(cards);
+        this.bet = 0.00;
+    }
 
     public void addBet(double bet){
         this.bet += bet;

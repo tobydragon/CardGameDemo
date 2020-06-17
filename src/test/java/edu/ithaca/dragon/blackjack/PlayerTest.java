@@ -16,7 +16,6 @@ public class PlayerTest {
     public void constructorTest(){
         Player p1 = new Player("0");
         assertEquals("0", p1.getID());
-        assertEquals(0, p1.getHands().size());
 
 
         ArrayList<Card> c1 = new ArrayList<>();
@@ -26,14 +25,13 @@ public class PlayerTest {
         c1.add(new Card(Card.Suit.CLUB, 13));
         c1.add(new Card(Card.Suit.SPADE, 2));
 
-        Hand h1 = new Hand(c1);
+        BettingHand h1 = new BettingHand(c1);
         p1 = new Player("1", h1);
         assertEquals("1", p1.getID());
-        assertEquals(1, p1.getHands().size());
-        assertEquals(5, p1.getHands().get(0).getCards().size());
-        assertArrayEquals(c1.toArray(), p1.getHands().get(0).getCards().toArray());
+        assertEquals(5, p1.getBettingHand().getCards().size());
+        assertArrayEquals(c1.toArray(), p1.getBettingHand().getCards().toArray());
 
-        ArrayList<Card> c2 = new ArrayList<>();
+        /*ArrayList<Card> c2 = new ArrayList<>();
         c2.add(new Card(Card.Suit.CLUB, 2));
         c2.add(new Card(Card.Suit.DIAMOND, 2));
         c2.add(new Card(Card.Suit.HEART, 2));
@@ -69,7 +67,7 @@ public class PlayerTest {
         assertEquals(5, p1.getHands().get(2).getCards().size());
         assertArrayEquals(c3.toArray(), p1.getHands().get(2).getCards().toArray());
         assertEquals(5, p1.getHands().get(3).getCards().size());
-        assertArrayEquals(c4.toArray(), p1.getHands().get(3).getCards().toArray());
+        assertArrayEquals(c4.toArray(), p1.getHands().get(3).getCards().toArray());*/
     }
 
     @Test
@@ -85,9 +83,9 @@ public class PlayerTest {
 
     @Test
     public void numCardsTest(){
-        Hand h1 = new Hand();
+        BettingHand h1 = new BettingHand();
         Player p1 = new Player("0", h1);
-        assertEquals(0, p1.numCards(0));
+        assertEquals(0, p1.numCards());
 
 
         ArrayList<Card> c1 = new ArrayList<>();
@@ -97,23 +95,16 @@ public class PlayerTest {
         c1.add(new Card(Card.Suit.CLUB, 13));
         c1.add(new Card(Card.Suit.SPADE, 2));
 
-        Hand h2 = new Hand(c1);
+        BettingHand h2 = new BettingHand(c1);
         Player p2 = new Player("0", h2);
-        assertEquals(5, p2.numCards(0));
-
-        ArrayList<Hand> hs1 = new ArrayList<>();
-        hs1.add(h1);
-        hs1.add(h2);
-        Player p3 = new Player("0", hs1);
-        assertEquals(0, p3.numCards(0));
-        assertEquals(5, p3.numCards(1));
+        assertEquals(5, p2.numCards());
     }
 
     @Test
     void addCardTest(){
-        Hand h1 = new Hand();
+        BettingHand h1 = new BettingHand();
         Player p1 = new Player("0", h1);
-        assertEquals(0, p1.numCards(0));
+        assertEquals(0, p1.numCards());
 
 
         ArrayList<Card> c1 = new ArrayList<>();
@@ -123,76 +114,36 @@ public class PlayerTest {
         c1.add(new Card(Card.Suit.CLUB, 13));
         c1.add(new Card(Card.Suit.SPADE, 2));
 
-        p1.addCardToHand(0, c1.get(0));
-        assertEquals(1, p1.numCards(0));
-        assertEquals(c1.get(0).getSuit(), p1.getHands().get(0).getCards().get(0).getSuit());
-        assertEquals(c1.get(0).getValue(), p1.getHands().get(0).getCards().get(0).getValue());
+        p1.addCardToHand(c1.get(0));
+        assertEquals(1, p1.numCards());
+        assertEquals(c1.get(0).getSuit(), p1.getBettingHand().getCards().get(0).getSuit());
+        assertEquals(c1.get(0).getValue(), p1.getBettingHand().getCards().get(0).getValue());
 
-        p1.addCardToHand(0, c1.get(1));
-        assertEquals(2, p1.numCards(0));
-        assertEquals(c1.get(1).getSuit(), p1.getHands().get(0).getCards().get(1).getSuit());
-        assertEquals(c1.get(1).getValue(), p1.getHands().get(0).getCards().get(1).getValue());
+        p1.addCardToHand(c1.get(1));
+        assertEquals(2, p1.numCards());
+        assertEquals(c1.get(1).getSuit(), p1.getBettingHand().getCards().get(1).getSuit());
+        assertEquals(c1.get(1).getValue(), p1.getBettingHand().getCards().get(1).getValue());
 
-        p1.addCardToHand(0, c1.get(2));
-        assertEquals(3, p1.numCards(0));
-        assertEquals(c1.get(2).getSuit(), p1.getHands().get(0).getCards().get(2).getSuit());
-        assertEquals(c1.get(2).getValue(), p1.getHands().get(0).getCards().get(2).getValue());
+        p1.addCardToHand( c1.get(2));
+        assertEquals(3, p1.numCards());
+        assertEquals(c1.get(2).getSuit(), p1.getBettingHand().getCards().get(2).getSuit());
+        assertEquals(c1.get(2).getValue(), p1.getBettingHand().getCards().get(2).getValue());
 
-        p1.addCardToHand(0, c1.get(3));
-        assertEquals(4, p1.numCards(0));
-        assertEquals(c1.get(3).getSuit(), p1.getHands().get(0).getCards().get(3).getSuit());
-        assertEquals(c1.get(3).getValue(), p1.getHands().get(0).getCards().get(3).getValue());
+        p1.addCardToHand(c1.get(3));
+        assertEquals(4, p1.numCards());
+        assertEquals(c1.get(3).getSuit(), p1.getBettingHand().getCards().get(3).getSuit());
+        assertEquals(c1.get(3).getValue(), p1.getBettingHand().getCards().get(3).getValue());
 
-        p1.addCardToHand(0, c1.get(4));
-        assertEquals(5, p1.numCards(0));
-        assertEquals(c1.get(4).getSuit(), p1.getHands().get(0).getCards().get(4).getSuit());
-        assertEquals(c1.get(4).getValue(), p1.getHands().get(0).getCards().get(4).getValue());
+        p1.addCardToHand(c1.get(4));
+        assertEquals(5, p1.numCards());
+        assertEquals(c1.get(4).getSuit(), p1.getBettingHand().getCards().get(4).getSuit());
+        assertEquals(c1.get(4).getValue(), p1.getBettingHand().getCards().get(4).getValue());
 
-        Exception e = assertThrows(IllegalArgumentException.class, ()-> p1.addCardToHand(0, c1.get(4)));
+        Exception e = assertThrows(IllegalArgumentException.class, ()-> p1.addCardToHand( c1.get(4)));
         //assertEquals("Cannot add duplicate card to hand", e.getMessage());
 
-        e = assertThrows(IllegalArgumentException.class, ()-> p1.addCardToHand(0, null));
+        e = assertThrows(IllegalArgumentException.class, ()-> p1.addCardToHand(null));
         //assertEquals("Cannot add null card to hand", e.getMessage());
-
-        h1 = new Hand();
-        Hand h2 = new Hand();
-        ArrayList<Hand> hs1 = new ArrayList<>();
-        hs1.add(h1);
-        hs1.add(h2);
-        Player p3 = new Player("0", hs1);
-        p3.addCardToHand(0, c1.get(0));
-        p3.addCardToHand(0, c1.get(1));
-        assertEquals(2, p3.numCards(0));
-        assertEquals(0, p3.numCards(1));
-        p3.addCardToHand(1, c1.get(3));
-        assertEquals(1, p3.numCards(1));
-    }
-
-    @Test
-    public void clearHandsTest(){
-
-        List<Hand> hands = new ArrayList<>();
-        for(int x = 0; x < 7; x ++) {
-            hands.add(new Hand());
-        }
-        Player p1 = new Player("0", hands);
-        assertEquals(7, p1.getHands().size());
-        p1.clearHands();
-        assertEquals(0, p1.getHands().size());
-        p1.clearHands();
-        assertEquals(0, p1.getHands().size());
-    }
-
-    @Test
-    public void addHandTest(){
-        Player p1 = new Player("0");
-        Hand h1 = new Hand();
-        h1.addCard(new Card(Card.Suit.SPADE, 2));
-        assertEquals(0, p1.getHands().size());
-        p1.addHand(h1);
-        assertEquals(1, p1.getHands().size());
-        Card c1 =  h1.getCards().get(0);
-        assertEquals(0, c1.compareTo(p1.getHands().get(0).getCards().get(0)));
     }
 
 }

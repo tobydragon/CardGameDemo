@@ -9,51 +9,36 @@ import java.util.List;
 
 public class Player implements Comparable {
     private final String ID;
-    private List<Hand> hands;
     private BlackJack game;
     private BettingHand bettingHand;
     private double balance;
 
     public Player(String IDin){
-        hands = new ArrayList<>();
         ID = IDin;
         game = null;
         bettingHand = new BettingHand(0.00);
         balance = 0.00;
     }
     public Player(String IDin, double balance){
-        hands = new ArrayList<>();
         ID = IDin;
         game = null;
         bettingHand = new BettingHand(0.00);
         balance = Double.parseDouble(BettingHand.df.format(balance));
     }
-    public Player(String IDin, Hand startingHand){
+    public Player(String IDin, BettingHand startingHand){
         ID = IDin;
-        hands = new ArrayList<>();
-        hands.add(startingHand);
         game = null;
-        bettingHand = new BettingHand(0.00);
-        balance = 0.00;
-    }
-    public Player(String IDin, List<Hand> startingHands){
-        ID = IDin;
-        hands = new ArrayList<>(startingHands);
-        game = null;
-        bettingHand = new BettingHand(0.00);
+        bettingHand = startingHand;
         balance = 0.00;
     }
 
-    public List<Hand> getHands() {
-        return hands;
+
+    public int numCards(){
+        return bettingHand.numCards();
     }
 
-    public int numCards(int index){
-        return hands.get(index).numCards();
-    }
-
-    public void addCardToHand(int handIndex, Card card) throws IllegalArgumentException{
-        hands.get(handIndex).addCard(card);
+    public void addCardToHand(Card card) throws IllegalArgumentException{
+        bettingHand.addCard(card);
     }
 
     public String getID() {
@@ -75,15 +60,6 @@ public class Player implements Comparable {
     public void setBettingHand(BettingHand bettingHand) {
         this.bettingHand = bettingHand;
     }
-
-    public void addHand(Hand hand){
-        hands.add(hand);
-    }
-
-    public void clearHands(){
-        hands.clear();
-    }
-
     /**
      * This replaces the current game with the input game
      * @param game
