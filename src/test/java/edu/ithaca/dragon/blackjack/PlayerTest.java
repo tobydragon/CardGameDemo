@@ -213,6 +213,16 @@ public class PlayerTest {
         assertEquals(0, ph.getBet());
         dh.clearCards();
         ph.clearCards();
+
+        dh.addCard(new Card(Card.Suit.SPADE, 8));//blackjack on not first turn so counts as win not blackjack
+        dh.addCard(new Card(Card.Suit.SPADE, 12));
+        ph.addBet(1000);
+        ph.addCard(new Card(Card.Suit.SPADE, 6));
+        ph.addCard(new Card(Card.Suit.SPADE, 11));
+        ph.addCard(new Card(Card.Suit.SPADE, 2));
+        p1.dealWithBet();
+        assertEquals(12500, p1.getBalance());
+        assertEquals(0, ph.getBet());
     }
 
 }
