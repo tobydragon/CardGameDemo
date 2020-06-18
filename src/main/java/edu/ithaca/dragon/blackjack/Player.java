@@ -32,7 +32,6 @@ public class Player implements Comparable {
         balance = 0.00;
     }
 
-
     public int numCards(){
         return bettingHand.numCards();
     }
@@ -60,11 +59,7 @@ public class Player implements Comparable {
     public void setBettingHand(BettingHand bettingHand) {
         this.bettingHand = bettingHand;
     }
-    /**
-     * This replaces the current game with the input game
-     * @param game
-     *
-     */
+
     public void setGame(BlackJack game){
         this.game = game;
     }
@@ -75,6 +70,21 @@ public class Player implements Comparable {
 
     public BlackJack getGame(){
         return this.game;
+    }
+
+    public void addBet(double amount){
+        if(balance - amount < 0.0) throw new IllegalArgumentException("Cannot subtract " + amount + " from balance of " + balance);
+        balance -= amount;
+        balance = Double.parseDouble(BettingHand.df.format(balance));
+        bettingHand.addBet(amount);
+    }
+
+    public double getBet() {
+        return bettingHand.getBet();
+    }
+
+    public void clearBet(){
+        bettingHand.clearBet();
     }
 
     @Override

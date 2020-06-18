@@ -146,4 +146,15 @@ public class PlayerTest {
         //assertEquals("Cannot add null card to hand", e.getMessage());
     }
 
+    @Test
+    public void bettingHandTest(){
+        Player p1 = new Player("test");
+        p1.setBalance(60);
+        p1.addBet(20.001);
+        assertEquals(20.00, p1.getBet());
+        assertEquals(40, p1.getBalance());
+
+        assertThrows(IllegalArgumentException.class, ()-> p1.addBet(50));
+    }
+
 }
