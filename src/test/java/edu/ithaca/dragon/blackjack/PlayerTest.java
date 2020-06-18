@@ -155,6 +155,64 @@ public class PlayerTest {
         assertEquals(40, p1.getBalance());
 
         assertThrows(IllegalArgumentException.class, ()-> p1.addBet(50));
+        p1.clearBet();
+
+        assertEquals(0, p1.getBet());
+        assertEquals(40, p1.getBalance());
+    }
+
+    @Test
+    public void dealWithBetTest(){
+        Player p1 = new Player("test", 10000);
+        BlackJack b1 = new BlackJack("Test", p1);
+        p1.setGame(b1);
+        Hand dh = b1.getDealerHand();
+        BettingHand ph = p1.getBettingHand();
+
+        dh.addCard(new Card(Card.Suit.SPADE, 8)); //lose
+        dh.addCard(new Card(Card.Suit.SPADE, 12));
+        ph.addBet(1000);
+        ph.addCard(new Card(Card.Suit.SPADE, 7));
+        ph.addCard(new Card(Card.Suit.SPADE, 11));
+        p1.dealWithBet();
+        assertEquals(9000, p1.getBalance());
+        assertEquals(0, ph.getBet());
+        dh.clearCards();
+        ph.clearCards();
+
+        dh.addCard(new Card(Card.Suit.SPADE, 8)); //win
+        dh.addCard(new Card(Card.Suit.SPADE, 12));
+        ph.addBet(1000);
+        ph.addCard(new Card(Card.Suit.SPADE, 9));
+        ph.addCard(new Card(Card.Suit.SPADE, 11));
+        p1.dealWithBet();
+        assertEquals(10000, p1.getBalance());
+        assertEquals(0, ph.getBet());
+        dh.clearCards();
+        ph.clearCards();
+
+        dh.addCard(new Card(Card.Suit.SPADE, 8));//blackjack
+        dh.addCard(new Card(Card.Suit.SPADE, 12));
+        ph.addBet(1000);
+        ph.addCard(new Card(Card.Suit.SPADE, 1));
+        ph.addCard(new Card(Card.Suit.SPADE, 11));
+        p1.dealWithBet();
+        assertEquals(11500, p1.getBalance());
+        assertEquals(0, ph.getBet());
+        dh.clearCards();
+        ph.clearCards();
+
+        dh.addCard(new Card(Card.Suit.SPADE, 8));//blackjack on not first turn so counts as win not blackjack
+        dh.addCard(new Card(Card.Suit.SPADE, 12));
+        ph.addBet(1000);
+        ph.addCard(new Card(Card.Suit.SPADE, 9));
+        ph.addCard(new Card(Card.Suit.SPADE, 11));
+        ph.addCard(new Card(Card.Suit.SPADE, 2));
+        p1.dealWithBet();
+        assertEquals(12500, p1.getBalance());
+        assertEquals(0, ph.getBet());
+        dh.clearCards();
+        ph.clearCards();
     }
 
 }

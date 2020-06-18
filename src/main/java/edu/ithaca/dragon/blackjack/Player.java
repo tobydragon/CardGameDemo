@@ -20,10 +20,10 @@ public class Player implements Comparable {
         balance = 0.00;
     }
     public Player(String IDin, double balance){
-        ID = IDin;
-        game = null;
-        bettingHand = new BettingHand(0.00);
-        balance = Double.parseDouble(BettingHand.df.format(balance));
+        this.ID = IDin;
+        this.game = null;
+        this.bettingHand = new BettingHand(0.00);
+        this.balance = Double.parseDouble(BettingHand.df.format(balance));
     }
     public Player(String IDin, BettingHand startingHand){
         ID = IDin;
@@ -86,6 +86,12 @@ public class Player implements Comparable {
     public void clearBet(){
         bettingHand.clearBet();
     }
+
+    public void dealWithBet(){
+
+    }
+
+
 
     @Override
     public int compareTo(Object o) {
