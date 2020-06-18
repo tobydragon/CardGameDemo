@@ -8,6 +8,7 @@ public class BlackJack {
     private BettingHand playerHand;
     private Deck deck;
     private Hand dealer;
+    private int gameState;
 
     public BlackJack(String IDin, Player playerIn){
         ID = IDin;
@@ -19,6 +20,7 @@ public class BlackJack {
         playerHand = playerIn.getBettingHand();
         deck = new Deck();
         dealer = new Hand();
+        gameState = 0;
     }
 
     public String getID() {
@@ -39,6 +41,14 @@ public class BlackJack {
 
     public void setDeck(Deck deck) {
         this.deck = deck;
+    }
+
+    public int getGameState() {
+        return gameState;
+    }
+
+    public void setGameState(int gameState) {
+        this.gameState = gameState;
     }
 
     public void deal(){

@@ -70,6 +70,7 @@ public class BlackJackControllerTest {
         HandReturn hr1 = new HandReturn(dud,dud,null, 0, 0, "0", 0.0);
         String test = mapper.writeValueAsString(hr1);
         this.mockMvc.perform(post("/api/blackjack/test/deal")).andExpect(status().isOk());
+        this.mockMvc.perform(post("/api/blackjack/test/stay")).andExpect(status().isOk());
         this.mockMvc.perform(post("/api/blackjack/test/deal")).andExpect(status().isOk())
                 .andExpect(content().string(not(test)));
                 //mapper.readValue(content().toString(), Hand.class).getCards()
