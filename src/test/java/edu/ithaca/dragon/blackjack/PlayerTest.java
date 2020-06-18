@@ -171,7 +171,7 @@ public class PlayerTest {
 
         dh.addCard(new Card(Card.Suit.SPADE, 8)); //lose
         dh.addCard(new Card(Card.Suit.SPADE, 12));
-        ph.addBet(1000);
+        p1.addBet(1000);
         ph.addCard(new Card(Card.Suit.SPADE, 7));
         ph.addCard(new Card(Card.Suit.SPADE, 11));
         p1.dealWithBet();
@@ -182,7 +182,7 @@ public class PlayerTest {
 
         dh.addCard(new Card(Card.Suit.SPADE, 8)); //win
         dh.addCard(new Card(Card.Suit.SPADE, 12));
-        ph.addBet(1000);
+        p1.addBet(1000);
         ph.addCard(new Card(Card.Suit.SPADE, 9));
         ph.addCard(new Card(Card.Suit.SPADE, 11));
         p1.dealWithBet();
@@ -193,7 +193,7 @@ public class PlayerTest {
 
         dh.addCard(new Card(Card.Suit.SPADE, 8));//blackjack
         dh.addCard(new Card(Card.Suit.SPADE, 12));
-        ph.addBet(1000);
+        p1.addBet(1000);
         ph.addCard(new Card(Card.Suit.SPADE, 1));
         ph.addCard(new Card(Card.Suit.SPADE, 11));
         p1.dealWithBet();
@@ -204,7 +204,7 @@ public class PlayerTest {
 
         dh.addCard(new Card(Card.Suit.SPADE, 8));//blackjack on not first turn so counts as win not blackjack
         dh.addCard(new Card(Card.Suit.SPADE, 12));
-        ph.addBet(1000);
+        p1.addBet(1000);
         ph.addCard(new Card(Card.Suit.SPADE, 9));
         ph.addCard(new Card(Card.Suit.SPADE, 11));
         ph.addCard(new Card(Card.Suit.SPADE, 2));
@@ -216,7 +216,7 @@ public class PlayerTest {
 
         dh.addCard(new Card(Card.Suit.SPADE, 8));//blackjack on not first turn so counts as win not blackjack
         dh.addCard(new Card(Card.Suit.SPADE, 12));
-        ph.addBet(1000);
+        p1.addBet(1000);
         ph.addCard(new Card(Card.Suit.SPADE, 6));
         ph.addCard(new Card(Card.Suit.SPADE, 11));
         ph.addCard(new Card(Card.Suit.SPADE, 2));

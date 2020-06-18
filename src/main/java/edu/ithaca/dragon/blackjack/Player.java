@@ -88,7 +88,16 @@ public class Player implements Comparable {
     }
 
     public void dealWithBet(){
-
+        double bet = bettingHand.getBet();
+        bettingHand.clearBet();
+        if(bettingHand.numCards() == 2 && BlackJack.assessHand(bettingHand) == 21){
+            balance += (bet * 2.5);
+            balance = Double.parseDouble(BettingHand.df.format(balance));
+            return;
+        }
+        int win = BlackJack.compareHands(bettingHand, game.getDealerHand());
+        if(win == -1) balance += (bet * 2);
+        else if(win == 0) balance += bet;
     }
 
 
