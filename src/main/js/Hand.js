@@ -1,7 +1,5 @@
-import Card from "react-bootstrap/Card";
-import CardGroup from "react-bootstrap/CardGroup";
 import React from "react";
-import {Container} from "react-bootstrap";
+import {Container, Card, CardGroup} from "react-bootstrap";
 
 export default function Hand(props) {
     console.log("In Hand");

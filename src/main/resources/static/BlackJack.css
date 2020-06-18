@@ -11,18 +11,19 @@
 }
 
 .cardDeck {
+    text-align: left;
     display: flex;
-    flex-direction: row;
-}
-
-.card {
-    margin-right: 1rem;
-    text-align: center;
-    width: 150px;
-    height: 200px;
 }
 
 .idTable {
     width: 200px;
     float: right;
+}
+
+.card {
+    height: 125px;
+    width: 100px;
+    margin-right: 1rem;
+    text-align: center;
+    max-width: 100px;
 }
