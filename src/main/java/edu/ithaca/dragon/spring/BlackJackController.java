@@ -4,7 +4,7 @@ import edu.ithaca.dragon.blackjack.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-import java.util.ArrayList;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
@@ -18,20 +18,21 @@ public class BlackJackController {
     public BlackJackController(){
         games = createTestGames();
         players = new HashMap<>();
+
         ID = new AtomicLong(3);
     }
 
     @GetMapping("/api/blackjack/{id}")
-    public HandReturn getHand(@PathVariable String id){
+    public GameStateResponse getHand(@PathVariable String id){
         if(!games.containsKey(id)) throw new GameDoesNotExist("Game does not exist");
-        return createHandReturn(id, null);
+        return createHandReturn(id, BlackJack.RoundState.BETTING);
     }
 
     @PostMapping(path = "/api/blackjack/newgame", consumes = MediaType.APPLICATION_JSON_VALUE)
     public TextInJsonResponse newGame(@RequestBody TextInJsonResponse in){
         String player = in.getText();
         player = player.toLowerCase();
-        Player p1 = new Player(player);
+        Player p1 = new Player(player, 100);
         if(players.containsKey(player)) {
             p1 = players.get(player);
         }
@@ -46,37 +47,53 @@ public class BlackJackController {
     }
 
     @PostMapping(path = "/api/blackjack/{id}/deal")
-    public HandReturn deal(@PathVariable String id){
+    public GameStateResponse deal(@PathVariable String id){
         if(!games.containsKey(id)) throw new GameDoesNotExist("Game does not exist");
+        if(games.get(id).getGameState() != BlackJack.GameState.DEALING) throw new InvalidGameAction("Cannot deal in game state "+ games.get(id).getGameState());
+        games.get(id).setGameState(BlackJack.GameState.PLAYING);
         games.get(id).deal();
-        HandReturn hr = createHandReturn(id, BlackJack.RoundState.PLAYING);
+        games.get(id).getPlayers().get(0).addBet(10);
+        GameStateResponse hr = createHandReturn(id, BlackJack.RoundState.PLAYING);
         if(hr.getPlayerValue() == 21){
             if(hr.getDealerValue() == 21)
                 hr.setState(BlackJack.RoundState.PUSH);
             else
                 hr.setState(BlackJack.RoundState.WON_BLACKJACK);
+            games.get(id).setGameState(BlackJack.GameState.DEALING);
+            games.get(id).getPlayers().get(0).dealWithBet();
         }
         else if(hr.getDealerValue() == 21){
             hr.setState(BlackJack.RoundState.LOST_DEALER_BEATS_PLAYER);
+            games.get(id).setGameState(BlackJack.GameState.DEALING);
+            games.get(id).getPlayers().get(0).dealWithBet();
         }
+        hr.getUser().setBalance(games.get(id).getPlayers().get(0).getBalance());
         return hr;
     }
 
     @PostMapping(path = "/api/blackjack/{id}/hit")
-    public HandReturn hit(@PathVariable("id") String id) throws NoMoreCardsException{
+    public GameStateResponse hit(@PathVariable("id") String id) throws NoMoreCardsException{
         if(!games.containsKey(id)) throw new GameDoesNotExist("Game does not exist");
+        if(games.get(id).getGameState() != BlackJack.GameState.PLAYING) throw new InvalidGameAction("Cannot hit in game state "+ games.get(id).getGameState());
         BlackJack.RoundState state = BlackJack.RoundState.PLAYING;
         games.get(id).hit();
-        if(BlackJack.assessHand(games.get(id).getHand(0)) > 21) state = BlackJack.RoundState.LOST_PLAYER_BUST;
-        HandReturn hr = createHandReturn(id, state);
+        if(BlackJack.assessHand(games.get(id).getPlayerHand()) > 21){
+            state = BlackJack.RoundState.LOST_PLAYER_BUST;
+            games.get(id).setGameState(BlackJack.GameState.DEALING);
+            games.get(id).getPlayers().get(0).dealWithBet();
+        }
+        GameStateResponse hr = createHandReturn(id, state);
         return hr;
     }
 
     @PutMapping(path = "/api/blackjack/{id}/stay")
-    public HandReturn stay(@PathVariable("id") String id){
+    public GameStateResponse stay(@PathVariable("id") String id){
         if(!games.containsKey(id)) throw new GameDoesNotExist("Game does not exist");
+        if(games.get(id).getGameState() != BlackJack.GameState.PLAYING) throw new InvalidGameAction("Cannot stay in game state "+ games.get(id).getGameState());
+        games.get(id).setGameState(BlackJack.GameState.DEALING);
         BlackJack.RoundState state = games.get(id).stay();
-        HandReturn hr = createHandReturn(id, state);
+        games.get(id).getPlayers().get(0).dealWithBet();
+        GameStateResponse hr = createHandReturn(id, state);
         return hr;
     }
 
@@ -98,13 +115,13 @@ public class BlackJackController {
         return false;
     }
 
-    public HandReturn createHandReturn(String id, BlackJack.RoundState state){
-        Hand h1 = games.get(id).getHand(0);
+    public GameStateResponse createHandReturn(String id, BlackJack.RoundState state){
+        BettingHand h1 = games.get(id).getPlayerHand();
         Hand h2 = games.get(id).getDealerHand();
         int val = BlackJack.assessHand(h1);
         int dealerVal = BlackJack.assessHand(h2);
         String ID = games.get(id).getPlayers().get(0).getID();
-        return new HandReturn(h1,h2, state,val, dealerVal, ID);
+        return new GameStateResponse(h1,h2, state,val, dealerVal, ID, games.get(id).getPlayers().get(0).getBalance());
     }
 
     @ResponseStatus(value = HttpStatus.BAD_REQUEST, reason = "Game does not exist")
@@ -127,42 +144,49 @@ public class BlackJackController {
     @ExceptionHandler(PlayerDoesNotExist.class)
     public void playerDoesNotExist(){}
 
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST, reason = "Invalid Action in Current Game State")
+    @ExceptionHandler(InvalidGameAction.class)
+    public void InvalidGameState(){}
+
 
     public static Map<String, BlackJack> createTestGames(){
         Map<String, BlackJack> games = new HashMap<>();
-        Player p1 = new Player("0", new Hand());
+        Player p1 = new Player("0", new BettingHand());
         BlackJack b1 = new BlackJack("0", p1);
         Deck d1 = b1.getDeck();
         d1.getDeck().remove(12);
         d1.getDeck().add(1, new Card(Card.Suit.SPADE, 13));
-        p1.addCardToHand(0,d1.getNextCard());
-        p1.addCardToHand(0,d1.getNextCard());
+        p1.addCardToHand(d1.getNextCard());
+        p1.addCardToHand(d1.getNextCard());
         games.put(b1.getID(), b1);
 
 
-        Player p2 = new Player("0", new Hand());
+        Player p2 = new Player("0", new BettingHand());
         BlackJack b2 = new BlackJack("2", p2);
         d1 = b2.getDeck();
         d1.getDeck().remove(35);
         d1.getDeck().remove(36);
         d1.getDeck().add(0,new Card(Card.Suit.DIAMOND, 12));
         d1.getDeck().add(0, new Card(Card.Suit.DIAMOND, 10));
-        p2.addCardToHand(0,d1.getNextCard());
-        p2.addCardToHand(0,d1.getNextCard());
+        p2.addCardToHand(d1.getNextCard());
+        p2.addCardToHand(d1.getNextCard());
 
         BlackJack b3 = new BlackJack("test", new Player("0"));
         BlackJack b4 = new BlackJack("test2", new Player("0"));
+        b4.setGameState(BlackJack.GameState.PLAYING);
         games.put(b2.getID(), b2);
         games.put(b3.getID(), b3);
         games.put(b4.getID(), b4);
 
-        Player p3 = new Player("0", new Hand());
+        Player p3 = new Player("0", new BettingHand());
         BlackJack b5 = new BlackJack("stayLose", p3);
+        b5.setGameState(BlackJack.GameState.PLAYING);
+        p3.setGame(b5);
         d1 = b5.getDeck();
         b5.getDealerHand().addCard(d1.getNextCard());
-        p3.addCardToHand(0, d1.getNextCard());
+        p3.addCardToHand(d1.getNextCard());
         b5.getDealerHand().addCard(d1.getNextCard());
-        p3.addCardToHand(0, d1.getNextCard());
+        p3.addCardToHand(d1.getNextCard());
         b5.hit();
         b5.hit();
         games.put(b5.getID(), b5);
