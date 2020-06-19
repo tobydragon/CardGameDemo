@@ -32,7 +32,7 @@ public class BlackJackController {
     public TextInJsonResponse newGame(@RequestBody TextInJsonResponse in){
         String player = in.getText();
         player = player.toLowerCase();
-        Player p1 = new Player(player);
+        Player p1 = new Player(player, 100);
         if(players.containsKey(player)) {
             p1 = players.get(player);
         }
@@ -50,6 +50,7 @@ public class BlackJackController {
         if(!games.containsKey(id)) throw new GameDoesNotExist("Game does not exist");
         if(games.get(id).getGameState() != 0) throw new InvalidGameAction("Cannot deal in game state "+ games.get(id).getGameState());
         games.get(id).setGameState(1);
+        games.get(id).getPlayerHand().addBet(10);
         games.get(id).deal();
         HandReturn hr = createHandReturn(id, BlackJack.RoundState.PLAYING);
         if(hr.getPlayerValue() == 21){
@@ -58,12 +59,14 @@ public class BlackJackController {
             else
                 hr.setState(BlackJack.RoundState.WON_BLACKJACK);
             games.get(id).setGameState(0);
+            games.get(id).getPlayers().get(0).dealWithBet();
         }
         else if(hr.getDealerValue() == 21){
             hr.setState(BlackJack.RoundState.LOST_DEALER_BEATS_PLAYER);
             games.get(id).setGameState(0);
+            games.get(id).getPlayers().get(0).dealWithBet();
         }
-
+        hr.getUser().setBalance(games.get(id).getPlayers().get(0).getBalance());
         return hr;
     }
 
@@ -76,6 +79,7 @@ public class BlackJackController {
         if(BlackJack.assessHand(games.get(id).getPlayerHand()) > 21){
             state = BlackJack.RoundState.LOST_PLAYER_BUST;
             games.get(id).setGameState(0);
+            games.get(id).getPlayers().get(0).dealWithBet();
         }
         HandReturn hr = createHandReturn(id, state);
         return hr;
@@ -87,6 +91,7 @@ public class BlackJackController {
         if(games.get(id).getGameState() != 1) throw new InvalidGameAction("Cannot stay in game state "+ games.get(id).getGameState());
         games.get(id).setGameState(0);
         BlackJack.RoundState state = games.get(id).stay();
+        games.get(id).getPlayers().get(0).dealWithBet();
         HandReturn hr = createHandReturn(id, state);
         return hr;
     }

@@ -14,9 +14,7 @@ public class BlackJack {
         ID = IDin;
         players = new HashMap<>();
         players.put(playerIn.getID(), playerIn);
-        if(playerIn.getBettingHand().numCards() > 0)
-            playerIn.setBettingHand(new BettingHand(0.00));
-        playerIn.getBettingHand().clearBet();
+        playerIn.setBettingHand(new BettingHand(0.00));
         playerHand = playerIn.getBettingHand();
         deck = new Deck();
         dealer = new Hand();
