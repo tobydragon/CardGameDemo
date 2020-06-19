@@ -25,7 +25,7 @@ public class BlackJackController {
     @GetMapping("/api/blackjack/{id}")
     public HandReturn getHand(@PathVariable String id){
         if(!games.containsKey(id)) throw new GameDoesNotExist("Game does not exist");
-        return createHandReturn(id, null);
+        return createHandReturn(id, BlackJack.RoundState.PLAYING);
     }
 
     @PostMapping(path = "/api/blackjack/newgame", consumes = MediaType.APPLICATION_JSON_VALUE)
