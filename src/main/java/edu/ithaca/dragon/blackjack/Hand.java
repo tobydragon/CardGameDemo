@@ -41,12 +41,15 @@ public class Hand {
     }
 
     public void removeCard(Card card){
+        int index = -1;
         for(int x =  0; x < cards.size(); x++){
             if(card.compareTo(cards.get(x))==0){
-                cards.remove(x);
-                return;
+                index = x;
+                break;
             }
         }
+        if(index != -1)
+            cards.remove(index);
     }
 
     public void clearCards(){

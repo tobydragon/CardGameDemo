@@ -1,6 +1,6 @@
 package edu.ithaca.dragon.blackjack;
 
-public class HandReturn {
+public class GameStateResponse {
     private BettingHand playerHand;
     private Hand dealerHand;
     private BlackJack.RoundState state;
@@ -8,7 +8,7 @@ public class HandReturn {
     private int dealerValue;
     private UserContainer user;
 
-    public HandReturn (BettingHand playerHand, Hand dealerHand, BlackJack.RoundState state, int playerValue, int dealerValue, String user, double balance ){
+    public GameStateResponse(BettingHand playerHand, Hand dealerHand, BlackJack.RoundState state, int playerValue, int dealerValue, String user, double balance ){
         this.playerHand = playerHand;
         this.dealerHand = dealerHand;
         this.state = state;
@@ -17,7 +17,7 @@ public class HandReturn {
         this.user = new UserContainer(user, balance);
     }
 
-    public HandReturn (){
+    public GameStateResponse(){
         this.playerHand = null;
         this.dealerHand = null;
         this.state = null;

@@ -10,8 +10,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.not;
@@ -38,8 +36,8 @@ public class BlackJackControllerTest {
         c2.add(new Card(Card.Suit.DIAMOND, 10));
         c2.add(new Card(Card.Suit.DIAMOND, 12));
         BettingHand h2 = new BettingHand(c2);
-        HandReturn hr1 = new HandReturn(h1,new Hand(), null,21, 0,"0", 0.0);
-        HandReturn hr2 = new HandReturn(h2, new Hand(), null, 20, 0, "0", 0.0);
+        GameStateResponse hr1 = new GameStateResponse(h1,new Hand(), BlackJack.RoundState.BETTING,21, 0,"0", 0.0);
+        GameStateResponse hr2 = new GameStateResponse(h2, new Hand(), BlackJack.RoundState.BETTING, 20, 0, "0", 0.0);
         ObjectMapper mapper = new ObjectMapper();
         String test = mapper.writeValueAsString(hr1);
         String test2 = mapper.writeValueAsString(hr2);
@@ -54,7 +52,7 @@ public class BlackJackControllerTest {
     public void newGameTest() throws Exception{
         ObjectMapper mapper = new ObjectMapper();
         BettingHand dud = new BettingHand();
-        HandReturn hr1 = new HandReturn(dud, new Hand(), null, 0, 0, "stephen", 0.0);
+        GameStateResponse hr1 = new GameStateResponse(dud, new Hand(), BlackJack.RoundState.BETTING, 0, 0, "stephen", 100.0);
         for(int x = 3; x < 10; x++){
             this.mockMvc.perform(post("/api/blackjack/newgame").contentType(MediaType.APPLICATION_JSON_VALUE).content("{\"text\":\"stephen\"}"))
                     .andExpect(status().isOk()).andExpect(content().string(equalTo(String.format("{\"text\":\"%07d\"}", x))));
@@ -67,11 +65,15 @@ public class BlackJackControllerTest {
     public void dealTest() throws Exception{
         ObjectMapper mapper = new ObjectMapper();
         BettingHand dud = new BettingHand();
-        HandReturn hr1 = new HandReturn(dud,dud,null, 0, 0, "0", 0.0);
+        GameStateResponse hr1 = new GameStateResponse(dud,dud, BlackJack.RoundState.PLAYING, 0, 0, "0", 100.0);
         String test = mapper.writeValueAsString(hr1);
-        this.mockMvc.perform(post("/api/blackjack/test/deal")).andExpect(status().isOk());
-        this.mockMvc.perform(put("/api/blackjack/test/stay")).andExpect(status().isOk());
-        this.mockMvc.perform(post("/api/blackjack/test/deal")).andExpect(status().isOk())
+        this.mockMvc.perform(post("/api/blackjack/newgame").contentType(MediaType.APPLICATION_JSON_VALUE).content("{\"text\":\"ephen\"}")).andExpect(content().string(equalTo(String.format("{\"text\":\"%07d\"}", 10))));
+        MvcResult result =  this.mockMvc.perform(post("/api/blackjack/0000010/deal")).andExpect(status().isOk()).andReturn();
+        String content = result.getResponse().getContentAsString();
+        GameStateResponse hr = mapper.readValue(content, GameStateResponse.class);
+        if(hr.getState() == BlackJack.RoundState.PLAYING)
+            this.mockMvc.perform(put("/api/blackjack/0000010/stay")).andExpect(status().isOk());
+        this.mockMvc.perform(post("/api/blackjack/0000010/deal")).andExpect(status().isOk())
                 .andExpect(content().string(not(test)));
                 //mapper.readValue(content().toString(), Hand.class).getCards()
     }
@@ -80,7 +82,7 @@ public class BlackJackControllerTest {
     public void hitTest() throws Exception{
         ObjectMapper mapper = new ObjectMapper();
         BettingHand h1 = new BettingHand();
-        HandReturn dud = new HandReturn(h1, new Hand(), BlackJack.RoundState.PLAYING, 11, 0, "0", 0.0);
+        GameStateResponse dud = new GameStateResponse(h1, new Hand(), BlackJack.RoundState.PLAYING, 11, 0, "0", 0.0);
         dud.getPlayerHand().addCard(new Card(Card.Suit.SPADE, 1));
         this.mockMvc.perform(post("/api/blackjack/test2/hit")).andExpect(status().isOk())
                 .andExpect(content().string(equalTo(mapper.writeValueAsString(dud))));
@@ -100,7 +102,7 @@ public class BlackJackControllerTest {
         ObjectMapper mapper = new ObjectMapper();
         MvcResult result = this.mockMvc.perform(put("/api/blackjack/stayLose/stay")).andExpect(status().isOk()).andReturn();
         String content = result.getResponse().getContentAsString();
-        HandReturn hr = mapper.readValue(content, HandReturn.class);
+        GameStateResponse hr = mapper.readValue(content, GameStateResponse.class);
         assertEquals(BlackJack.RoundState.LOST_DEALER_BEATS_PLAYER, hr.getState());
     }
 
