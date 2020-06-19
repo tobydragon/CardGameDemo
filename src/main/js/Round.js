@@ -11,6 +11,16 @@ import PlayerHand from "./PlayerHand";
 export default class Round extends React.Component {
     constructor(props) {
         super(props);
+        // this.RoundStates= {
+        //     BETTING: 1,
+        //     PLAYING: 2,
+        //     WON_BLACKJACK: 10,
+        //     WON_DEALER_BUST: 11,
+        //     WON_BEAT_DEALER: 12,
+        //     LOST_PLAYER_BUST: 20,
+        //     LOST_DEALER_BEATS_PLAYER: 21,
+        //     PUSH: 22,
+        // }
         this.handleHit = this.handleHit.bind(this);
         this.handleDeal = this.handleDeal.bind(this);
         this.handleRoundStateResponse = this.handleRoundStateResponse.bind(this);
@@ -20,7 +30,7 @@ export default class Round extends React.Component {
             playerId: props.playerId,
             playerCards: [],
             dealerCards: [],
-
+            gameState: "BETTING",
         };
     }
 
@@ -35,7 +45,8 @@ export default class Round extends React.Component {
         console.log(responseJson);
         this.setState({
             playerCards: responseJson.playerHand.cards,
-            dealerCards: responseJson.dealerHand.cards
+            dealerCards: responseJson.dealerHand.cards,
+            gameState: responseJson.state
         })
     }
 
@@ -59,8 +70,10 @@ export default class Round extends React.Component {
                     <Col>
                         <PlayerHand ownerName={this.state.playerId}
                                     cards={this.state.playerCards}
+                                    gameState={this.state.gameState}
                                     handleHit={this.handleHit}
                                     handleDeal={this.handleDeal}
+
                         />
                     </Col>
                 </Row>

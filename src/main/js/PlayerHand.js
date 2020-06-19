@@ -5,6 +5,7 @@ import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
 import ButtonToolbar from "react-bootstrap/ButtonToolbar";
 import Hand from "./Hand";
+import Jumbotron from "react-bootstrap/Jumbotron";
 
 export default function PlayerHand(props) {
     return (
@@ -12,7 +13,8 @@ export default function PlayerHand(props) {
             <Row>
                 <Col>
                     <Hand ownerName={props.ownerName} cards={props.cards}/>
-                    <HandButtons onHitClick={props.handleHit} onDealClick={props.handleDeal}/>
+                    <HandButtons gameState={props.gameState} onHitClick={props.handleHit} onDealClick={props.handleDeal}/>
+                    <WinLossDisplay gameState={props.gameState}/>
                 </Col>
             </Row>
         </Container>
@@ -41,12 +43,37 @@ class HandButtons extends React.Component {
     }
 
     render() {
+        if (this.props.gameState === "PLAYING"){
+            console.log("PlayerHand.render: PLAYING");
+            return (
+                <ButtonToolbar>
+                    <Button disabled={true} onClick={this.handleDealClick}> Deal</Button>
+                    <Button onClick={this.handleHitClick}>Hit </Button>
+                    <Button>Stand</Button>
+                </ButtonToolbar>
+            );
+        }
+        else {
+            return (
+                <ButtonToolbar>
+                    <Button onClick={this.handleDealClick}> Deal</Button>
+                    <Button disabled={true} onClick={this.handleHitClick}>Hit </Button>
+                    <Button disabled={true}> Stand</Button>
+                </ButtonToolbar>
+            );
+        }
+    }
+}
+
+function WinLossDisplay(props){
+    if (props.gameState!== null && props.gameState !== "PLAYING"){
         return (
-            <ButtonToolbar>
-                <Button onClick={this.handleDealClick}> Deal</Button>
-                <Button onClick={this.handleHitClick}>Hit </Button>
-                <Button>Stand</Button>
-            </ButtonToolbar>
+            <Jumbotron>
+                <h1 className="center">{props.gameState} </h1>
+            </Jumbotron>
         );
+    }
+    else{
+        return ("");
     }
 }
