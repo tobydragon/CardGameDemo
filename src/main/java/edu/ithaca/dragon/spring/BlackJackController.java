@@ -25,7 +25,7 @@ public class BlackJackController {
     @GetMapping("/api/blackjack/{id}")
     public HandReturn getHand(@PathVariable String id){
         if(!games.containsKey(id)) throw new GameDoesNotExist("Game does not exist");
-        return createHandReturn(id, null);
+        return createHandReturn(id, BlackJack.RoundState.PLAYING);
     }
 
     @PostMapping(path = "/api/blackjack/newgame", consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -57,9 +57,11 @@ public class BlackJackController {
                 hr.setState(BlackJack.RoundState.PUSH);
             else
                 hr.setState(BlackJack.RoundState.WON_BLACKJACK);
+            games.get(id).setGameState(0);
         }
         else if(hr.getDealerValue() == 21){
             hr.setState(BlackJack.RoundState.LOST_DEALER_BEATS_PLAYER);
+            games.get(id).setGameState(0);
         }
 
         return hr;
@@ -71,7 +73,10 @@ public class BlackJackController {
         if(games.get(id).getGameState() != 1) throw new InvalidGameAction("Cannot hit in game state "+ games.get(id).getGameState());
         BlackJack.RoundState state = BlackJack.RoundState.PLAYING;
         games.get(id).hit();
-        if(BlackJack.assessHand(games.get(id).getPlayerHand()) > 21) state = BlackJack.RoundState.LOST_PLAYER_BUST;
+        if(BlackJack.assessHand(games.get(id).getPlayerHand()) > 21){
+            state = BlackJack.RoundState.LOST_PLAYER_BUST;
+            games.get(id).setGameState(0);
+        }
         HandReturn hr = createHandReturn(id, state);
         return hr;
     }
