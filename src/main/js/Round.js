@@ -113,7 +113,7 @@ export default class Round extends React.Component {
  }
 
 function WinLossDisplay(props){
-    if (props.gameState!== null && props.gameState !== "PLAYING"){
+    if (props.gameState!== null && props.gameState !== "PLAYING" && props.gameState !== "BETTING"){
         return (
             <Jumbotron>
                 <h1 className="center">{props.gameState} </h1>
