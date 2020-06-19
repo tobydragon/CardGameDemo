@@ -93,11 +93,17 @@ public class Player implements Comparable {
         if(bettingHand.numCards() == 2 && BlackJack.assessHand(bettingHand) == 21){
             balance += (bet * 2.5);
             balance = Double.parseDouble(BettingHand.df.format(balance));
-            return;
         }
-        int win = BlackJack.compareHands(bettingHand, game.getDealerHand());
-        if(win == -1) balance += (bet * 2);
-        else if(win == 0) balance += bet;
+        else{
+            int win = BlackJack.compareHands(bettingHand, game.getDealerHand()); //-1 if bettingHand is bigger, 0 if equal, 1 if dealer hand is larger
+            if(BlackJack.assessHand(bettingHand) > 21){} // player bust so they lose
+            else if(BlackJack.assessHand(game.getDealerHand()) > 21){ //dealer bust so they win but only if they don't bust
+                balance += (bet * 2);
+            }
+            else if (win == -1) balance += bet * 2; // player wins with bigger hand
+            else if (win == 0) balance += bet; //tie so player gets bet back.
+        }
+
     }
 
 

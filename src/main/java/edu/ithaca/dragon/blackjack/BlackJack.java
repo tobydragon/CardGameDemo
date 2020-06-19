@@ -8,7 +8,7 @@ public class BlackJack {
     private BettingHand playerHand;
     private Deck deck;
     private Hand dealer;
-    private int gameState;
+    private GameState gameState;
 
     public BlackJack(String IDin, Player playerIn){
         ID = IDin;
@@ -18,7 +18,7 @@ public class BlackJack {
         playerHand = playerIn.getBettingHand();
         deck = new Deck();
         dealer = new Hand();
-        gameState = 0;
+        gameState = GameState.DEALING;
     }
 
     public String getID() {
@@ -41,11 +41,11 @@ public class BlackJack {
         this.deck = deck;
     }
 
-    public int getGameState() {
+    public GameState getGameState() {
         return gameState;
     }
 
-    public void setGameState(int gameState) {
+    public void setGameState(GameState gameState) {
         this.gameState = gameState;
     }
 
@@ -62,6 +62,10 @@ public class BlackJack {
 
     public enum RoundState{
         BETTING, PLAYING, WON_BLACKJACK, WON_DEALER_BUST, WON_BEAT_DEALER, LOST_PLAYER_BUST, LOST_DEALER_BEATS_PLAYER, PUSH
+    }
+
+    public enum GameState{
+        DEALING, PLAYING
     }
 
     public void hit() throws NoMoreCardsException{
