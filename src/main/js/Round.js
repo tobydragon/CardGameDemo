@@ -29,7 +29,7 @@ export default class Round extends React.Component {
         this.state = {
             gameId: props.gameId,
             apiUrl: props.baseApiUrl+"/"+props.gameId,
-            playerId: props.playerId,
+            playerId: "player",
             playerCards: [],
             dealerCards: [],
             gameState: "BETTING",
@@ -46,6 +46,7 @@ export default class Round extends React.Component {
         console.log("INFO:\t Round.handleRoundStateResponse, got:");
         console.log(responseJson);
         this.setState({
+            playerId: responseJson.user.id,
             playerCards: responseJson.playerHand.cards,
             dealerCards: responseJson.dealerHand.cards,
             gameState: responseJson.state

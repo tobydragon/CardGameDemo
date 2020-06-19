@@ -41,7 +41,7 @@ class BlackJackApp extends React.Component {
         if (this.state.currPage === this.Pages.LOGIN) {
             return <GameChooserForm onReturnToGameClick={this.handleGoToGame} onNewGameClick={this.handleNewGameRequest} />;
         } else if (this.state.currPage === this.Pages.GAME) {
-            return <Round gameId={this.state.gameId} baseApiUrl={this.state.baseApiUrl} playerId="player" />;
+            return <Round gameId={this.state.gameId} baseApiUrl={this.state.baseApiUrl} />;
         } else {
             return "ERROR: Bad state in BlackJackApp.render";
         }
