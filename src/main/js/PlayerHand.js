@@ -13,8 +13,11 @@ export default function PlayerHand(props) {
             <Row>
                 <Col>
                     <Hand ownerName={props.ownerName} cards={props.cards}/>
-                    <HandButtons gameState={props.gameState} onHitClick={props.handleHit} onDealClick={props.handleDeal}/>
-                    <WinLossDisplay gameState={props.gameState}/>
+                    <HandButtons gameState={props.gameState}
+                                 onHitClick={props.handleHit}
+                                 onDealClick={props.handleDeal}
+                                 onStandClick={props.handleStand}
+                    />
                 </Col>
             </Row>
         </Container>
@@ -27,9 +30,12 @@ class HandButtons extends React.Component {
 
         this.handleHitClick = this.handleHitClick.bind(this);
         this.handleDealClick = this.handleDealClick.bind(this);
+        this.handleStandClick= this.handleStandClick.bind(this);
+
         this.state = {
             onHitClick: props.onHitClick,
             onDealClick: props.onDealClick,
+            onStandClick: props.onStandClick,
         }
 
     }
@@ -42,6 +48,10 @@ class HandButtons extends React.Component {
         this.state.onDealClick();
     }
 
+    handleStandClick(e){
+        this.state.onStandClick();
+    }
+
     render() {
         if (this.props.gameState === "PLAYING"){
             console.log("PlayerHand.render: PLAYING");
@@ -49,7 +59,7 @@ class HandButtons extends React.Component {
                 <ButtonToolbar>
                     <Button disabled={true} onClick={this.handleDealClick}> Deal</Button>
                     <Button onClick={this.handleHitClick}>Hit </Button>
-                    <Button>Stand</Button>
+                    <Button onClick={this.handleStandClick}>Stand</Button>
                 </ButtonToolbar>
             );
         }
@@ -65,15 +75,3 @@ class HandButtons extends React.Component {
     }
 }
 
-function WinLossDisplay(props){
-    if (props.gameState!== null && props.gameState !== "PLAYING"){
-        return (
-            <Jumbotron>
-                <h1 className="center">{props.gameState} </h1>
-            </Jumbotron>
-        );
-    }
-    else{
-        return ("");
-    }
-}

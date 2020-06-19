@@ -23,3 +23,14 @@ export function postToServer(apiUrl, callUrl, bodyObject, callBack){
         // .then(data => console.log(data))
         .then(responseJson => callBack(responseJson));
 }
+export function putToServer(apiUrl, callUrl, bodyObject, callBack){
+    const requestOptions = {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(bodyObject),
+    };
+    fetch(apiUrl+callUrl, requestOptions)
+        .then(response => response.json())
+        // .then(data => console.log(data))
+        .then(responseJson => callBack(responseJson));
+}
