@@ -9,6 +9,7 @@ import Hand from "./Hand"
 import PlayerHand from "./PlayerHand";
 import Jumbotron from "react-bootstrap/Jumbotron";
 
+
 export default class Round extends React.Component {
     constructor(props) {
         super(props);
@@ -67,12 +68,13 @@ export default class Round extends React.Component {
 
      render(){
         return (
-            <Container>
+            <div>
                 <Row>
                     <Col>
                         <Hand ownerName="Dealer" cards={this.state.dealerCards}/>
                     </Col>
                 </Row>
+                <br/>
                 <Row>
                     <Col>
                         <PlayerHand ownerName={this.state.playerId}
@@ -105,7 +107,7 @@ export default class Round extends React.Component {
                         </tbody>
                     </Table>
                 </div>
-            </Container>
+            </div>
         );
      }
  }

@@ -13,6 +13,7 @@ export default function PlayerHand(props) {
             <Row>
                 <Col>
                     <Hand ownerName={props.ownerName} cards={props.cards}/>
+                    <br/>
                     <HandButtons gameState={props.gameState}
                                  onHitClick={props.handleHit}
                                  onDealClick={props.handleDeal}
