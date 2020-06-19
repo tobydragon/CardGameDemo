@@ -25,7 +25,7 @@ public class BlackJackController {
     @GetMapping("/api/blackjack/{id}")
     public HandReturn getHand(@PathVariable String id){
         if(!games.containsKey(id)) throw new GameDoesNotExist("Game does not exist");
-        return createHandReturn(id, BlackJack.RoundState.PLAYING);
+        return createHandReturn(id, BlackJack.RoundState.BETTING);
     }
 
     @PostMapping(path = "/api/blackjack/newgame", consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -42,6 +42,7 @@ public class BlackJackController {
         String id = String.format("%07d", this.ID.getAndIncrement());
         if(games.containsKey(id)) throw new GameAlreadyExist("Game already Exists"); // This should never happen
         games.put(id, new BlackJack(id, p1));
+        p1.setGame(games.get(id));
         return new TextInJsonResponse(id);
     }
 
@@ -50,8 +51,8 @@ public class BlackJackController {
         if(!games.containsKey(id)) throw new GameDoesNotExist("Game does not exist");
         if(games.get(id).getGameState() != 0) throw new InvalidGameAction("Cannot deal in game state "+ games.get(id).getGameState());
         games.get(id).setGameState(1);
-        games.get(id).getPlayerHand().addBet(10);
         games.get(id).deal();
+        games.get(id).getPlayers().get(0).addBet(10);
         HandReturn hr = createHandReturn(id, BlackJack.RoundState.PLAYING);
         if(hr.getPlayerValue() == 21){
             if(hr.getDealerValue() == 21)
@@ -180,6 +181,7 @@ public class BlackJackController {
         Player p3 = new Player("0", new BettingHand());
         BlackJack b5 = new BlackJack("stayLose", p3);
         b5.setGameState(1);
+        p3.setGame(b5);
         d1 = b5.getDeck();
         b5.getDealerHand().addCard(d1.getNextCard());
         p3.addCardToHand(d1.getNextCard());

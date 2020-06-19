@@ -50,7 +50,6 @@ public class BlackJack {
     }
 
     public void deal(){
-        playerHand.clearBet();
         playerHand.clearCards();
         dealer.clearCards();
         deck.shuffle();
