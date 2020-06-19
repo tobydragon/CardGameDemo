@@ -9,55 +9,57 @@ import java.util.List;
 
 public class Player implements Comparable {
     private final String ID;
-    private List<Hand> hands;
     private BlackJack game;
+    private BettingHand bettingHand;
+    private double balance;
 
     public Player(String IDin){
-        hands = new ArrayList<>();
         ID = IDin;
         game = null;
+        bettingHand = new BettingHand(0.00);
+        balance = 0.00;
     }
-    public Player(String IDin, Hand startingHand){
+    public Player(String IDin, double balance){
+        this.ID = IDin;
+        this.game = null;
+        this.bettingHand = new BettingHand(0.00);
+        this.balance = Double.parseDouble(BettingHand.df.format(balance));
+    }
+    public Player(String IDin, BettingHand startingHand){
         ID = IDin;
-        hands = new ArrayList<>();
-        hands.add(startingHand);
         game = null;
-    }
-    public Player(String IDin, List<Hand> startingHands){
-        ID = IDin;
-        hands = new ArrayList<>(startingHands);
-        game = null;
+        bettingHand = startingHand;
+        balance = 0.00;
     }
 
-    public List<Hand> getHands() {
-        return hands;
+    public int numCards(){
+        return bettingHand.numCards();
     }
 
-    public int numCards(int index){
-        return hands.get(index).numCards();
-    }
-
-    public void addCardToHand(int handIndex, Card card) throws IllegalArgumentException{
-        hands.get(handIndex).addCard(card);
+    public void addCardToHand(Card card) throws IllegalArgumentException{
+        bettingHand.addCard(card);
     }
 
     public String getID() {
         return ID;
     }
 
-    public void addHand(Hand hand){
-        hands.add(hand);
+    public BettingHand getBettingHand() {
+        return bettingHand;
     }
 
-    public void clearHands(){
-        hands.clear();
+    public double getBalance() {
+        return balance;
     }
 
-    /**
-     * This replaces the current game with the input game
-     * @param game
-     *
-     */
+    public void setBalance(double balance) {
+        this.balance = balance;
+    }
+
+    public void setBettingHand(BettingHand bettingHand) {
+        this.bettingHand = bettingHand;
+    }
+
     public void setGame(BlackJack game){
         this.game = game;
     }
@@ -69,6 +71,36 @@ public class Player implements Comparable {
     public BlackJack getGame(){
         return this.game;
     }
+
+    public void addBet(double amount){
+        if(balance - amount < 0.0) throw new IllegalArgumentException("Cannot subtract " + amount + " from balance of " + balance);
+        balance -= amount;
+        balance = Double.parseDouble(BettingHand.df.format(balance));
+        bettingHand.addBet(amount);
+    }
+
+    public double getBet() {
+        return bettingHand.getBet();
+    }
+
+    public void clearBet(){
+        bettingHand.clearBet();
+    }
+
+    public void dealWithBet(){
+        double bet = bettingHand.getBet();
+        bettingHand.clearBet();
+        if(bettingHand.numCards() == 2 && BlackJack.assessHand(bettingHand) == 21){
+            balance += (bet * 2.5);
+            balance = Double.parseDouble(BettingHand.df.format(balance));
+            return;
+        }
+        int win = BlackJack.compareHands(bettingHand, game.getDealerHand());
+        if(win == -1) balance += (bet * 2);
+        else if(win == 0) balance += bet;
+    }
+
+
 
     @Override
     public int compareTo(Object o) {

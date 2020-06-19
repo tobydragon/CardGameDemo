@@ -1,20 +1,20 @@
 package edu.ithaca.dragon.blackjack;
 
 public class HandReturn {
-    private Hand playerHand;
+    private BettingHand playerHand;
     private Hand dealerHand;
     private BlackJack.RoundState state;
     private int playerValue;
     private int dealerValue;
-    private String user;
+    private UserContainer user;
 
-    public HandReturn (Hand playerHand, Hand dealerHand, BlackJack.RoundState state, int playerValue, int dealerValue, String user ){
+    public HandReturn (BettingHand playerHand, Hand dealerHand, BlackJack.RoundState state, int playerValue, int dealerValue, String user, double balance ){
         this.playerHand = playerHand;
         this.dealerHand = dealerHand;
         this.state = state;
         this.playerValue = playerValue;
         this.dealerValue = dealerValue;
-        this.user = user;
+        this.user = new UserContainer(user, balance);
     }
 
     public HandReturn (){
@@ -23,7 +23,7 @@ public class HandReturn {
         this.state = null;
         this.playerValue = 0;
         this.dealerValue = 0;
-        this.user = "";
+        this.user = new UserContainer();
     }
 
     public int getPlayerValue() {
@@ -46,7 +46,7 @@ public class HandReturn {
         return playerHand;
     }
 
-    public String getUser() {
+    public UserContainer getUser() {
         return user;
     }
 
@@ -54,7 +54,7 @@ public class HandReturn {
         this.dealerHand = dealerHand;
     }
 
-    public void setPlayerHand(Hand playerHand) {
+    public void setPlayerHand(BettingHand playerHand) {
         this.playerHand = playerHand;
     }
 
@@ -62,7 +62,7 @@ public class HandReturn {
         this.state = state;
     }
 
-    public void setUser(String user) {
+    public void setUser(UserContainer user) {
         this.user = user;
     }
 
@@ -83,7 +83,7 @@ public class HandReturn {
                 ", state=" + state +
                 ", playerValue=" + playerValue +
                 ", dealerValue=" + dealerValue +
-                ", user='" + user + '\'' +
+                ", user='" + user.toString() + '\'' +
                 '}';
     }
 }
