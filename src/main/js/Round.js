@@ -59,7 +59,7 @@ export default class Round extends React.Component {
      }
 
      handleDeal() {
-         postToServer(this.state.apiUrl, "/deal", "", this.handleRoundStateResponse);
+         postToServer(this.state.apiUrl, "/deal", {text: "15.0"}, this.handleRoundStateResponse);
      }
 
      handleStand(){

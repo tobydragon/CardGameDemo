@@ -34,7 +34,7 @@ export default class GameChooserForm extends React.Component {
     }
 
     handleNewGameClick(e){
-        this.props.onNewGameClick(this.state.userName);
+        this.props.onNewGameClick(this.state.userName, 250);
     }
 
     render() {

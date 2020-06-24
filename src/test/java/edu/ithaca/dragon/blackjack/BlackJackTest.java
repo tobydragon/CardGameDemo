@@ -65,7 +65,7 @@ public class BlackJackTest {
 
         Player p2 = new Player("1", hands);
         BlackJack b2 = new BlackJack("0", p2 );
-        assertEquals("0", b2.getID());
+        assertEquals("0", b2.getId());
         assertEquals(4, b2.getHands().size());
         assertEquals(1, b2.getPlayers().size());
         assertNotEquals(null, b2.getDeck());*/

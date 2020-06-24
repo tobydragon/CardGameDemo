@@ -58,7 +58,7 @@ public class PlayerTest {
         hands.add(h3);
         hands.add(h4);
         p1 = new Player("2", hands);
-        assertEquals("2", p1.getID());
+        assertEquals("2", p1.getId());
         assertEquals(4, p1.getHands().size());
         assertEquals(5, p1.getHands().get(0).getCards().size());
         assertArrayEquals(c1.toArray(), p1.getHands().get(0).getCards().toArray());

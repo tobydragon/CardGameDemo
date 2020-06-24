@@ -1,16 +1,16 @@
 package edu.ithaca.dragon.blackjack;
 
 public class UserContainer {
-    private String ID;
+    private String id;
     private double balance;
 
-    public UserContainer(String ID, double balance){
-        this.ID = ID;
+    public UserContainer(String id, double balance){
+        this.id = id;
         this.balance = balance;
     }
 
     public UserContainer(){
-        this.ID = "";
+        this.id = "";
         this.balance = 0.0;
     }
 
@@ -18,22 +18,22 @@ public class UserContainer {
         return balance;
     }
 
-    public String getID() {
-        return ID;
+    public String getId() {
+        return id;
     }
 
     public void setBalance(double balance) {
         this.balance = balance;
     }
 
-    public void setID(String ID) {
-        this.ID = ID;
+    public void setId(String id) {
+        this.id = id;
     }
 
     @Override
     public String toString() {
         return "UserContainer{" +
-                "ID='" + ID + '\'' +
+                "id='" + id + '\'' +
                 ", balance=" + balance +
                 '}';
     }
