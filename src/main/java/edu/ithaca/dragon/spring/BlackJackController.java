@@ -31,7 +31,7 @@ public class BlackJackController {
     @PostMapping(path = "/api/blackjack/newgame", consumes = MediaType.APPLICATION_JSON_VALUE)
     public TextInJsonResponse newGame(@RequestBody TextInJsonResponse in){
         String player = in.getText();
-        player = player.toLowerCase();
+        player = player.toLowerCase(); //todo: fix this to not change user ID to lower case
         Player p1 = new Player(player, 100);
         if(players.containsKey(player)) {
             p1 = players.get(player);
