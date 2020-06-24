@@ -29,16 +29,16 @@ public class BlackJackController {
     }
 
     @PostMapping(path = "/api/blackjack/newgame", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public TextInJsonResponse newGame(@RequestBody TextInJsonResponse in){
-        String player = in.getText();
-        player = player.toLowerCase(); //todo: fix this to not change user ID to lower case
-        Player p1 = new Player(player, 100);
+    public TextInJsonResponse newGame(@RequestBody UserContainer in){
+        String player = in.getID(); //todo: fix this to not change user ID to lower case
+        Player p1 = new Player(player, 0);
         if(players.containsKey(player)) {
             p1 = players.get(player);
         }
         else {
             players.put(player, p1);
         }
+        p1.setBalance(in.getBalance());
         String id = String.format("%07d", this.ID.getAndIncrement());
         if(games.containsKey(id)) throw new GameAlreadyExist("Game already Exists"); // This should never happen
         games.put(id, new BlackJack(id, p1));
@@ -46,13 +46,25 @@ public class BlackJackController {
         return new TextInJsonResponse(id);
     }
 
-    @PostMapping(path = "/api/blackjack/{id}/deal")
-    public GameStateResponse deal(@PathVariable String id){
+    @PostMapping(path = "/api/blackjack/{id}/deal", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public GameStateResponse deal(@PathVariable String id, @RequestBody TextInJsonResponse bet) throws InsufficientFunds{
         if(!games.containsKey(id)) throw new GameDoesNotExist("Game does not exist");
         if(games.get(id).getGameState() != BlackJack.GameState.DEALING) throw new InvalidGameAction("Cannot deal in game state "+ games.get(id).getGameState());
-        games.get(id).setGameState(BlackJack.GameState.PLAYING);
         games.get(id).deal();
-        games.get(id).getPlayers().get(0).addBet(10);
+        double bets = 0;
+        try{
+            bets = Double.parseDouble(bet.getText());
+        }
+        catch(NumberFormatException e){
+            throw new NumberFormatException(e.getMessage());
+        }
+        try{
+            games.get(id).getPlayers().get(0).addBet(bets);
+        }
+        catch(IllegalArgumentException e){
+            throw new InsufficientFunds("not enough money to make bet");
+        }
+        games.get(id).setGameState(BlackJack.GameState.PLAYING);
         GameStateResponse hr = createHandReturn(id, BlackJack.RoundState.PLAYING);
         if(hr.getPlayerValue() == 21){
             if(hr.getDealerValue() == 21)
@@ -99,7 +111,7 @@ public class BlackJackController {
 
     @GetMapping(value = "/api/blackjack/user/game", consumes = MediaType.APPLICATION_JSON_VALUE)
     public TextInJsonResponse getGame(@RequestBody TextInJsonResponse in){
-        String id = in.getText().toLowerCase();
+        String id = in.getText();
         if(!players.containsKey(id)) throw new PlayerDoesNotExist("Player: " + id + " does not exist");
         if(players.get(id).getGame() == null) return new TextInJsonResponse("");
         return new TextInJsonResponse(players.get(id).getGame().getID());
@@ -107,7 +119,7 @@ public class BlackJackController {
 
     @PutMapping(value = "/api/blackjack/user/create", consumes = MediaType.APPLICATION_JSON_VALUE)
     public boolean createPlayer(@RequestBody TextInJsonResponse in){
-        String id = in.getText().toLowerCase();
+        String id = in.getText();
         if(!players.containsKey(id)){
             players.put(id, new Player(id));
             return true;
@@ -127,6 +139,14 @@ public class BlackJackController {
     @ResponseStatus(value = HttpStatus.BAD_REQUEST, reason = "Game does not exist")
     @ExceptionHandler(GameDoesNotExist.class)
     public void noGameException(){}
+
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST, reason = "Insufficient Funds to make bet")
+    @ExceptionHandler(InsufficientFunds.class)
+    public void InsufficientFundsHandler(){}
+
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST, reason = "Cannot parse input bet to double")
+    @ExceptionHandler(NumberFormatException.class)
+    public void badBetValue(){}
 
     @ResponseStatus(value = HttpStatus.BAD_REQUEST, reason = "Game already exist")
     @ExceptionHandler(GameAlreadyExist.class)

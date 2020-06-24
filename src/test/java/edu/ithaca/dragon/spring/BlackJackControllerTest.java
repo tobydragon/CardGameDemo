@@ -53,8 +53,9 @@ public class BlackJackControllerTest {
         ObjectMapper mapper = new ObjectMapper();
         BettingHand dud = new BettingHand();
         GameStateResponse hr1 = new GameStateResponse(dud, new Hand(), BlackJack.RoundState.BETTING, 0, 0, "stephen", 100.0);
+        UserContainer u1 = new UserContainer("stephen", 100);
         for(int x = 3; x < 10; x++){
-            this.mockMvc.perform(post("/api/blackjack/newgame").contentType(MediaType.APPLICATION_JSON_VALUE).content("{\"text\":\"stephen\"}"))
+            this.mockMvc.perform(post("/api/blackjack/newgame").contentType(MediaType.APPLICATION_JSON_VALUE).content(mapper.writeValueAsString(u1)))
                     .andExpect(status().isOk()).andExpect(content().string(equalTo(String.format("{\"text\":\"%07d\"}", x))));
             this.mockMvc.perform(get(String.format("/api/blackjack/%07d", x))).andExpect(status().isOk())
                     .andExpect(content().string(equalTo(mapper.writeValueAsString(hr1))));
@@ -67,13 +68,15 @@ public class BlackJackControllerTest {
         BettingHand dud = new BettingHand();
         GameStateResponse hr1 = new GameStateResponse(dud,dud, BlackJack.RoundState.PLAYING, 0, 0, "0", 100.0);
         String test = mapper.writeValueAsString(hr1);
-        this.mockMvc.perform(post("/api/blackjack/newgame").contentType(MediaType.APPLICATION_JSON_VALUE).content("{\"text\":\"ephen\"}")).andExpect(content().string(equalTo(String.format("{\"text\":\"%07d\"}", 10))));
-        MvcResult result =  this.mockMvc.perform(post("/api/blackjack/0000010/deal")).andExpect(status().isOk()).andReturn();
+        UserContainer u1 = new UserContainer("ephen", 100);
+        this.mockMvc.perform(post("/api/blackjack/newgame").contentType(MediaType.APPLICATION_JSON_VALUE).content(mapper.writeValueAsString(u1))).andExpect(content().string(equalTo(String.format("{\"text\":\"%07d\"}", 10))));
+        MvcResult result =  this.mockMvc.perform(post("/api/blackjack/0000010/deal").contentType(MediaType.APPLICATION_JSON_VALUE).content("{\"text\":\"10.0\"}")).andExpect(status().isOk()).andReturn();
         String content = result.getResponse().getContentAsString();
         GameStateResponse hr = mapper.readValue(content, GameStateResponse.class);
+        assertEquals(10.00, hr.getPlayerHand().getBet());
         if(hr.getState() == BlackJack.RoundState.PLAYING)
             this.mockMvc.perform(put("/api/blackjack/0000010/stay")).andExpect(status().isOk());
-        this.mockMvc.perform(post("/api/blackjack/0000010/deal")).andExpect(status().isOk())
+        this.mockMvc.perform(post("/api/blackjack/0000010/deal").contentType(MediaType.APPLICATION_JSON_VALUE).content("{\"text\":\"10.0\"}")).andExpect(status().isOk())
                 .andExpect(content().string(not(test)));
                 //mapper.readValue(content().toString(), Hand.class).getCards()
     }

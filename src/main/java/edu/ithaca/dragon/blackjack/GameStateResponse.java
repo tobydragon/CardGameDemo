@@ -42,7 +42,7 @@ public class GameStateResponse {
         return dealerHand;
     }
 
-    public Hand getPlayerHand() {
+    public BettingHand getPlayerHand() {
         return playerHand;
     }
 
