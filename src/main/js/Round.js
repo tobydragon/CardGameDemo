@@ -48,9 +48,10 @@ export default class Round extends React.Component {
         console.log(responseJson);
         this.setState({
             playerId: responseJson.user.id,
+            balance: responseJson.user.balance,
             playerCards: responseJson.playerHand.cards,
             dealerCards: responseJson.dealerHand.cards,
-            gameState: responseJson.state
+            gameState: responseJson.state,
         })
     }
 
@@ -73,6 +74,9 @@ export default class Round extends React.Component {
                     <Col>
                         <Hand ownerName="Dealer" cards={this.state.dealerCards}/>
                     </Col>
+                    <Col>
+                        <br/>
+                    </Col>
                 </Row>
                 <br/>
                 <Row>
@@ -85,22 +89,23 @@ export default class Round extends React.Component {
                                     handleStand={this.handleStand}
                         />
                     </Col>
-                </Row>
-                <Row>
                     <Col>
                         <WinLossDisplay gameState={this.state.gameState} />
                     </Col>
                 </Row>
+                <br/>
                 <div className="idTable">
-                    <Table striped bordered hover variant="dark">
+                    <Table striped bordered variant="dark">
                         <thead>
                             <tr>
+                                <th>Balance:</th>
                                 <th>Game ID:</th>
                                 <th>User ID:</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
+                                <th>{this.state.balance}</th>
                                 <th>{this.state.gameId}</th>
                                 <th>{this.state.playerId}</th>
                             </tr>

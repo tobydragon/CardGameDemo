@@ -11,7 +11,8 @@ export default class GameChooserForm extends React.Component {
         this.handleNewGameClick = this.handleNewGameClick.bind(this);
         this.state={
             userName: "",
-            gameName: ""
+            gameName: "",
+            balance: "",
         }
     }
 
@@ -25,7 +26,7 @@ export default class GameChooserForm extends React.Component {
         const value = target.value;
         // console.log("GameChooserForm.handleInputEvent - value changed:"+name+":"+value)
         this.setState({
-            [name]: value
+            [name]: value,
         });
     }
 
@@ -34,7 +35,7 @@ export default class GameChooserForm extends React.Component {
     }
 
     handleNewGameClick(e){
-        this.props.onNewGameClick(this.state.userName, 250);
+        this.props.onNewGameClick(this.state.userName, this.state.balance);
     }
 
     render() {
@@ -43,6 +44,7 @@ export default class GameChooserForm extends React.Component {
                 <Form.Group controlId="formusername">
                     <Form.Label>New Game</Form.Label>
                     <Form.Control onChange={this.handleInputChange} name="userName" type="text" placeholder="Enter username" />
+                    <Form.Control onChange={this.handleInputChange} name="balance" type="double" placeholder="Enter starting balance"/>
                 </Form.Group>
                 <Button onClick={this.handleNewGameClick} variant="primary">
                     New Game
