@@ -4,6 +4,7 @@ import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
 import ButtonToolbar from "react-bootstrap/ButtonToolbar";
+import Form from "react-bootstrap/Form";
 import Hand from "./Hand";
 import Jumbotron from "react-bootstrap/Jumbotron";
 
@@ -18,6 +19,7 @@ export default function PlayerHand(props) {
                                  onHitClick={props.handleHit}
                                  onDealClick={props.handleDeal}
                                  onStandClick={props.handleStand}
+                                 currBet={props.currBet}
                     />
                 </Col>
             </Row>
@@ -53,6 +55,7 @@ class HandButtons extends React.Component {
         this.state.onStandClick();
     }
 
+
     render() {
         if (this.props.gameState === "PLAYING"){
             console.log("PlayerHand.render: PLAYING");
@@ -66,11 +69,17 @@ class HandButtons extends React.Component {
         }
         else {
             return (
-                <ButtonToolbar>
-                    <Button onClick={this.handleDealClick}> Deal</Button>
-                    <Button disabled={true} onClick={this.handleHitClick}>Hit </Button>
-                    <Button disabled={true}> Stand</Button>
-                </ButtonToolbar>
+                <div>
+                    <ButtonToolbar>
+                        <Button onClick={this.handleDealClick}> Deal</Button>
+                        <Button disabled={true} onClick={this.handleHitClick}>Hit </Button>
+                        <Button disabled={true}> Stand</Button>
+                    </ButtonToolbar>
+                    <Form>
+                        <Form.Label>Place your bets in the box below</Form.Label>
+                        <Form.Control onChange={this.handleInputChange} name="currBet" type="double" placeholder="Place bet here" />
+                    </Form>
+                </div>
             );
         }
     }

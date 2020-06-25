@@ -34,6 +34,7 @@ export default class Round extends React.Component {
             playerCards: [],
             dealerCards: [],
             gameState: "BETTING",
+            currBet: 0,
         };
     }
 
