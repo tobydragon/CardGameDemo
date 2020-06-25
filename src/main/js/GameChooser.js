@@ -1,6 +1,7 @@
 import React from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
+import InputGroup from "react-bootstrap/InputGroup";
 
 
 export default class GameChooserForm extends React.Component {
@@ -41,21 +42,29 @@ export default class GameChooserForm extends React.Component {
     render() {
         return (
             <Form>
+                <InputGroup>
                 <Form.Group controlId="formusername">
-                    <Form.Label>New Game</Form.Label>
-                    <Form.Control onChange={this.handleInputChange} name="userName" type="text" placeholder="Enter username" />
-                    <Form.Control onChange={this.handleInputChange} name="balance" type="double" placeholder="Enter starting balance"/>
+                    <Form.Label className="formLabel">New Game</Form.Label>
+                    <div className="formControl">
+                        <Form.Control onChange={this.handleInputChange} name="userName" type="text" placeholder="Enter username" />
+                        <Form.Control onChange={this.handleInputChange} name="balance" type="double" placeholder="Enter starting balance"/>
+                    </div>
                 </Form.Group>
                 <Button onClick={this.handleNewGameClick} variant="primary">
                     New Game
                 </Button>
+                </InputGroup>
+                <InputGroup>
                 <Form.Group controlId="formgamename">
-                    <Form.Label>Return to Game</Form.Label>
-                    <Form.Control onChange={this.handleInputChange} name="gameName" type="text" placeholder="Enter Game name" />
+                    <Form.Label className="formLabel">Return to Game</Form.Label>
+                    <div className="formControl">
+                        <Form.Control onChange={this.handleInputChange} name="gameName" type="text" placeholder="Enter Game name" />
+                    </div>
                 </Form.Group>
                 <Button onClick={this.handleReturnToGameClick} variant="primary">
                     Return to Game
                 </Button>
+                </InputGroup>
             </Form>
         );
     }

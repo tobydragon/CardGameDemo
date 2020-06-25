@@ -67,11 +67,13 @@ class HandButtons extends React.Component {
         if (this.props.gameState === "PLAYING"){
             console.log("PlayerHand.render: PLAYING");
             return (
-                <ButtonToolbar>
-                    <Button disabled={true} onClick={this.handleDealClick}> Deal</Button>
-                    <Button onClick={this.handleHitClick}>Hit </Button>
-                    <Button onClick={this.handleStandClick}>Stand</Button>
-                </ButtonToolbar>
+                <div>
+                    <ButtonToolbar>
+                        <Button disabled={true} onClick={this.handleDealClick}> Deal</Button>
+                        <Button onClick={this.handleHitClick}>Hit </Button>
+                        <Button onClick={this.handleStandClick}>Stand</Button>
+                    </ButtonToolbar>
+                </div>
             );
         }
         else {
