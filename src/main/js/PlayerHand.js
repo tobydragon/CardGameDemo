@@ -19,7 +19,6 @@ export default function PlayerHand(props) {
                                  onHitClick={props.handleHit}
                                  onDealClick={props.handleDeal}
                                  onStandClick={props.handleStand}
-                                 currBet={props.currBet}
                     />
                 </Col>
             </Row>
@@ -31,6 +30,7 @@ class HandButtons extends React.Component {
     constructor(props) {
         super(props);
 
+        this.handleBetChange = this.handleBetChange.bind(this);
         this.handleHitClick = this.handleHitClick.bind(this);
         this.handleDealClick = this.handleDealClick.bind(this);
         this.handleStandClick= this.handleStandClick.bind(this);
@@ -39,6 +39,7 @@ class HandButtons extends React.Component {
             onHitClick: props.onHitClick,
             onDealClick: props.onDealClick,
             onStandClick: props.onStandClick,
+            currBet: 0.0,
         }
 
     }
@@ -48,11 +49,17 @@ class HandButtons extends React.Component {
     }
 
     handleDealClick(e) {
-        this.state.onDealClick();
+        this.state.onDealClick(this.state.currBet);
     }
 
     handleStandClick(e){
         this.state.onStandClick();
+    }
+
+    handleBetChange(event){
+        this.setState({
+            currBet: event.target.value,
+        });
     }
 
 
@@ -77,7 +84,7 @@ class HandButtons extends React.Component {
                     </ButtonToolbar>
                     <Form>
                         <Form.Label>Place your bets in the box below</Form.Label>
-                        <Form.Control onChange={this.handleInputChange} name="currBet" type="double" placeholder="Place bet here" />
+                        <Form.Control onChange={this.handleBetChange} name="currBet" type="double" placeholder="Place bet here" />
                     </Form>
                 </div>
             );

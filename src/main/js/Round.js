@@ -34,7 +34,6 @@ export default class Round extends React.Component {
             playerCards: [],
             dealerCards: [],
             gameState: "BETTING",
-            currBet: 0,
         };
     }
 
@@ -60,8 +59,8 @@ export default class Round extends React.Component {
          postToServer(this.state.apiUrl, "/hit", "", this.handleRoundStateResponse);
      }
 
-     handleDeal() {
-         postToServer(this.state.apiUrl, "/deal", {text: "15.0"}, this.handleRoundStateResponse);
+     handleDeal(currBet) {
+         postToServer(this.state.apiUrl, "/deal", {text: currBet}, this.handleRoundStateResponse);
      }
 
      handleStand(){
