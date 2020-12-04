@@ -58,8 +58,8 @@ class HandButtons extends React.Component {
             console.log("PlayerHand.render: PLAYING");
             return (
                 <ButtonToolbar>
-                    <Button disabled={true} onClick={this.handleDealClick}> Deal</Button>
-                    <Button onClick={this.handleHitClick}>Hit </Button>
+                    <Button disabled={true} onClick={this.handleDealClick}>Deal</Button>
+                    <Button onClick={this.handleHitClick}>Hit</Button>
                     <Button onClick={this.handleStandClick}>Stand</Button>
                 </ButtonToolbar>
             );
@@ -67,9 +67,9 @@ class HandButtons extends React.Component {
         else {
             return (
                 <ButtonToolbar>
-                    <Button onClick={this.handleDealClick}> Deal</Button>
-                    <Button disabled={true} onClick={this.handleHitClick}>Hit </Button>
-                    <Button disabled={true}> Stand</Button>
+                    <Button onClick={this.handleDealClick}>Deal</Button>
+                    <Button disabled={true} onClick={this.handleHitClick}>Hit</Button>
+                    <Button disabled={true} onClick={this.handleStandClick}>Stand</Button>
                 </ButtonToolbar>
             );
         }
