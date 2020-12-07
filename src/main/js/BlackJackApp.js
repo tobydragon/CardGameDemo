@@ -49,6 +49,7 @@ class BlackJackApp extends React.Component {
     }
 }
 
+//tim= replace the return line to change what renders
 export default function App() {
     return <BlackJackApp />;
 }
