@@ -1,0 +1,178 @@
+/*
+    style.css
+        Lists documentation for all types of styling for site
+*/
+
+/*Colors
+
+*/
+/* ========================================================= */
+/*  IMPORTS for fonts */
+
+@import url('https://fonts.googleapis.com/css?family=Nanum+Gothic|PT+Sans|Source+Sans+Pro&display=swap');
+
+
+/* ========================================================= */
+/*  Page Level Style Rules */
+body {
+    font-family: 'PT Sans', 'Source Sans Pro', sans-serif;
+    width: 500px;
+}
+
+/* ========================================================= */
+/* Utility Text Style Rules */
+h1,
+h2,
+h3,
+h4,
+h5 {
+    font-family: 'Nanum Gothic', sans-serif;
+}
+
+.canvas {
+    width: 100%;
+    height: 100%;
+}
+
+.center {
+    text-align: center;
+}
+
+.imgCenter {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.tab {
+    margin-left: 2.5em;
+}
+
+.pad5 {
+    padding: 5px;
+}
+
+.underline {
+    text-decoration: underline;
+}
+
+.hide {
+    display: none;
+}
+
+.show {
+    display: block;
+}
+
+.colVertCenter {
+    display: flex;
+    align-items: center;
+}
+
+.size20 {
+    font-size: 1.25em;
+}
+
+.red {
+    color: red;
+}
+
+.orange {
+    color: orange;
+}
+
+.green {
+    color: darkgreen;
+}
+
+.black {
+    color: black;
+}
+
+.yellow {
+    color: goldenrod;
+}
+
+.light-grey {
+    color: lightgray;
+}
+
+.correct {
+    color: green;
+}
+
+.incorrect {
+    color: red;
+}
+
+.unsure {
+    color: #663399;
+}
+
+.textAlignRight {
+    text-align: right;
+}
+
+.btn-login {
+    color: #fff;
+    background-color: #274C72;
+    border-color: #274C72;
+    margin: 10px;
+    border-radius: 10px;
+}
+
+.line-input-box {
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid;
+}
+
+.par-red {
+    color: #dc3545;
+}
+
+.par-blue {
+    color: #007bff;
+}
+
+.par-teal {
+    color: #138C9E;
+}
+
+.btn-author {
+    color: #fff;
+    background-color: #218A39;
+    border-color: #218A39;
+}
+
+/* ---------------------------------------*
+/* Add spacing to text elements */
+
+.text-spacing {
+    padding: 0.25em;
+}
+
+/* ========================================================= */
+/* Extending BS Stlye Rules */
+
+/* --------------------------------------------------------- */
+/* Row .border :: add borders to columns */
+
+.borders > [class*="col-"] {
+    border: 1px solid rgba(86, 61, 124, .2);
+}
+
+/* --------------------------------------------------------- */
+/* Tabs .borders :: Add borders to tab content */
+
+.tab-content.borders {
+    border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    border-radius: 0px 0px 5px 5px;
+    padding: 10px;
+}
+
+.nav-tabs {
+    margin-bottom: 0;
+}

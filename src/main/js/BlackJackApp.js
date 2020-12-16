@@ -3,6 +3,7 @@ import GameChooserForm from "./GameChooser";
 import BlackJackGame from "./BlackJackGame";
 import {postToServer} from "./Comm";
 import Round from "./Round"
+import ReactQuestionAndAnswer from "./ReactQuestionAndAnswer";
 
 
 class BlackJackApp extends React.Component {
@@ -51,5 +52,21 @@ class BlackJackApp extends React.Component {
 
 //tim= replace the return line to change what renders
 export default function App() {
-    return <BlackJackApp />;
+    const sampleQuestion1 = {
+        id: "sampleQuestionID",
+        questionText: "What is my favorite ice cream flavor?",
+        correctAnswer: "vanilla",
+        possibleAnswers: ["chocolate", "strawberry", "vanilla"]
+    };
+
+    const sampleQuestion2 = {
+        id : "600-plane-./images/Annotated1BTrans.jpg",
+        type : "plane",
+        questionText : "On which plane is the ultrasound taken?",
+        correctAnswer : "transverse (short axis)",
+        possibleAnswers : [ "transverse (short axis)", "longitudinal (long axis)" ],
+        imageUrl : "./images/Annotated1BTrans.jpg"
+    }
+
+    return <ReactQuestionAndAnswer data={sampleQuestion2}/>;
 }

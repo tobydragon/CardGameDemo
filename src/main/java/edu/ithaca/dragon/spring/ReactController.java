@@ -11,4 +11,7 @@ public class ReactController  implements WebMvcConfigurer {
     public String getIndex() {
         return "index";
     }
+
+    @GetMapping("/question")
+    public String getQuestion(){return "ReactQuestionIndex";}
 }
